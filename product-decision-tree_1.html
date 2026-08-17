@@ -664,6 +664,8 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
   transition: all 0.2s;
 }
 .toolbar button:hover, .toolbar label:hover { background: rgba(255,255,255,0.3); }
+.toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
+.toolbar button:disabled:hover { background: rgba(255,255,255,0.2); }
 .toolbar label { padding: 0; }
 .toolbar label input { display: none; }
 .legend {
@@ -63111,8 +63113,52 @@ ${suffix}`;
     const [authError, setAuthError] = (0, import_react3.useState)("");
     const autoSaveTimeoutRef = (0, import_react3.useRef)(null);
     const treesTableRef = (0, import_react3.useRef)(null);
+    const [history, setHistory] = (0, import_react3.useState)([]);
+    const [redoStack, setRedoStack] = (0, import_react3.useState)([]);
+    const MAX_HISTORY = 50;
+    const updateTree = (0, import_react3.useCallback)((updaterOrValue) => {
+      setNodesData((prevNodes) => {
+        const next = typeof updaterOrValue === "function" ? updaterOrValue(prevNodes) : updaterOrValue;
+        setHistory((h) => [...h, prevNodes].slice(-MAX_HISTORY));
+        setRedoStack([]);
+        return next;
+      });
+    }, []);
+    const handleUndo = (0, import_react3.useCallback)(() => {
+      setHistory((h) => {
+        if (h.length === 0) return h;
+        const previous = h[h.length - 1];
+        setRedoStack((r) => [...r, nodesData].slice(-MAX_HISTORY));
+        setNodesData(previous);
+        return h.slice(0, -1);
+      });
+    }, [nodesData]);
+    const handleRedo = (0, import_react3.useCallback)(() => {
+      setRedoStack((r) => {
+        if (r.length === 0) return r;
+        const nextState = r[r.length - 1];
+        setHistory((h) => [...h, nodesData].slice(-MAX_HISTORY));
+        setNodesData(nextState);
+        return r.slice(0, -1);
+      });
+    }, [nodesData]);
+    (0, import_react3.useEffect)(() => {
+      const onKeyDown = (ev) => {
+        const mod = ev.ctrlKey || ev.metaKey;
+        if (!mod) return;
+        if (ev.key.toLowerCase() === "z" && !ev.shiftKey) {
+          ev.preventDefault();
+          handleUndo();
+        } else if (ev.key.toLowerCase() === "z" && ev.shiftKey || ev.key.toLowerCase() === "y") {
+          ev.preventDefault();
+          handleRedo();
+        }
+      };
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
+    }, [handleUndo, handleRedo]);
     const handleRename = (0, import_react3.useCallback)((id2, title) => {
-      setNodesData((prev) => {
+      updateTree((prev) => {
         const trimmed = title.trim();
         if (!trimmed) {
           const hasChildren = prev.some((n) => n.parentId === id2);
@@ -63121,19 +63167,19 @@ ${suffix}`;
         }
         return prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { title: trimmed }) : n);
       });
-    }, []);
+    }, [updateTree]);
     const handleToggleCollapse = (0, import_react3.useCallback)((id2) => {
-      setNodesData((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { collapsed: !n.collapsed }) : n));
-    }, []);
+      updateTree((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { collapsed: !n.collapsed }) : n));
+    }, [updateTree]);
     const handleAddChild = (0, import_react3.useCallback)((parentId) => {
-      setNodesData((prev) => {
+      updateTree((prev) => {
         const child = { id: newId2(), parentId, title: "", type: "\u041D\u043E\u0442\u0430\u0442\u043A\u0430", collapsed: false };
         return prev.map((n) => n.id === parentId ? __spreadProps(__spreadValues({}, n), { collapsed: false }) : n).concat(child);
       });
-    }, []);
+    }, [updateTree]);
     const handleDelete = (0, import_react3.useCallback)((id2) => {
       if (!window.confirm("\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438 \u0446\u044E \u043A\u0430\u0440\u0442\u043A\u0443 \u0442\u0430 \u0432\u0441\u0456 \u0434\u043E\u0447\u0456\u0440\u043D\u0456 \u0433\u0456\u043B\u043A\u0438?")) return;
-      setNodesData((prev) => {
+      updateTree((prev) => {
         const toDelete = /* @__PURE__ */ new Set([id2]);
         let changed = true;
         while (changed) {
@@ -63147,14 +63193,14 @@ ${suffix}`;
         }
         return prev.filter((n) => !toDelete.has(n.id));
       });
-    }, []);
+    }, [updateTree]);
     const handleChangeType = (0, import_react3.useCallback)((id2, type) => {
-      setNodesData((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { type }) : n));
-    }, []);
+      updateTree((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { type }) : n));
+    }, [updateTree]);
     const handleAddRoot = (0, import_react3.useCallback)(() => {
-      setNodesData((prev) => prev.concat({ id: newId2(), parentId: null, title: "", type: "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0430", collapsed: false }));
-    }, []);
-    const handleReset = (0, import_react3.useCallback)(() => setNodesData(demoTree()), []);
+      updateTree((prev) => prev.concat({ id: newId2(), parentId: null, title: "", type: "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0430", collapsed: false }));
+    }, [updateTree]);
+    const handleReset = (0, import_react3.useCallback)(() => updateTree(demoTree()), [updateTree]);
     (0, import_react3.useEffect)(() => {
       const initAuth = () => __async(null, null, function* () {
         var _a;
@@ -63306,7 +63352,7 @@ ${suffix}`;
               return isNaN(num) ? m : Math.max(m, num);
             }, 0);
             idCounter = maxNum + 1;
-            setNodesData(parsed);
+            updateTree(parsed);
           }
         } catch (err) {
           window.alert("\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u0438 \u0444\u0430\u0439\u043B: " + err.message);
@@ -63314,7 +63360,7 @@ ${suffix}`;
       };
       reader.readAsText(file);
       ev.target.value = "";
-    }, []);
+    }, [updateTree]);
     const { visible, positions, childrenMap } = (0, import_react3.useMemo)(() => layoutTree(nodesData, direction), [nodesData, direction]);
     const targetPos = direction === "LR" ? Position.Left : Position.Top;
     const sourcePos = direction === "LR" ? Position.Right : Position.Bottom;
@@ -63420,6 +63466,8 @@ ${suffix}`;
           "div",
           { className: "toolbar" },
           e("button", { onClick: handleAddRoot }, "+ \u043D\u043E\u0432\u0430 \u0442\u0435\u043C\u0430"),
+          e("button", { onClick: handleUndo, disabled: history.length === 0, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
+          e("button", { onClick: handleRedo, disabled: redoStack.length === 0, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
           e("button", { onClick: () => setDirection((d) => d === "LR" ? "TB" : "LR") }, direction === "LR" ? "\u2195 \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u043E" : "\u2194 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442\u0430\u043B\u044C\u043D\u043E"),
           e("button", { onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
           e(
