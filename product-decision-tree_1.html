@@ -633,8 +633,11 @@ svg.react-flow__connectionline {
 
 </style>
 <style>
-body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; overflow-x: hidden; }
 #root { width: 100%; height: 100vh; }
+* { box-sizing: border-box; }
+.pc-scroll *, .app-header * { min-width: 0; }
+.pc-header-title-input, .pc-field-input, .pc-quad-text, .pc-kr-name, .pc-market-stat input, .pc-growth-row input, .pc-okr-period input, .pc-objective-box textarea, .pc-task-name, .pc-metric-value { max-width: 100%; }
 .app-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -642,6 +645,8 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 .app-title { margin: 0; font-size: 20px; font-weight: 600; }
@@ -651,6 +656,11 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
   gap: 8px;
   align-items: center;
   flex-wrap: wrap;
+}
+@media (max-width: 640px) {
+  .app-header { padding: 12px 16px; }
+  .app-title { font-size: 17px; }
+  .toolbar button, .toolbar label { padding: 7px 10px; font-size: 12px; }
 }
 .toolbar button, .toolbar label {
   padding: 8px 12px;
@@ -694,7 +704,7 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
 .pc-header-eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; margin: 0 0 6px; }
 .pc-header-title-input {
   font-size: 26px; font-weight: 700; margin: 0; background: transparent; border: none;
-  color: #fff; border-bottom: 1.5px dashed rgba(255,255,255,0.4); padding: 2px 0; min-width: 240px;
+  color: #fff; border-bottom: 1.5px dashed rgba(255,255,255,0.4); padding: 2px 0; min-width: 240px; max-width: 100%;
 }
 .pc-header-title-input:focus { outline: none; border-bottom-color: #fff; }
 .pc-header-badge {
@@ -845,6 +855,38 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-swot-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 @media (max-width: 900px) { .pc-swot-wrap { grid-template-columns: 1fr; } }
 .pc-swot-subtitle { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 10px; letter-spacing: 0.04em; }
+
+.pc-raci-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.pc-raci-scroll .pc-raci-table { min-width: 480px; }
+.pc-pdlc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+.pc-pdlc-scroll .pc-pdlc-track { min-width: 700px; }
+
+/* ---- Responsive breakpoints (tablet) ---- */
+@media (max-width: 900px) {
+  .pc-header { padding: 24px 20px 20px; margin: 0 16px 20px; }
+  .pc-content { padding: 0 16px; }
+  .pc-extra { padding: 0 16px; }
+  .pc-market-grid { grid-template-columns: repeat(2, 1fr); }
+  .pc-metric-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---- Responsive breakpoints (mobile) ---- */
+@media (max-width: 640px) {
+  .pc-page { padding: 16px 0 40px; }
+  .pc-header { padding: 20px 16px 16px; margin: 0 10px 16px; border-radius: 14px; }
+  .pc-header-title-input { font-size: 20px; min-width: 0; width: 100%; }
+  .pc-header-meta { gap: 16px; }
+  .pc-content { padding: 0 10px; gap: 16px; }
+  .pc-extra { padding: 0 10px; gap: 16px; }
+  .pc-card { padding: 18px 16px 20px; border-radius: 14px; }
+  .pc-field-grid { grid-template-columns: 1fr; }
+  .pc-field.span-2 { grid-column: span 1; }
+  .pc-market-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pc-metric-row { grid-template-columns: 1fr; }
+  .pc-quad-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+  .pc-matrix-row { gap: 16px; }
+  .pc-swot-wrap { gap: 16px; }
+}
 .legend {
   background: #f9f9f9;
   padding: 12px 24px;
@@ -63613,12 +63655,12 @@ ${suffix}`;
   function defaultProductCard() {
     return {
       basic: {
-        name: "CloudSync Pro",
+        name: "Sine.pin",
         productId: "PRD-2024-0847",
-        vision: "\u0421\u0442\u0430\u0442\u0438 \u043F\u0440\u043E\u0432\u0456\u0434\u043D\u043E\u044E \u043F\u043B\u0430\u0442\u0444\u043E\u0440\u043C\u043E\u044E \u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u0457 \u0434\u0430\u043D\u0438\u0445 \u0434\u043B\u044F \u043A\u043E\u043C\u0430\u043D\u0434 \u0431\u0443\u0434\u044C-\u044F\u043A\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443 \u0443 \u0441\u0432\u0456\u0442\u0456",
-        mission: "\u0417\u0430\u0431\u0435\u0437\u043F\u0435\u0447\u0438\u0442\u0438 \u043C\u0438\u0442\u0442\u0454\u0432\u0443 \u0442\u0430 \u043D\u0430\u0434\u0456\u0439\u043D\u0443 \u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044E \u0444\u0430\u0439\u043B\u0456\u0432 \u0456 \u0434\u0430\u043D\u0438\u0445 \u0431\u0435\u0437 \u0432\u0442\u0440\u0430\u0442\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438",
+        vision: "\u0421\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u044F \u0430\u043B\u044C\u0442\u0435\u0440\u043D\u0430\u0442\u0438\u0432\u043D\u043E\u0433\u043E \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0439\u043D\u043E\u0433\u043E \u0440\u0456\u0448\u0435\u043D\u043D\u044F \u0434\u043B\u044F \u043C\u0430\u0432\u0456\u043A\u0456\u0441\u0442\u0456\u0432",
+        mission: "\u0417\u0430\u0431\u0435\u0437\u043F\u0435\u0447\u0438\u0442\u0438 100% \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432 \u0437 \u043C\u0430\u0432\u0456\u043A\u0430\u043C\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u043C, \u0449\u043E \u0434\u043E\u0437\u0432\u043E\u043B\u0438\u0442\u044C \u043E\u0440\u0456\u0454\u043D\u0442\u0443\u0432\u0430\u0442\u0438\u0441\u044C \u043F\u043E SNS",
         status: "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456",
-        owner: "\u041E\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440 \u0411\u0456\u043A\u0447\u0430\u043D\u0442\u0430\u0454\u0432"
+        owner: "Yurii H"
       },
       market: {
         tam: "$4.2 \u043C\u043B\u0440\u0434",
@@ -63641,7 +63683,7 @@ ${suffix}`;
         ltv: "$1 840",
         ltvCacRatio: "LTV:CAC = 8.8x"
       },
-      pdlcStage: 3,
+      pdlcStage: 4,
       stakeholders: {
         manageClosely: ["CEO", "\u041A\u0435\u0440\u0456\u0432\u043D\u0438\u043A \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"],
         keepSatisfied: ["\u0406\u043D\u0432\u0435\u0441\u0442\u043E\u0440\u0438", "\u042E\u0440\u0438\u0434\u0438\u0447\u043D\u0438\u0439 \u0432\u0456\u0434\u0434\u0456\u043B"],
@@ -64112,20 +64154,24 @@ ${suffix}`;
               e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "05"), e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
               e(
                 "div",
-                { className: "pc-pdlc-track" },
-                e("div", { className: "pc-pdlc-line-bg" }),
-                e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } }),
-                PDLC_STAGES.map(
-                  (label, idx) => e(
-                    "button",
-                    {
-                      key: label,
-                      className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
-                      onClick: () => handlePdlcChange(idx),
-                      title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
-                    },
-                    e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
-                    e("span", { className: "pc-pdlc-label" }, label)
+                { className: "pc-pdlc-scroll" },
+                e(
+                  "div",
+                  { className: "pc-pdlc-track" },
+                  e("div", { className: "pc-pdlc-line-bg" }),
+                  e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } }),
+                  PDLC_STAGES.map(
+                    (label, idx) => e(
+                      "button",
+                      {
+                        key: label,
+                        className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
+                        onClick: () => handlePdlcChange(idx),
+                        title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
+                      },
+                      e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
+                      e("span", { className: "pc-pdlc-label" }, label)
+                    )
                   )
                 )
               )
@@ -64167,29 +64213,33 @@ ${suffix}`;
               { className: "pc-card" },
               e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
               e(
-                "table",
-                { className: "pc-raci-table" },
-                e("thead", null, e("tr", null, e("th", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u0456\u0441\u0442\u044C"), data.raci.roles.map((r) => e("th", { key: r }, r)), e("th", null, ""))),
+                "div",
+                { className: "pc-raci-scroll" },
                 e(
-                  "tbody",
-                  null,
-                  data.raci.rows.map(
-                    (row, rowIdx) => e(
-                      "tr",
-                      { key: rowIdx },
-                      e("td", null, e("input", { className: "pc-task-name", value: row.task, onChange: (ev) => handleRaciTaskChange(rowIdx, ev.target.value) })),
-                      row.values.map(
-                        (val, colIdx) => e(
-                          "td",
-                          { key: colIdx },
-                          e(
-                            "select",
-                            { className: "pc-raci-select", value: val, onChange: (ev) => handleRaciCellChange(rowIdx, colIdx, ev.target.value) },
-                            RACI_VALUES.map((v) => e("option", { key: v, value: v }, v || "\u2014"))
+                  "table",
+                  { className: "pc-raci-table" },
+                  e("thead", null, e("tr", null, e("th", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u0456\u0441\u0442\u044C"), data.raci.roles.map((r) => e("th", { key: r }, r)), e("th", null, ""))),
+                  e(
+                    "tbody",
+                    null,
+                    data.raci.rows.map(
+                      (row, rowIdx) => e(
+                        "tr",
+                        { key: rowIdx },
+                        e("td", null, e("input", { className: "pc-task-name", value: row.task, onChange: (ev) => handleRaciTaskChange(rowIdx, ev.target.value) })),
+                        row.values.map(
+                          (val, colIdx) => e(
+                            "td",
+                            { key: colIdx },
+                            e(
+                              "select",
+                              { className: "pc-raci-select", value: val, onChange: (ev) => handleRaciCellChange(rowIdx, colIdx, ev.target.value) },
+                              RACI_VALUES.map((v) => e("option", { key: v, value: v }, v || "\u2014"))
+                            )
                           )
-                        )
-                      ),
-                      e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRaciRemoveRow(rowIdx) }, "\u2715"))
+                        ),
+                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRaciRemoveRow(rowIdx) }, "\u2715"))
+                      )
                     )
                   )
                 )
