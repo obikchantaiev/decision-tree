@@ -63050,7 +63050,12 @@ ${suffix}`;
             onChange: (ev) => data.onChangeType(id2, ev.target.value)
           },
           TYPE_OPTIONS.map((t) => e("option", { key: t, value: t }, t))
-        ) : e("span", { className: "root-badge" }, "\u0422\u0435\u043C\u0430 / \u0433\u0456\u043F\u043E\u0442\u0435\u0437\u0430")
+        ) : e(
+          "div",
+          { style: { display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" } },
+          e("span", { className: "root-badge" }, "\u0422\u0435\u043C\u0430 / \u0433\u0456\u043F\u043E\u0442\u0435\u0437\u0430"),
+          e("button", { className: "icon-btn", title: "\u041F\u0435\u0440\u0435\u0439\u043C\u0435\u043D\u0443\u0432\u0430\u0442\u0438", onClick: () => setEditing(true) }, "\u270E")
+        )
       ),
       editing ? e("input", {
         ref: inputRef,
@@ -63086,7 +63091,7 @@ ${suffix}`;
           "div",
           { className: "footer-right" },
           e("button", { className: "icon-btn add", onClick: () => data.onAddChild(id2) }, "+ \u0433\u0456\u043B\u043A\u0430"),
-          !data.isRoot && e("button", { className: "icon-btn danger", onClick: () => data.onDelete(id2) }, "\u2715")
+          e("button", { className: "icon-btn danger", onClick: () => data.onDelete(id2) }, "\u2715")
         )
       ),
       e(Handle, { type: "source", position: data.sourcePos, isConnectable: false, className: "rf-handle" })
