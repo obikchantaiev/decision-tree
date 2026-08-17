@@ -63161,10 +63161,10 @@ ${suffix}`;
           const { data } = yield supabase.auth.getSession();
           if ((_a = data == null ? void 0 : data.session) == null ? void 0 : _a.user) {
             setUser(data.session.user);
-            const { data: trees, error } = yield supabase.from("decision_trees").select("tree_data").eq("user_id", data.session.user.id).limit(1);
+            const { data: trees, error } = yield supabase.from("decision_trees").select("data").eq("owner", data.session.user.id).limit(1);
             if (!error && trees && trees.length > 0) {
               try {
-                const loadedData = JSON.parse(trees[0].tree_data);
+                const loadedData = trees[0].data;
                 setNodesData(loadedData);
                 const maxNum = loadedData.reduce((m, n) => {
                   const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
@@ -63190,10 +63190,9 @@ ${suffix}`;
       if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
       autoSaveTimeoutRef.current = setTimeout(() => __async(null, null, function* () {
         try {
-          const treeJson = JSON.stringify(nodesData);
           const { error } = yield supabase.from("decision_trees").upsert(
-            { user_id: user.id, tree_data: treeJson, updated_at: (/* @__PURE__ */ new Date()).toISOString() },
-            { onConflict: "user_id" }
+            { owner: user.id, data: nodesData, updated_at: (/* @__PURE__ */ new Date()).toISOString() },
+            { onConflict: "owner" }
           );
           if (error) {
             console.error("Save error:", error);
@@ -63227,10 +63226,10 @@ ${suffix}`;
           setUser(data.session.user);
           setEmail("");
           setPassword("");
-          const { data: trees } = yield supabase.from("decision_trees").select("tree_data").eq("user_id", data.session.user.id).limit(1);
+          const { data: trees } = yield supabase.from("decision_trees").select("data").eq("owner", data.session.user.id).limit(1);
           if (trees && trees.length > 0) {
             try {
-              const loadedData = JSON.parse(trees[0].tree_data);
+              const loadedData = trees[0].data;
               setNodesData(loadedData);
               const maxNum = loadedData.reduce((m, n) => {
                 const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
