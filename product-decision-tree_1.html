@@ -668,6 +668,183 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
 .toolbar button:disabled:hover { background: rgba(255,255,255,0.2); }
 .toolbar label { padding: 0; }
 .toolbar label input { display: none; }
+.toolbar button.tab-btn.active { background: rgba(255,255,255,0.45); font-weight: 700; }
+
+/* ================= PRODUCT CARD (pc-*) ================= */
+:root {
+  --grad-start: #667eea;
+  --grad-end: #764ba2;
+  --ink: #1f2430;
+  --ink-soft: #6b7280;
+  --border: #e2e4ec;
+  --bg: #f4f5fb;
+  --white: #ffffff;
+  --good: #22c55e;
+}
+.pc-scroll { flex: 1; overflow: auto; background: var(--bg); }
+.pc-page { max-width: 1180px; margin: 0 auto; padding: 24px 0 56px; }
+.pc-header {
+  background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%);
+  color: #fff;
+  padding: 32px 40px 28px;
+  border-radius: 18px;
+  margin: 0 40px 24px;
+}
+.pc-header-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.pc-header-eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; margin: 0 0 6px; }
+.pc-header-title-input {
+  font-size: 26px; font-weight: 700; margin: 0; background: transparent; border: none;
+  color: #fff; border-bottom: 1.5px dashed rgba(255,255,255,0.4); padding: 2px 0; min-width: 240px;
+}
+.pc-header-title-input:focus { outline: none; border-bottom-color: #fff; }
+.pc-header-badge {
+  display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+}
+.pc-header-badge input {
+  background: transparent; border: none; color: #fff; font-weight: 600; font-size: 14px; width: 140px;
+}
+.pc-header-badge input:focus { outline: none; }
+.pc-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgba(74,222,128,0.35); flex-shrink: 0; }
+.pc-header-meta { display: flex; gap: 32px; margin-top: 22px; flex-wrap: wrap; }
+.pc-header-meta-item .pc-label { font-size: 12px; opacity: 0.75; margin: 0 0 4px; }
+.pc-header-meta-item input {
+  background: transparent; border: none; border-bottom: 1.5px dashed rgba(255,255,255,0.4);
+  color: #fff; font-size: 15px; font-weight: 600; padding: 2px 0;
+}
+.pc-header-meta-item input:focus { outline: none; border-bottom-color: #fff; }
+
+.pc-content { padding: 0 40px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+@media (max-width: 900px) { .pc-content { grid-template-columns: 1fr; } }
+.pc-col { display: flex; flex-direction: column; gap: 24px; }
+
+.pc-card { background: var(--white); border-radius: 18px; padding: 26px 28px 28px; box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 8px 24px rgba(16,24,40,0.06); }
+.pc-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.pc-card-icon {
+  width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: #fff; font-size: 16px; flex-shrink: 0;
+}
+.pc-card-title { font-size: 17px; font-weight: 700; margin: 0; }
+
+.pc-field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.pc-field { display: flex; flex-direction: column; gap: 6px; }
+.pc-field.span-2 { grid-column: span 2; }
+.pc-field-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.03em; }
+.pc-field-input {
+  border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px;
+  color: var(--ink); background: #fbfbfe; min-height: 20px; font-family: inherit; width: 100%;
+}
+.pc-field-input:focus { outline: none; border-color: var(--grad-start); }
+textarea.pc-field-input { resize: vertical; line-height: 1.5; }
+
+.pc-market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+.pc-market-stat { border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fbfbfe; }
+.pc-market-stat .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 8px; }
+.pc-market-stat input { font-size: 18px; font-weight: 700; color: var(--ink); border: none; background: transparent; width: 100%; padding: 0; }
+.pc-market-stat input:focus { outline: none; }
+
+.pc-funnel { display: flex; height: 10px; border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
+.pc-funnel div:nth-child(1) { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); }
+.pc-funnel div:nth-child(2) { background: rgba(118,75,162,0.55); }
+.pc-funnel div:nth-child(3) { background: rgba(118,75,162,0.28); }
+
+.pc-growth-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 16px; background: #fbfbfe; gap: 10px; }
+.pc-growth-row input { border: none; background: transparent; font-weight: 700; color: var(--good); font-size: 15px; text-align: right; }
+.pc-growth-row input:focus { outline: none; }
+
+.pc-okr-period {
+  display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid #c7d2fe; background: #eef1ff;
+  color: #4338ca; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 600; margin-bottom: 14px;
+}
+.pc-okr-period input { border: none; background: transparent; color: #4338ca; font-weight: 600; font-size: 13px; }
+.pc-okr-period input:focus { outline: none; }
+
+.pc-objective-box { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; background: #fbfbfe; margin-bottom: 18px; }
+.pc-objective-box .pc-field-label { margin-bottom: 6px; }
+.pc-objective-box textarea { font-size: 15px; font-weight: 600; color: var(--ink); border: none; background: transparent; width: 100%; resize: vertical; font-family: inherit; padding: 0; }
+.pc-objective-box textarea:focus { outline: none; }
+
+.pc-kr { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; background: #fbfbfe; }
+.pc-kr:last-child { margin-bottom: 0; }
+.pc-kr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 12px; }
+.pc-kr-name { font-size: 14px; font-weight: 600; color: var(--ink); border: none; background: transparent; flex: 1; font-family: inherit; }
+.pc-kr-name:focus { outline: none; }
+.pc-kr-values { font-size: 13px; color: var(--ink-soft); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+.pc-kr-values input { width: 52px; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-size: 13px; text-align: center; }
+.pc-progress-track { width: 100%; height: 8px; border-radius: 999px; background: #edeef5; overflow: hidden; }
+.pc-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); }
+
+.pc-metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pc-metric-card { border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 16px; background: #fbfbfe; text-align: center; }
+.pc-metric-card .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 10px; }
+.pc-health-ring {
+  width: 84px; height: 84px; margin: 0 auto 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  position: relative; background: conic-gradient(var(--grad-start) 0deg, var(--grad-end) calc(var(--pct) * 3.6deg), #edeef5 calc(var(--pct) * 3.6deg));
+}
+.pc-health-ring::before { content: ""; position: absolute; width: 64px; height: 64px; border-radius: 50%; background: #fbfbfe; }
+.pc-health-ring span { position: relative; font-size: 20px; font-weight: 800; color: var(--ink); }
+.pc-health-input { width: 64px; text-align: center; margin: 0 auto; }
+.pc-metric-value { font-size: 20px; font-weight: 700; color: var(--ink); border: none; background: transparent; text-align: center; width: 100%; font-family: inherit; }
+.pc-metric-value:focus { outline: none; }
+.pc-metric-sub { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+.pc-ratio-pill { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #e8fbf0; color: #15803d; border: none; text-align: center; }
+
+.pc-extra { padding: 0 40px; display: flex; flex-direction: column; gap: 24px; margin-top: 0; }
+.pc-matrix-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 900px) { .pc-matrix-row { grid-template-columns: 1fr; } }
+
+.pc-pdlc-track { position: relative; display: flex; justify-content: space-between; margin-top: 14px; padding: 0 8px; }
+.pc-pdlc-line-bg, .pc-pdlc-line-fill { position: absolute; top: 17px; left: 40px; right: 40px; height: 3px; border-radius: 999px; }
+.pc-pdlc-line-bg { background: var(--border); }
+.pc-pdlc-line-fill { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); right: auto; }
+.pc-pdlc-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100px; background: none; border: none; padding: 0; }
+.pc-pdlc-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; background: #fff; border: 2px solid var(--border); color: var(--ink-soft); }
+.pc-pdlc-step.done .pc-pdlc-dot { background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); border-color: transparent; color: #fff; }
+.pc-pdlc-step.current .pc-pdlc-dot { background: #fff; border-color: var(--grad-end); color: var(--grad-end); box-shadow: 0 0 0 5px rgba(118,75,162,0.15); }
+.pc-pdlc-label { font-size: 12px; font-weight: 600; text-align: center; color: var(--ink-soft); }
+.pc-pdlc-step.current .pc-pdlc-label, .pc-pdlc-step.done .pc-pdlc-label { color: var(--ink); }
+
+.pc-quad-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
+.pc-quad { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; background: #fbfbfe; min-height: 108px; }
+.pc-quad-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.pc-quad-sub { font-size: 11px; color: var(--ink-soft); margin-bottom: 10px; }
+.pc-quad-text { font-size: 13px; color: var(--ink); line-height: 1.55; margin: 0; border: none; background: transparent; width: 100%; resize: vertical; font-family: inherit; }
+.pc-quad-text:focus { outline: none; }
+.pc-chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pc-chip {
+  font-size: 12px; font-weight: 600; padding: 5px 6px 5px 10px; border-radius: 999px; background: #eef1ff;
+  color: #4338ca; border: 1px solid #c7d2fe; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px;
+}
+.pc-chip-remove { background: none; border: none; color: #4338ca; cursor: pointer; font-size: 13px; line-height: 1; padding: 0 2px; }
+.pc-add-row { display: flex; gap: 6px; }
+.pc-mini-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 5px 8px; font-size: 12px; font-family: inherit; }
+.pc-mini-input:focus { outline: none; border-color: var(--grad-start); }
+.pc-mini-add-btn { border: 1px solid #34d399; color: #047857; background: #ecfdf5; border-radius: 8px; padding: 5px 10px; font-size: 13px; cursor: pointer; }
+.pc-quad.pc-q-primary { background: linear-gradient(135deg, rgba(102,126,234,0.08), rgba(118,75,162,0.08)); border-color: #c7d2fe; }
+
+.pc-raci-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pc-raci-table th, .pc-raci-table td { border: 1.5px solid var(--border); padding: 8px 10px; text-align: left; }
+.pc-raci-table th { background: #fbfbfe; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-soft); }
+.pc-raci-table input.pc-task-name { font-weight: 600; color: var(--ink); border: none; background: transparent; width: 100%; font-family: inherit; }
+.pc-raci-table input.pc-task-name:focus { outline: none; }
+.pc-raci-select {
+  width: 100%; text-align: center; font-weight: 700; font-size: 12px; border-radius: 8px; border: 1.5px solid var(--border);
+  padding: 4px 2px; background: #fff; cursor: pointer;
+}
+.pc-raci-legend { display: flex; gap: 18px; margin-top: 14px; flex-wrap: wrap; }
+.pc-raci-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-soft); }
+.pc-raci-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+.pc-raci-badge.r { background: #dbeafe; color: #1d4ed8; }
+.pc-raci-badge.a { background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: #fff; }
+.pc-raci-badge.c { background: #d1fae5; color: #047857; }
+.pc-raci-badge.i { background: #f1f2f6; color: #6b7280; }
+.pc-row-remove-btn { border: 1px solid #f87171; color: #b91c1c; background: #fef2f2; border-radius: 6px; padding: 4px 8px; font-size: 11px; cursor: pointer; }
+.pc-add-btn { border: 1px dashed #a78bfa; color: #6d28d9; background: #f5f3ff; border-radius: 8px; padding: 8px 12px; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%; }
+
+.pc-swot-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 900px) { .pc-swot-wrap { grid-template-columns: 1fr; } }
+.pc-swot-subtitle { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 10px; letter-spacing: 0.04em; }
 .legend {
   background: #f9f9f9;
   padding: 12px 24px;
@@ -62934,6 +63111,7 @@ ${suffix}`;
   var e = import_react3.default.createElement;
   var NODE_W = 220;
   var NODE_H = 96;
+  var MAX_HISTORY = 50;
   var SUPABASE_URL = "https://clhuathktlnpkmuuzeau.supabase.co";
   var SUPABASE_KEY = "sb_publishable_ME8oDULrDXThyuSuXIvvtA_QoVpxpiW";
   var supabase = null;
@@ -62941,6 +63119,68 @@ ${suffix}`;
     supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   } catch (err) {
     console.error("Failed to initialize Supabase:", err);
+  }
+  function useUndoableState(initialValue) {
+    const [state, setState] = (0, import_react3.useState)(initialValue);
+    const [history, setHistory] = (0, import_react3.useState)([]);
+    const [redoStack, setRedoStack] = (0, import_react3.useState)([]);
+    const update = (0, import_react3.useCallback)((updaterOrValue) => {
+      setState((prev) => {
+        const next = typeof updaterOrValue === "function" ? updaterOrValue(prev) : updaterOrValue;
+        setHistory((h) => [...h, prev].slice(-MAX_HISTORY));
+        setRedoStack([]);
+        return next;
+      });
+    }, []);
+    const load = (0, import_react3.useCallback)((value) => {
+      setState(value);
+      setHistory([]);
+      setRedoStack([]);
+    }, []);
+    const undo = (0, import_react3.useCallback)(() => {
+      setHistory((h) => {
+        if (h.length === 0) return h;
+        const previous = h[h.length - 1];
+        setState((current) => {
+          setRedoStack((r) => [...r, current].slice(-MAX_HISTORY));
+          return previous;
+        });
+        return h.slice(0, -1);
+      });
+    }, []);
+    const redo = (0, import_react3.useCallback)(() => {
+      setRedoStack((r) => {
+        if (r.length === 0) return r;
+        const nextVal = r[r.length - 1];
+        setState((current) => {
+          setHistory((h) => [...h, current].slice(-MAX_HISTORY));
+          return nextVal;
+        });
+        return r.slice(0, -1);
+      });
+    }, []);
+    return { state, update, load, undo, redo, canUndo: history.length > 0, canRedo: redoStack.length > 0 };
+  }
+  function AppTopBar({ title, subtitle, activeTab, onTabChange, toolbarExtra, saveStatus, onLogout }) {
+    return e(
+      "header",
+      { className: "app-header" },
+      e(
+        "div",
+        null,
+        e("p", { className: "app-title" }, title),
+        e("p", { className: "app-subtitle" }, subtitle)
+      ),
+      e(
+        "div",
+        { className: "toolbar" },
+        e("button", { className: "tab-btn" + (activeTab === "tree" ? " active" : ""), onClick: () => onTabChange("tree") }, "\u{1F333} \u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C"),
+        e("button", { className: "tab-btn" + (activeTab === "card" ? " active" : ""), onClick: () => onTabChange("card") }, "\u{1F5C2} \u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+        ...toolbarExtra,
+        saveStatus && e("span", { style: { color: saveStatus.includes("\u274C") ? "#b91c1c" : "#047857", fontSize: "14px", fontWeight: "500" } }, saveStatus),
+        e("button", { onClick: onLogout, style: { marginLeft: "auto", background: "#dc2626", color: "white", padding: "8px 16px", border: "none", borderRadius: "6px", cursor: "pointer" } }, "\u0412\u0438\u0445\u0456\u0434")
+      )
+    );
   }
   var TYPE_OPTIONS = ["\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0430", "\u0420\u0456\u0448\u0435\u043D\u043D\u044F: \u0422\u0430\u043A", "\u0420\u0456\u0448\u0435\u043D\u043D\u044F: \u041D\u0456", "\u041F\u043E\u0434\u0456\u044F", "\u041D\u043E\u0442\u0430\u0442\u043A\u0430"];
   var TYPE_COLORS = {
@@ -63100,65 +63340,17 @@ ${suffix}`;
     );
   }
   var nodeTypes = { cardNode: CardNode };
-  function App() {
-    const [nodesData, setNodesData] = (0, import_react3.useState)(demoTree());
+  function DecisionTreeView({ user, active, activeTab, onTabChange, onLogout }) {
+    const tree = useUndoableState(demoTree());
     const [direction, setDirection] = (0, import_react3.useState)("LR");
     const rfInstanceRef = (0, import_react3.useRef)(null);
     const fileInputRef = (0, import_react3.useRef)(null);
-    const [user, setUser] = (0, import_react3.useState)(null);
-    const [email, setEmail] = (0, import_react3.useState)("");
-    const [password, setPassword] = (0, import_react3.useState)("");
-    const [loading, setLoading] = (0, import_react3.useState)(true);
     const [saveStatus, setSaveStatus] = (0, import_react3.useState)("");
-    const [authError, setAuthError] = (0, import_react3.useState)("");
     const autoSaveTimeoutRef = (0, import_react3.useRef)(null);
-    const treesTableRef = (0, import_react3.useRef)(null);
-    const [history, setHistory] = (0, import_react3.useState)([]);
-    const [redoStack, setRedoStack] = (0, import_react3.useState)([]);
-    const MAX_HISTORY = 50;
-    const updateTree = (0, import_react3.useCallback)((updaterOrValue) => {
-      setNodesData((prevNodes) => {
-        const next = typeof updaterOrValue === "function" ? updaterOrValue(prevNodes) : updaterOrValue;
-        setHistory((h) => [...h, prevNodes].slice(-MAX_HISTORY));
-        setRedoStack([]);
-        return next;
-      });
-    }, []);
-    const handleUndo = (0, import_react3.useCallback)(() => {
-      setHistory((h) => {
-        if (h.length === 0) return h;
-        const previous = h[h.length - 1];
-        setRedoStack((r) => [...r, nodesData].slice(-MAX_HISTORY));
-        setNodesData(previous);
-        return h.slice(0, -1);
-      });
-    }, [nodesData]);
-    const handleRedo = (0, import_react3.useCallback)(() => {
-      setRedoStack((r) => {
-        if (r.length === 0) return r;
-        const nextState = r[r.length - 1];
-        setHistory((h) => [...h, nodesData].slice(-MAX_HISTORY));
-        setNodesData(nextState);
-        return r.slice(0, -1);
-      });
-    }, [nodesData]);
-    (0, import_react3.useEffect)(() => {
-      const onKeyDown = (ev) => {
-        const mod = ev.ctrlKey || ev.metaKey;
-        if (!mod) return;
-        if (ev.key.toLowerCase() === "z" && !ev.shiftKey) {
-          ev.preventDefault();
-          handleUndo();
-        } else if (ev.key.toLowerCase() === "z" && ev.shiftKey || ev.key.toLowerCase() === "y") {
-          ev.preventDefault();
-          handleRedo();
-        }
-      };
-      window.addEventListener("keydown", onKeyDown);
-      return () => window.removeEventListener("keydown", onKeyDown);
-    }, [handleUndo, handleRedo]);
+    const loadedForUserRef = (0, import_react3.useRef)(null);
+    const hasLoadedRef = (0, import_react3.useRef)(false);
     const handleRename = (0, import_react3.useCallback)((id2, title) => {
-      updateTree((prev) => {
+      tree.update((prev) => {
         const trimmed = title.trim();
         if (!trimmed) {
           const hasChildren = prev.some((n) => n.parentId === id2);
@@ -63167,19 +63359,19 @@ ${suffix}`;
         }
         return prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { title: trimmed }) : n);
       });
-    }, [updateTree]);
+    }, [tree.update]);
     const handleToggleCollapse = (0, import_react3.useCallback)((id2) => {
-      updateTree((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { collapsed: !n.collapsed }) : n));
-    }, [updateTree]);
+      tree.update((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { collapsed: !n.collapsed }) : n));
+    }, [tree.update]);
     const handleAddChild = (0, import_react3.useCallback)((parentId) => {
-      updateTree((prev) => {
+      tree.update((prev) => {
         const child = { id: newId2(), parentId, title: "", type: "\u041D\u043E\u0442\u0430\u0442\u043A\u0430", collapsed: false };
         return prev.map((n) => n.id === parentId ? __spreadProps(__spreadValues({}, n), { collapsed: false }) : n).concat(child);
       });
-    }, [updateTree]);
+    }, [tree.update]);
     const handleDelete = (0, import_react3.useCallback)((id2) => {
       if (!window.confirm("\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438 \u0446\u044E \u043A\u0430\u0440\u0442\u043A\u0443 \u0442\u0430 \u0432\u0441\u0456 \u0434\u043E\u0447\u0456\u0440\u043D\u0456 \u0433\u0456\u043B\u043A\u0438?")) return;
-      updateTree((prev) => {
+      tree.update((prev) => {
         const toDelete = /* @__PURE__ */ new Set([id2]);
         let changed = true;
         while (changed) {
@@ -63193,56 +63385,95 @@ ${suffix}`;
         }
         return prev.filter((n) => !toDelete.has(n.id));
       });
-    }, [updateTree]);
+    }, [tree.update]);
     const handleChangeType = (0, import_react3.useCallback)((id2, type) => {
-      updateTree((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { type }) : n));
-    }, [updateTree]);
+      tree.update((prev) => prev.map((n) => n.id === id2 ? __spreadProps(__spreadValues({}, n), { type }) : n));
+    }, [tree.update]);
     const handleAddRoot = (0, import_react3.useCallback)(() => {
-      updateTree((prev) => prev.concat({ id: newId2(), parentId: null, title: "", type: "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0430", collapsed: false }));
-    }, [updateTree]);
-    const handleReset = (0, import_react3.useCallback)(() => updateTree(demoTree()), [updateTree]);
-    (0, import_react3.useEffect)(() => {
-      const initAuth = () => __async(null, null, function* () {
-        var _a;
-        if (!supabase) {
-          setLoading(false);
-          return;
-        }
+      tree.update((prev) => prev.concat({ id: newId2(), parentId: null, title: "", type: "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0430", collapsed: false }));
+    }, [tree.update]);
+    const handleReset = (0, import_react3.useCallback)(() => tree.update(demoTree()), [tree.update]);
+    const handleExport = (0, import_react3.useCallback)(() => {
+      const blob = new Blob([JSON.stringify(tree.state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "decision-tree.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }, [tree.state]);
+    const handleImportFile = (0, import_react3.useCallback)((ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
         try {
-          const { data } = yield supabase.auth.getSession();
-          if ((_a = data == null ? void 0 : data.session) == null ? void 0 : _a.user) {
-            setUser(data.session.user);
-            const { data: trees, error } = yield supabase.from("decision_trees").select("data").eq("owner", data.session.user.id).limit(1);
-            if (!error && trees && trees.length > 0) {
-              try {
-                const loadedData = trees[0].data;
-                setNodesData(loadedData);
-                const maxNum = loadedData.reduce((m, n) => {
-                  const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
-                  return isNaN(num) ? m : Math.max(m, num);
-                }, 0);
-                idCounter = maxNum + 1;
-              } catch (e2) {
-                console.error("Failed to parse saved tree:", e2);
-              }
-            }
+          const parsed = JSON.parse(reader.result);
+          if (Array.isArray(parsed)) {
+            const maxNum = parsed.reduce((m, n) => {
+              const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
+              return isNaN(num) ? m : Math.max(m, num);
+            }, 0);
+            idCounter = maxNum + 1;
+            tree.update(parsed);
           }
         } catch (err) {
-          console.error("Auth check failed:", err);
-        } finally {
-          setLoading(false);
+          window.alert("\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u0438 \u0444\u0430\u0439\u043B: " + err.message);
         }
-      });
-      initAuth();
-    }, []);
+      };
+      reader.readAsText(file);
+      ev.target.value = "";
+    }, [tree.update]);
     (0, import_react3.useEffect)(() => {
-      if (!user || !supabase) return;
+      if (!active) return;
+      const onKeyDown = (ev) => {
+        const mod = ev.ctrlKey || ev.metaKey;
+        if (!mod) return;
+        if (ev.key.toLowerCase() === "z" && !ev.shiftKey) {
+          ev.preventDefault();
+          tree.undo();
+        } else if (ev.key.toLowerCase() === "z" && ev.shiftKey || ev.key.toLowerCase() === "y") {
+          ev.preventDefault();
+          tree.redo();
+        }
+      };
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
+    }, [active, tree.undo, tree.redo]);
+    (0, import_react3.useEffect)(() => {
+      if (!user || !supabase) {
+        hasLoadedRef.current = true;
+        return;
+      }
+      if (loadedForUserRef.current === user.id) return;
+      loadedForUserRef.current = user.id;
+      (() => __async(null, null, function* () {
+        try {
+          const { data: rows, error } = yield supabase.from("decision_trees").select("data").eq("owner", user.id).limit(1);
+          if (!error && rows && rows.length > 0) {
+            const loadedData = rows[0].data;
+            tree.load(loadedData);
+            const maxNum = loadedData.reduce((m, n) => {
+              const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
+              return isNaN(num) ? m : Math.max(m, num);
+            }, 0);
+            idCounter = maxNum + 1;
+          }
+        } catch (err) {
+          console.error("Failed to load tree:", err);
+        } finally {
+          hasLoadedRef.current = true;
+        }
+      }))();
+    }, [user]);
+    (0, import_react3.useEffect)(() => {
+      if (!user || !supabase || !hasLoadedRef.current) return;
       setSaveStatus("\u0417\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F...");
       if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
       autoSaveTimeoutRef.current = setTimeout(() => __async(null, null, function* () {
         try {
           const { error } = yield supabase.from("decision_trees").upsert(
-            { owner: user.id, data: nodesData, updated_at: (/* @__PURE__ */ new Date()).toISOString() },
+            { owner: user.id, data: tree.state, updated_at: (/* @__PURE__ */ new Date()).toISOString() },
             { onConflict: "owner" }
           );
           if (error) {
@@ -63260,112 +63491,12 @@ ${suffix}`;
       return () => {
         if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
       };
-    }, [nodesData, user]);
-    const handleLogin = (0, import_react3.useCallback)((e2) => __async(null, null, function* () {
-      var _a;
-      e2.preventDefault();
-      if (!supabase) return;
-      setAuthError("");
-      try {
-        const { data, error } = yield supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-        if (error) {
-          setAuthError(error.message);
-        } else if ((_a = data.session) == null ? void 0 : _a.user) {
-          setUser(data.session.user);
-          setEmail("");
-          setPassword("");
-          const { data: trees } = yield supabase.from("decision_trees").select("data").eq("owner", data.session.user.id).limit(1);
-          if (trees && trees.length > 0) {
-            try {
-              const loadedData = trees[0].data;
-              setNodesData(loadedData);
-              const maxNum = loadedData.reduce((m, n) => {
-                const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
-                return isNaN(num) ? m : Math.max(m, num);
-              }, 0);
-              idCounter = maxNum + 1;
-            } catch (e3) {
-              console.error("Failed to parse saved tree:", e3);
-            }
-          }
-        }
-      } catch (err) {
-        setAuthError("\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0432\u0445\u043E\u0434\u0443: " + err.message);
-      }
-    }), [email, password]);
-    const handleSignup = (0, import_react3.useCallback)((e2) => __async(null, null, function* () {
-      var _a;
-      e2.preventDefault();
-      if (!supabase) return;
-      setAuthError("");
-      try {
-        const { data, error } = yield supabase.auth.signUp({
-          email,
-          password
-        });
-        if (error) {
-          setAuthError(error.message);
-        } else if ((_a = data.session) == null ? void 0 : _a.user) {
-          setUser(data.session.user);
-          setEmail("");
-          setPassword("");
-        } else {
-          setAuthError("\u041F\u0435\u0440\u0435\u0432\u0456\u0440\u0442\u0435 \u0432\u0430\u0448\u0443 \u043F\u043E\u0448\u0442\u0443 \u0434\u043B\u044F \u043F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043D\u043D\u044F \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457");
-        }
-      } catch (err) {
-        setAuthError("\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457: " + err.message);
-      }
-    }), [email, password]);
-    const handleLogout = (0, import_react3.useCallback)(() => __async(null, null, function* () {
-      if (!supabase) return;
-      try {
-        yield supabase.auth.signOut();
-        setUser(null);
-        setNodesData(demoTree());
-        idCounter = 1;
-      } catch (err) {
-        console.error("Logout failed:", err);
-      }
-    }), []);
-    const handleExport = (0, import_react3.useCallback)(() => {
-      const blob = new Blob([JSON.stringify(nodesData, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "decision-tree.json";
-      a.click();
-      URL.revokeObjectURL(url);
-    }, [nodesData]);
-    const handleImportFile = (0, import_react3.useCallback)((ev) => {
-      const file = ev.target.files && ev.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const parsed = JSON.parse(reader.result);
-          if (Array.isArray(parsed)) {
-            const maxNum = parsed.reduce((m, n) => {
-              const num = parseInt(String(n.id).replace(/\D/g, ""), 10);
-              return isNaN(num) ? m : Math.max(m, num);
-            }, 0);
-            idCounter = maxNum + 1;
-            updateTree(parsed);
-          }
-        } catch (err) {
-          window.alert("\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u0438 \u0444\u0430\u0439\u043B: " + err.message);
-        }
-      };
-      reader.readAsText(file);
-      ev.target.value = "";
-    }, [updateTree]);
-    const { visible, positions, childrenMap } = (0, import_react3.useMemo)(() => layoutTree(nodesData, direction), [nodesData, direction]);
+    }, [tree.state, user]);
+    const { visible, positions, childrenMap } = (0, import_react3.useMemo)(() => layoutTree(tree.state, direction), [tree.state, direction]);
     const targetPos = direction === "LR" ? Position.Left : Position.Top;
     const sourcePos = direction === "LR" ? Position.Right : Position.Bottom;
     const rfNodes = (0, import_react3.useMemo)(
-      () => nodesData.filter((n) => visible.has(n.id)).map((n) => ({
+      () => tree.state.filter((n) => visible.has(n.id)).map((n) => ({
         id: n.id,
         type: "cardNode",
         position: positions[n.id] || { x: 0, y: 0 },
@@ -63388,11 +63519,11 @@ ${suffix}`;
           onChangeType: handleChangeType
         }
       })),
-      [nodesData, visible, positions, childrenMap, targetPos, sourcePos]
+      [tree.state, visible, positions, childrenMap, targetPos, sourcePos]
     );
     const rfEdges = (0, import_react3.useMemo)(() => {
       const edges = [];
-      nodesData.forEach((n) => {
+      tree.state.forEach((n) => {
         if (n.parentId && visible.has(n.id) && visible.has(n.parentId)) {
           edges.push({
             id: n.parentId + "-" + n.id,
@@ -63404,83 +63535,38 @@ ${suffix}`;
         }
       });
       return edges;
-    }, [nodesData, visible]);
+    }, [tree.state, visible]);
     (0, import_react3.useEffect)(() => {
-      if (rfInstanceRef.current) {
+      if (active && rfInstanceRef.current) {
         rfInstanceRef.current.fitView({ padding: 0.3, duration: 300 });
       }
-    }, [rfNodes.length, direction]);
-    if (loading) {
-      return e("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" } }, "\u0417\u0430\u0432\u0430\u043D\u0442\u0430\u0436\u0435\u043D\u043D\u044F...");
-    }
-    if (!user) {
-      return e(
-        "div",
-        { style: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", background: "#f9f9f9" } },
-        e(
-          "div",
-          { style: { width: "400px", background: "white", padding: "40px", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" } },
-          e("h1", { style: { marginBottom: "24px", textAlign: "center", color: "#1f2430" } }, "\u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C"),
-          e("p", { style: { textAlign: "center", color: "#6b7280", marginBottom: "24px" } }, "\u0412\u0445\u043E\u0434 \u0434\u043E \u0432\u0430\u0448\u043E\u0433\u043E \u043E\u0431\u043B\u0456\u043A\u043E\u0432\u043E\u0433\u043E \u0437\u0430\u043F\u0438\u0441\u0443"),
-          authError && e("div", { style: { color: "#b91c1c", background: "#fef2f2", padding: "12px", borderRadius: "8px", marginBottom: "16px", fontSize: "14px" } }, authError),
-          e(
-            "form",
-            { onSubmit: handleLogin, style: { marginBottom: "16px" } },
-            e("input", {
-              type: "email",
-              placeholder: "Email",
-              value: email,
-              onChange: (ev) => setEmail(ev.target.value),
-              style: { width: "100%", padding: "10px", marginBottom: "12px", border: "1.5px solid #e2e4ec", borderRadius: "8px", fontSize: "14px" }
-            }),
-            e("input", {
-              type: "password",
-              placeholder: "\u041F\u0430\u0440\u043E\u043B\u044C",
-              value: password,
-              onChange: (ev) => setPassword(ev.target.value),
-              style: { width: "100%", padding: "10px", marginBottom: "16px", border: "1.5px solid #e2e4ec", borderRadius: "8px", fontSize: "14px" }
-            }),
-            e("button", { type: "submit", style: { width: "100%", padding: "10px", background: "#6d28d9", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" } }, "\u0423\u0432\u0456\u0439\u0442\u0438")
-          ),
-          e(
-            "button",
-            { onClick: handleSignup, style: { width: "100%", padding: "10px", background: "#047857", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" } },
-            "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"
-          )
-        )
-      );
-    }
+    }, [rfNodes.length, direction, active]);
+    const toolbarExtra = [
+      e("button", { key: "add-root", onClick: handleAddRoot }, "+ \u043D\u043E\u0432\u0430 \u0442\u0435\u043C\u0430"),
+      e("button", { key: "undo", onClick: tree.undo, disabled: !tree.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
+      e("button", { key: "redo", onClick: tree.redo, disabled: !tree.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
+      e("button", { key: "dir", onClick: () => setDirection((d) => d === "LR" ? "TB" : "LR") }, direction === "LR" ? "\u2195 \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u043E" : "\u2194 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442\u0430\u043B\u044C\u043D\u043E"),
+      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e(
+        "label",
+        { key: "import" },
+        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
+      ),
+      e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
+    ];
     return e(
       "div",
       { style: { height: "100%", display: "flex", flexDirection: "column" } },
-      e(
-        "header",
-        { className: "app-header" },
-        e(
-          "div",
-          null,
-          e("p", { className: "app-title" }, "\u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
-          e("p", { className: "app-subtitle" }, "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0438 \xB7 \u0440\u0456\u0448\u0435\u043D\u043D\u044F \xB7 \u0456\u0441\u0442\u043E\u0440\u0456\u044F \u0440\u043E\u0437\u0432\u0438\u0442\u043A\u0443 \u2014 \u043A\u043B\u0456\u043A\u0430\u0439\u0442\u0435, \u0449\u043E\u0431 \u0437\u0433\u043E\u0440\u0442\u0430\u0442\u0438/\u0440\u043E\u0437\u0433\u043E\u0440\u0442\u0430\u0442\u0438 \u0433\u0456\u043B\u043A\u0438")
-        ),
-        e(
-          "div",
-          { className: "toolbar" },
-          e("button", { onClick: handleAddRoot }, "+ \u043D\u043E\u0432\u0430 \u0442\u0435\u043C\u0430"),
-          e("button", { onClick: handleUndo, disabled: history.length === 0, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
-          e("button", { onClick: handleRedo, disabled: redoStack.length === 0, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
-          e("button", { onClick: () => setDirection((d) => d === "LR" ? "TB" : "LR") }, direction === "LR" ? "\u2195 \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u043E" : "\u2194 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442\u0430\u043B\u044C\u043D\u043E"),
-          e("button", { onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
-          e(
-            "label",
-            null,
-            "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
-            e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
-          ),
-          e("button", { onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434"),
-          saveStatus && e("span", { style: { color: saveStatus.includes("\u274C") ? "#b91c1c" : "#047857", fontSize: "14px", fontWeight: "500" } }, saveStatus),
-          e("button", { onClick: handleLogout, style: { marginLeft: "auto", background: "#dc2626", color: "white", padding: "8px 16px", border: "none", borderRadius: "6px", cursor: "pointer" } }, "\u0412\u0438\u0445\u0456\u0434")
-        )
-      ),
+      e(AppTopBar, {
+        title: "\u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443",
+        subtitle: "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0438 \xB7 \u0440\u0456\u0448\u0435\u043D\u043D\u044F \xB7 \u0456\u0441\u0442\u043E\u0440\u0456\u044F \u0440\u043E\u0437\u0432\u0438\u0442\u043A\u0443 \u2014 \u043A\u043B\u0456\u043A\u0430\u0439\u0442\u0435, \u0449\u043E\u0431 \u0437\u0433\u043E\u0440\u0442\u0430\u0442\u0438/\u0440\u043E\u0437\u0433\u043E\u0440\u0442\u0430\u0442\u0438 \u0433\u0456\u043B\u043A\u0438",
+        activeTab,
+        onTabChange,
+        toolbarExtra,
+        saveStatus,
+        onLogout
+      }),
       e(
         "div",
         { className: "legend" },
@@ -63521,8 +63607,773 @@ ${suffix}`;
       )
     );
   }
+  var PDLC_STAGES = ["\u0406\u0434\u0435\u044F", "\u0414\u043E\u0441\u043B\u0456\u0434\u0436\u0435\u043D\u043D\u044F", "\u0414\u0438\u0437\u0430\u0439\u043D", "\u0420\u043E\u0437\u0440\u043E\u0431\u043A\u0430", "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F", "\u0417\u0430\u043F\u0443\u0441\u043A", "\u0420\u0456\u0441\u0442"];
+  var RACI_VALUES = ["", "R", "A", "C", "I"];
+  var STATUS_OPTIONS = ["\u0406\u0434\u0435\u044F", "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456", "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F", "\u0410\u043A\u0442\u0438\u0432\u043D\u0438\u0439", "\u041F\u0440\u0438\u0437\u0443\u043F\u0438\u043D\u0435\u043D\u043E", "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E"];
+  function defaultProductCard() {
+    return {
+      basic: {
+        name: "CloudSync Pro",
+        productId: "PRD-2024-0847",
+        vision: "\u0421\u0442\u0430\u0442\u0438 \u043F\u0440\u043E\u0432\u0456\u0434\u043D\u043E\u044E \u043F\u043B\u0430\u0442\u0444\u043E\u0440\u043C\u043E\u044E \u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u0457 \u0434\u0430\u043D\u0438\u0445 \u0434\u043B\u044F \u043A\u043E\u043C\u0430\u043D\u0434 \u0431\u0443\u0434\u044C-\u044F\u043A\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443 \u0443 \u0441\u0432\u0456\u0442\u0456",
+        mission: "\u0417\u0430\u0431\u0435\u0437\u043F\u0435\u0447\u0438\u0442\u0438 \u043C\u0438\u0442\u0442\u0454\u0432\u0443 \u0442\u0430 \u043D\u0430\u0434\u0456\u0439\u043D\u0443 \u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044E \u0444\u0430\u0439\u043B\u0456\u0432 \u0456 \u0434\u0430\u043D\u0438\u0445 \u0431\u0435\u0437 \u0432\u0442\u0440\u0430\u0442\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438",
+        status: "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456",
+        owner: "\u041E\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440 \u0411\u0456\u043A\u0447\u0430\u043D\u0442\u0430\u0454\u0432"
+      },
+      market: {
+        tam: "$4.2 \u043C\u043B\u0440\u0434",
+        sam: "$860 \u043C\u043B\u043D",
+        som: "$45 \u043C\u043B\u043D",
+        cagr: "\u25B2 24% \u043D\u0430 \u0440\u0456\u043A"
+      },
+      okr: {
+        period: "Q3 2026 (\u043B\u0438\u043F\u2013\u0432\u0435\u0440)",
+        objective: "\u041F\u0440\u0438\u0441\u043A\u043E\u0440\u0438\u0442\u0438 \u0432\u043F\u0440\u043E\u0432\u0430\u0434\u0436\u0435\u043D\u043D\u044F \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 \u0441\u0435\u0440\u0435\u0434 \u043A\u043E\u043C\u0430\u043D\u0434 \u0441\u0435\u0440\u0435\u0434\u043D\u044C\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443",
+        keyResults: [
+          { name: "KR1 \xB7 \u041D\u043E\u0432\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438-\u043A\u043B\u0456\u0454\u043D\u0442\u0438", current: 62, target: 100, unit: "\u043A\u043E\u043C\u0430\u043D\u0434" },
+          { name: "KR2 \xB7 \u0410\u043A\u0442\u0438\u0432\u0430\u0446\u0456\u044F \u043D\u043E\u0432\u0438\u0445 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432", current: 74, target: 85, unit: "%" },
+          { name: "KR3 \xB7 \u0421\u043A\u043E\u0440\u043E\u0447\u0435\u043D\u043D\u044F \u0447\u0430\u0441\u0443 \u043E\u043D\u0431\u043E\u0440\u0434\u0438\u043D\u0433\u0443", current: 18, target: 12, unit: "\u0445\u0432" }
+        ]
+      },
+      metrics: {
+        healthScore: 82,
+        cac: "$210",
+        ltv: "$1 840",
+        ltvCacRatio: "LTV:CAC = 8.8x"
+      },
+      pdlcStage: 3,
+      stakeholders: {
+        manageClosely: ["CEO", "\u041A\u0435\u0440\u0456\u0432\u043D\u0438\u043A \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"],
+        keepSatisfied: ["\u0406\u043D\u0432\u0435\u0441\u0442\u043E\u0440\u0438", "\u042E\u0440\u0438\u0434\u0438\u0447\u043D\u0438\u0439 \u0432\u0456\u0434\u0434\u0456\u043B"],
+        keepInformed: ["\u0421\u043B\u0443\u0436\u0431\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438", "\u0410\u043A\u0442\u0438\u0432\u043D\u0456 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456"],
+        monitor: ["\u041F\u0430\u0440\u0442\u043D\u0435\u0440\u0438 2-\u0433\u043E \u0440\u0456\u0432\u043D\u044F"]
+      },
+      eisenhower: {
+        doNow: ["\u0412\u0438\u043F\u0440\u0430\u0432\u0438\u0442\u0438 \u043A\u0440\u0438\u0442\u0438\u0447\u043D\u0438\u0439 \u0431\u0430\u0433"],
+        schedule: ["\u0414\u043E\u0441\u043B\u0456\u0434\u0436\u0435\u043D\u043D\u044F \u0440\u0438\u043D\u043A\u0443", "Roadmap Q4"],
+        delegate: ["\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456 \u0432 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0443"],
+        eliminate: ["\u0414\u0440\u0443\u0433\u043E\u0440\u044F\u0434\u043D\u0456 \u0437\u0432\u0456\u0442\u0438"]
+      },
+      raci: {
+        roles: ["PM", "\u0414\u0438\u0437\u0430\u0439\u043D\u0435\u0440", "\u0420\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A", "QA", "\u041C\u0430\u0440\u043A\u0435\u0442\u0438\u043D\u0433"],
+        rows: [
+          { task: "\u0412\u0438\u0437\u043D\u0430\u0447\u0435\u043D\u043D\u044F \u0432\u0438\u043C\u043E\u0433", values: ["A", "C", "I", "I", "I"] },
+          { task: "\u0414\u0438\u0437\u0430\u0439\u043D UX/UI", values: ["C", "A", "I", "I", "I"] },
+          { task: "\u0420\u043E\u0437\u0440\u043E\u0431\u043A\u0430 \u0444\u0443\u043D\u043A\u0446\u0456\u043E\u043D\u0430\u043B\u0443", values: ["I", "C", "A", "C", "I"] },
+          { task: "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F", values: ["I", "I", "C", "A", "I"] },
+          { task: "\u0417\u0430\u043F\u0443\u0441\u043A \u043D\u0430 \u0440\u0438\u043D\u043E\u043A", values: ["A", "I", "C", "C", "R"] }
+        ]
+      },
+      swot: {
+        strengths: "\u0428\u0432\u0438\u0434\u043A\u0430 \u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F, \u043D\u0430\u0434\u0456\u0439\u043D\u0430 \u0430\u0440\u0445\u0456\u0442\u0435\u043A\u0442\u0443\u0440\u0430, \u043B\u043E\u044F\u043B\u044C\u043D\u0430 \u0431\u0430\u0437\u0430 \u043A\u043B\u0456\u0454\u043D\u0442\u0456\u0432",
+        weaknesses: "\u041E\u0431\u043C\u0435\u0436\u0435\u043D\u0430 \u043A\u043E\u043C\u0430\u043D\u0434\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438, \u0437\u0430\u043B\u0435\u0436\u043D\u0456\u0441\u0442\u044C \u0432\u0456\u0434 \u043E\u0434\u043D\u043E\u0433\u043E \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A\u0430 \u0445\u043C\u0430\u0440\u0438",
+        opportunities: "\u0417\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u0440\u0438\u043D\u043A\u0443 \u043D\u0430 24% \u043D\u0430 \u0440\u0456\u043A, \u043F\u043E\u043F\u0438\u0442 \u043D\u0430 remote-\u0456\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442\u0438",
+        threats: "\u041D\u043E\u0432\u0456 \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u0438, \u0437\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u0432\u0430\u0440\u0442\u043E\u0441\u0442\u0456 \u0445\u043C\u0430\u0440\u043D\u043E\u0457 \u0456\u043D\u0444\u0440\u0430\u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438",
+        so: "\u041C\u0430\u0441\u0448\u0442\u0430\u0431\u0443\u0432\u0430\u0442\u0438 \u043F\u0440\u043E\u0434\u0430\u0436\u0456 \u043D\u0430 \u043D\u043E\u0432\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438, \u0432\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u043E\u0432\u0443\u044E\u0447\u0438 \u043D\u0430\u0434\u0456\u0439\u043D\u0456\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443",
+        wo: "\u041D\u0430\u0439\u043D\u044F\u0442\u0438 \u0434\u043E\u0434\u0430\u0442\u043A\u043E\u0432\u0443 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0443 \u043F\u0456\u0434 \u0437\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u043F\u043E\u043F\u0438\u0442\u0443",
+        st: "\u0414\u0438\u0444\u0435\u0440\u0435\u043D\u0446\u0456\u044E\u0432\u0430\u0442\u0438\u0441\u044F \u043D\u0430\u0434\u0456\u0439\u043D\u0456\u0441\u0442\u044E \u043F\u0440\u043E\u0442\u0438 \u043D\u043E\u0432\u0438\u0445 \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u0456\u0432",
+        wt: "\u0414\u0438\u0432\u0435\u0440\u0441\u0438\u0444\u0456\u043A\u0443\u0432\u0430\u0442\u0438 \u0445\u043C\u0430\u0440\u043D\u0438\u0445 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A\u0456\u0432 \u0434\u043B\u044F \u0437\u043D\u0438\u0436\u0435\u043D\u043D\u044F \u0440\u0438\u0437\u0438\u043A\u0456\u0432"
+      }
+    };
+  }
+  function ChipQuadrant({ title, sub, chips, onAdd: onAdd2, onRemove: onRemove2, primary }) {
+    const [text, setText] = (0, import_react3.useState)("");
+    const commit = () => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      onAdd2(trimmed);
+      setText("");
+    };
+    return e(
+      "div",
+      { className: "pc-quad" + (primary ? " pc-q-primary" : "") },
+      e("div", { className: "pc-quad-title" }, title),
+      e("div", { className: "pc-quad-sub" }, sub),
+      e(
+        "div",
+        { className: "pc-chip-row" },
+        chips.map(
+          (c, i) => e(
+            "span",
+            { key: i, className: "pc-chip" },
+            c,
+            e("button", { className: "pc-chip-remove", onClick: () => onRemove2(i), title: "\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438" }, "\xD7")
+          )
+        )
+      ),
+      e(
+        "div",
+        { className: "pc-add-row" },
+        e("input", {
+          className: "pc-mini-input",
+          value: text,
+          placeholder: "\u0414\u043E\u0434\u0430\u0442\u0438\u2026",
+          onChange: (ev) => setText(ev.target.value),
+          onKeyDown: (ev) => {
+            if (ev.key === "Enter") {
+              ev.preventDefault();
+              commit();
+            }
+          }
+        }),
+        e("button", { className: "pc-mini-add-btn", onClick: commit }, "+")
+      )
+    );
+  }
+  function ProductCardView({ user, active, activeTab, onTabChange, onLogout }) {
+    const card = useUndoableState(defaultProductCard());
+    const [saveStatus, setSaveStatus] = (0, import_react3.useState)("");
+    const autoSaveTimeoutRef = (0, import_react3.useRef)(null);
+    const loadedForUserRef = (0, import_react3.useRef)(null);
+    const hasLoadedRef = (0, import_react3.useRef)(false);
+    const fileInputRef = (0, import_react3.useRef)(null);
+    const set3 = (0, import_react3.useCallback)((path, value) => {
+      card.update((prev) => {
+        if (path.length === 1) {
+          return __spreadProps(__spreadValues({}, prev), { [path[0]]: value });
+        }
+        const next = __spreadValues({}, prev);
+        next[path[0]] = __spreadValues({}, prev[path[0]]);
+        let cursor = next[path[0]];
+        let prevCursor = prev[path[0]];
+        for (let i = 1; i < path.length - 1; i++) {
+          cursor[path[i]] = __spreadValues({}, prevCursor[path[i]]);
+          cursor = cursor[path[i]];
+          prevCursor = prevCursor[path[i]];
+        }
+        cursor[path[path.length - 1]] = value;
+        return next;
+      });
+    }, [card.update]);
+    const handleBasicChange = (0, import_react3.useCallback)((field, value) => set3(["basic", field], value), [set3]);
+    const handleMarketChange = (0, import_react3.useCallback)((field, value) => set3(["market", field], value), [set3]);
+    const handleMetricsChange = (0, import_react3.useCallback)((field, value) => {
+      if (field === "healthScore") {
+        const n = Math.max(0, Math.min(100, Number(value) || 0));
+        set3(["metrics", "healthScore"], n);
+      } else {
+        set3(["metrics", field], value);
+      }
+    }, [set3]);
+    const handleOkrPeriodChange = (0, import_react3.useCallback)((value) => set3(["okr", "period"], value), [set3]);
+    const handleObjectiveChange = (0, import_react3.useCallback)((value) => set3(["okr", "objective"], value), [set3]);
+    const handleKrChange = (0, import_react3.useCallback)((idx, field, value) => {
+      card.update((prev) => {
+        const keyResults = prev.okr.keyResults.slice();
+        const val = field === "current" || field === "target" ? Number(value) || 0 : value;
+        keyResults[idx] = __spreadProps(__spreadValues({}, keyResults[idx]), { [field]: val });
+        return __spreadProps(__spreadValues({}, prev), { okr: __spreadProps(__spreadValues({}, prev.okr), { keyResults }) });
+      });
+    }, [card.update]);
+    const handleAddKr = (0, import_react3.useCallback)(() => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        okr: __spreadProps(__spreadValues({}, prev.okr), { keyResults: [...prev.okr.keyResults, { name: "\u041D\u043E\u0432\u0438\u0439 KR", current: 0, target: 100, unit: "" }] })
+      }));
+    }, [card.update]);
+    const handleRemoveKr = (0, import_react3.useCallback)((idx) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        okr: __spreadProps(__spreadValues({}, prev.okr), { keyResults: prev.okr.keyResults.filter((_, i) => i !== idx) })
+      }));
+    }, [card.update]);
+    const handlePdlcChange = (0, import_react3.useCallback)((idx) => set3(["pdlcStage"], idx), [set3]);
+    const handleChipAdd = (0, import_react3.useCallback)((section, quadrant, text) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        [section]: __spreadProps(__spreadValues({}, prev[section]), { [quadrant]: [...prev[section][quadrant], text] })
+      }));
+    }, [card.update]);
+    const handleChipRemove = (0, import_react3.useCallback)((section, quadrant, idx) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        [section]: __spreadProps(__spreadValues({}, prev[section]), { [quadrant]: prev[section][quadrant].filter((_, i) => i !== idx) })
+      }));
+    }, [card.update]);
+    const handleRaciTaskChange = (0, import_react3.useCallback)((rowIdx, value) => {
+      card.update((prev) => {
+        const rows = prev.raci.rows.slice();
+        rows[rowIdx] = __spreadProps(__spreadValues({}, rows[rowIdx]), { task: value });
+        return __spreadProps(__spreadValues({}, prev), { raci: __spreadProps(__spreadValues({}, prev.raci), { rows }) });
+      });
+    }, [card.update]);
+    const handleRaciCellChange = (0, import_react3.useCallback)((rowIdx, colIdx, value) => {
+      card.update((prev) => {
+        const rows = prev.raci.rows.map(
+          (row, i) => i === rowIdx ? __spreadProps(__spreadValues({}, row), { values: row.values.map((v, j) => j === colIdx ? value : v) }) : row
+        );
+        return __spreadProps(__spreadValues({}, prev), { raci: __spreadProps(__spreadValues({}, prev.raci), { rows }) });
+      });
+    }, [card.update]);
+    const handleRaciAddRow = (0, import_react3.useCallback)(() => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        raci: __spreadProps(__spreadValues({}, prev.raci), { rows: [...prev.raci.rows, { task: "\u041D\u043E\u0432\u0430 \u0430\u043A\u0442\u0438\u0432\u043D\u0456\u0441\u0442\u044C", values: prev.raci.roles.map(() => "") }] })
+      }));
+    }, [card.update]);
+    const handleRaciRemoveRow = (0, import_react3.useCallback)((idx) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        raci: __spreadProps(__spreadValues({}, prev.raci), { rows: prev.raci.rows.filter((_, i) => i !== idx) })
+      }));
+    }, [card.update]);
+    const handleSwotChange = (0, import_react3.useCallback)((field, value) => set3(["swot", field], value), [set3]);
+    const handleReset = (0, import_react3.useCallback)(() => card.update(defaultProductCard()), [card.update]);
+    const handleExport = (0, import_react3.useCallback)(() => {
+      const blob = new Blob([JSON.stringify(card.state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "product-card.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }, [card.state]);
+    const handleImportFile = (0, import_react3.useCallback)((ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (parsed && typeof parsed === "object") {
+            card.update(parsed);
+          }
+        } catch (err) {
+          window.alert("\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u0438 \u0444\u0430\u0439\u043B: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      ev.target.value = "";
+    }, [card.update]);
+    (0, import_react3.useEffect)(() => {
+      if (!active) return;
+      const onKeyDown = (ev) => {
+        const mod = ev.ctrlKey || ev.metaKey;
+        if (!mod) return;
+        if (ev.key.toLowerCase() === "z" && !ev.shiftKey) {
+          ev.preventDefault();
+          card.undo();
+        } else if (ev.key.toLowerCase() === "z" && ev.shiftKey || ev.key.toLowerCase() === "y") {
+          ev.preventDefault();
+          card.redo();
+        }
+      };
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
+    }, [active, card.undo, card.redo]);
+    (0, import_react3.useEffect)(() => {
+      if (!user || !supabase) {
+        hasLoadedRef.current = true;
+        return;
+      }
+      if (loadedForUserRef.current === user.id) return;
+      loadedForUserRef.current = user.id;
+      (() => __async(null, null, function* () {
+        try {
+          const { data: rows, error } = yield supabase.from("product_cards").select("data").eq("owner", user.id).limit(1);
+          if (!error && rows && rows.length > 0) {
+            card.load(rows[0].data);
+          }
+        } catch (err) {
+          console.error("Failed to load product card:", err);
+        } finally {
+          hasLoadedRef.current = true;
+        }
+      }))();
+    }, [user]);
+    (0, import_react3.useEffect)(() => {
+      if (!user || !supabase || !hasLoadedRef.current) return;
+      setSaveStatus("\u0417\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F...");
+      if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
+      autoSaveTimeoutRef.current = setTimeout(() => __async(null, null, function* () {
+        try {
+          const { error } = yield supabase.from("product_cards").upsert(
+            { owner: user.id, data: card.state, updated_at: (/* @__PURE__ */ new Date()).toISOString() },
+            { onConflict: "owner" }
+          );
+          if (error) {
+            console.error("Save error:", error);
+            setSaveStatus("\u274C \u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F");
+          } else {
+            setSaveStatus("\u0417\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043E \u2713");
+            setTimeout(() => setSaveStatus(""), 3e3);
+          }
+        } catch (err) {
+          console.error("Save failed:", err);
+          setSaveStatus("\u274C \u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F");
+        }
+      }), 1e3);
+      return () => {
+        if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
+      };
+    }, [card.state, user]);
+    const data = card.state;
+    const toolbarExtra = [
+      e("button", { key: "undo", onClick: card.undo, disabled: !card.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
+      e("button", { key: "redo", onClick: card.redo, disabled: !card.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
+      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e(
+        "label",
+        { key: "import" },
+        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
+      ),
+      e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
+    ];
+    return e(
+      "div",
+      { style: { height: "100%", display: "flex", flexDirection: "column" } },
+      e(AppTopBar, {
+        title: "\u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443",
+        subtitle: "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F, \u0440\u0438\u043D\u043E\u043A, OKR, \u043C\u0435\u0442\u0440\u0438\u043A\u0438, PDLC, \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0438, RACI, SWOT \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+        activeTab,
+        onTabChange,
+        toolbarExtra,
+        saveStatus,
+        onLogout
+      }),
+      e(
+        "div",
+        { className: "pc-scroll" },
+        e(
+          "div",
+          { className: "pc-page" },
+          // ===== HEADER =====
+          e(
+            "header",
+            { className: "pc-header" },
+            e(
+              "div",
+              { className: "pc-header-top" },
+              e(
+                "div",
+                null,
+                e("p", { className: "pc-header-eyebrow" }, "Product Manager \xB7 \u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+                e("input", {
+                  className: "pc-header-title-input",
+                  value: data.basic.name,
+                  onChange: (ev) => handleBasicChange("name", ev.target.value)
+                })
+              ),
+              e(
+                "div",
+                { className: "pc-header-badge" },
+                e("span", { className: "pc-header-dot" }),
+                e("select", {
+                  value: data.basic.status,
+                  onChange: (ev) => handleBasicChange("status", ev.target.value),
+                  style: { background: "transparent", border: "none", color: "#fff", fontWeight: 600, fontSize: "14px" }
+                }, STATUS_OPTIONS.map((s) => e("option", { key: s, value: s, style: { color: "#1f2430" } }, s)))
+              )
+            ),
+            e(
+              "div",
+              { className: "pc-header-meta" },
+              e(
+                "div",
+                { className: "pc-header-meta-item" },
+                e("p", { className: "pc-label" }, "ID \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+                e("input", { value: data.basic.productId, onChange: (ev) => handleBasicChange("productId", ev.target.value) })
+              ),
+              e(
+                "div",
+                { className: "pc-header-meta-item" },
+                e("p", { className: "pc-label" }, "\u0412\u043B\u0430\u0441\u043D\u0438\u043A \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+                e("input", { value: data.basic.owner, onChange: (ev) => handleBasicChange("owner", ev.target.value) })
+              )
+            )
+          ),
+          // ===== CONTENT: 2 columns =====
+          e(
+            "div",
+            { className: "pc-content" },
+            // LEFT COLUMN
+            e(
+              "div",
+              { className: "pc-col" },
+              // 1. Basic info
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "01"), e("h2", { className: "pc-card-title" }, "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F")),
+                e(
+                  "div",
+                  { className: "pc-field-grid" },
+                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u041D\u0430\u0437\u0432\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"), e("input", { className: "pc-field-input", value: data.basic.name, onChange: (ev) => handleBasicChange("name", ev.target.value) })),
+                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "ID"), e("input", { className: "pc-field-input", value: data.basic.productId, onChange: (ev) => handleBasicChange("productId", ev.target.value) })),
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u0412\u0456\u0437\u0456\u044F"), e("textarea", { className: "pc-field-input", rows: 2, value: data.basic.vision, onChange: (ev) => handleBasicChange("vision", ev.target.value) })),
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u041C\u0456\u0441\u0456\u044F"), e("textarea", { className: "pc-field-input", rows: 2, value: data.basic.mission, onChange: (ev) => handleBasicChange("mission", ev.target.value) })),
+                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u0421\u0442\u0430\u0442\u0443\u0441"), e("select", { className: "pc-field-input", value: data.basic.status, onChange: (ev) => handleBasicChange("status", ev.target.value) }, STATUS_OPTIONS.map((s) => e("option", { key: s, value: s }, s)))),
+                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u0412\u043B\u0430\u0441\u043D\u0438\u043A"), e("input", { className: "pc-field-input", value: data.basic.owner, onChange: (ev) => handleBasicChange("owner", ev.target.value) }))
+                )
+              ),
+              // 3. OKR
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "03"), e("h2", { className: "pc-card-title" }, "OKR")),
+                e(
+                  "div",
+                  { className: "pc-okr-period" },
+                  "\u041F\u0435\u0440\u0456\u043E\u0434: ",
+                  e("input", { value: data.okr.period, onChange: (ev) => handleOkrPeriodChange(ev.target.value) })
+                ),
+                e(
+                  "div",
+                  { className: "pc-objective-box" },
+                  e("span", { className: "pc-field-label" }, "\u0426\u0456\u043B\u044C (Objective)"),
+                  e("textarea", { rows: 2, value: data.okr.objective, onChange: (ev) => handleObjectiveChange(ev.target.value) })
+                ),
+                data.okr.keyResults.map(
+                  (kr, idx) => e(
+                    "div",
+                    { className: "pc-kr", key: idx },
+                    e(
+                      "div",
+                      { className: "pc-kr-top" },
+                      e("input", { className: "pc-kr-name", value: kr.name, onChange: (ev) => handleKrChange(idx, "name", ev.target.value) }),
+                      e(
+                        "span",
+                        { className: "pc-kr-values" },
+                        e("input", { type: "number", value: kr.current, onChange: (ev) => handleKrChange(idx, "current", ev.target.value) }),
+                        " / ",
+                        e("input", { type: "number", value: kr.target, onChange: (ev) => handleKrChange(idx, "target", ev.target.value) }),
+                        e("input", { style: { width: "56px" }, value: kr.unit, onChange: (ev) => handleKrChange(idx, "unit", ev.target.value) }),
+                        e("button", { className: "pc-row-remove-btn", onClick: () => handleRemoveKr(idx) }, "\u2715")
+                      )
+                    ),
+                    e("div", { className: "pc-progress-track" }, e("div", { className: "pc-progress-fill", style: { width: Math.min(100, kr.target ? kr.current / kr.target * 100 : 0) + "%" } }))
+                  )
+                ),
+                e("button", { className: "pc-add-btn", onClick: handleAddKr }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043A\u043B\u044E\u0447\u043E\u0432\u0438\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442")
+              )
+            ),
+            // RIGHT COLUMN
+            e(
+              "div",
+              { className: "pc-col" },
+              // 2. Market
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u0420\u0438\u043D\u043E\u043A")),
+                e(
+                  "div",
+                  { className: "pc-market-grid" },
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "TAM"), e("input", { value: data.market.tam, onChange: (ev) => handleMarketChange("tam", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "SAM"), e("input", { value: data.market.sam, onChange: (ev) => handleMarketChange("sam", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "SOM"), e("input", { value: data.market.som, onChange: (ev) => handleMarketChange("som", ev.target.value) }))
+                ),
+                e("div", { className: "pc-funnel" }, e("div", { style: { width: "100%" } }), e("div", { style: { width: "20%" } }), e("div", { style: { width: "5%" } })),
+                e(
+                  "div",
+                  { className: "pc-growth-row" },
+                  e("span", { className: "pc-field-label", style: { margin: 0 } }, "\u0422\u0435\u043C\u043F \u0440\u043E\u0441\u0442\u0443 \u0440\u0438\u043D\u043A\u0443 (CAGR)"),
+                  e("input", { value: data.market.cagr, onChange: (ev) => handleMarketChange("cagr", ev.target.value) })
+                )
+              ),
+              // 4. Metrics
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "04"), e("h2", { className: "pc-card-title" }, "\u041C\u0435\u0442\u0440\u0438\u043A\u0438")),
+                e(
+                  "div",
+                  { className: "pc-metric-row" },
+                  e(
+                    "div",
+                    { className: "pc-metric-card" },
+                    e("div", { className: "pc-label" }, "Health Score"),
+                    e("div", { className: "pc-health-ring", style: { "--pct": data.metrics.healthScore } }, e("span", null, data.metrics.healthScore)),
+                    e("input", { className: "pc-field-input pc-health-input", type: "number", min: 0, max: 100, value: data.metrics.healthScore, onChange: (ev) => handleMetricsChange("healthScore", ev.target.value) }),
+                    e("div", { className: "pc-metric-sub" }, "\u0456\u0437 100")
+                  ),
+                  e(
+                    "div",
+                    { className: "pc-metric-card" },
+                    e("div", { className: "pc-label" }, "CAC"),
+                    e("input", { className: "pc-metric-value", value: data.metrics.cac, onChange: (ev) => handleMetricsChange("cac", ev.target.value) }),
+                    e("div", { className: "pc-metric-sub" }, "\u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u0437\u0430\u043B\u0443\u0447\u0435\u043D\u043D\u044F \u043A\u043B\u0456\u0454\u043D\u0442\u0430")
+                  ),
+                  e(
+                    "div",
+                    { className: "pc-metric-card" },
+                    e("div", { className: "pc-label" }, "LTV"),
+                    e("input", { className: "pc-metric-value", value: data.metrics.ltv, onChange: (ev) => handleMetricsChange("ltv", ev.target.value) }),
+                    e("div", { className: "pc-metric-sub" }, "\u0434\u043E\u0432\u0456\u0447\u043D\u0430 \u0446\u0456\u043D\u043D\u0456\u0441\u0442\u044C \u043A\u043B\u0456\u0454\u043D\u0442\u0430"),
+                    e("input", { className: "pc-ratio-pill", value: data.metrics.ltvCacRatio, onChange: (ev) => handleMetricsChange("ltvCacRatio", ev.target.value) })
+                  )
+                )
+              )
+            )
+          ),
+          // ===== EXTRA SECTIONS =====
+          e(
+            "div",
+            { className: "pc-extra" },
+            // 5. PDLC
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "05"), e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
+              e(
+                "div",
+                { className: "pc-pdlc-track" },
+                e("div", { className: "pc-pdlc-line-bg" }),
+                e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } }),
+                PDLC_STAGES.map(
+                  (label, idx) => e(
+                    "button",
+                    {
+                      key: label,
+                      className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
+                      onClick: () => handlePdlcChange(idx),
+                      title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
+                    },
+                    e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
+                    e("span", { className: "pc-pdlc-label" }, label)
+                  )
+                )
+              )
+            ),
+            // 6 & 7: stakeholders + eisenhower
+            e(
+              "div",
+              { className: "pc-matrix-row" },
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "06"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
+                e(
+                  "div",
+                  { className: "pc-quad-grid" },
+                  e(ChipQuadrant, { title: "\u041A\u0435\u0440\u0443\u0432\u0430\u0442\u0438 \u0443\u0432\u0430\u0436\u043D\u043E", sub: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u0432\u0438\u0441\u043E\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.manageClosely, primary: true, onAdd: (t) => handleChipAdd("stakeholders", "manageClosely", t), onRemove: (i) => handleChipRemove("stakeholders", "manageClosely", i) }),
+                  e(ChipQuadrant, { title: "\u0422\u0440\u0438\u043C\u0430\u0442\u0438 \u0437\u0430\u0434\u043E\u0432\u043E\u043B\u0435\u043D\u0438\u043C", sub: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.keepSatisfied, onAdd: (t) => handleChipAdd("stakeholders", "keepSatisfied", t), onRemove: (i) => handleChipRemove("stakeholders", "keepSatisfied", i) }),
+                  e(ChipQuadrant, { title: "\u0406\u043D\u0444\u043E\u0440\u043C\u0443\u0432\u0430\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u0432\u0438\u0441\u043E\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.keepInformed, onAdd: (t) => handleChipAdd("stakeholders", "keepInformed", t), onRemove: (i) => handleChipRemove("stakeholders", "keepInformed", i) }),
+                  e(ChipQuadrant, { title: "\u041C\u043E\u043D\u0456\u0442\u043E\u0440\u0438\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.monitor, onAdd: (t) => handleChipAdd("stakeholders", "monitor", t), onRemove: (i) => handleChipRemove("stakeholders", "monitor", i) })
+                )
+              ),
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "07"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0415\u0439\u0437\u0435\u043D\u0445\u0430\u0443\u0435\u0440\u0430")),
+                e(
+                  "div",
+                  { className: "pc-quad-grid" },
+                  e(ChipQuadrant, { title: "\u0417\u0440\u043E\u0431\u0438\u0442\u0438 \u0437\u0430\u0440\u0430\u0437", sub: "\u0422\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E \xB7 \u0432\u0430\u0436\u043B\u0438\u0432\u043E", chips: data.eisenhower.doNow, primary: true, onAdd: (t) => handleChipAdd("eisenhower", "doNow", t), onRemove: (i) => handleChipRemove("eisenhower", "doNow", i) }),
+                  e(ChipQuadrant, { title: "\u0417\u0430\u043F\u043B\u0430\u043D\u0443\u0432\u0430\u0442\u0438", sub: "\u0412\u0430\u0436\u043B\u0438\u0432\u043E \xB7 \u043D\u0435 \u0442\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E", chips: data.eisenhower.schedule, onAdd: (t) => handleChipAdd("eisenhower", "schedule", t), onRemove: (i) => handleChipRemove("eisenhower", "schedule", i) }),
+                  e(ChipQuadrant, { title: "\u0414\u0435\u043B\u0435\u0433\u0443\u0432\u0430\u0442\u0438", sub: "\u0422\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E \xB7 \u043D\u0435 \u0432\u0430\u0436\u043B\u0438\u0432\u043E", chips: data.eisenhower.delegate, onAdd: (t) => handleChipAdd("eisenhower", "delegate", t), onRemove: (i) => handleChipRemove("eisenhower", "delegate", i) }),
+                  e(ChipQuadrant, { title: "\u0412\u0456\u0434\u043A\u043B\u0430\u0441\u0442\u0438 / \u043F\u0440\u0438\u0431\u0440\u0430\u0442\u0438", sub: "\u041D\u0435 \u0442\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E \xB7 \u043D\u0435 \u0432\u0430\u0436\u043B\u0438\u0432\u043E", chips: data.eisenhower.eliminate, onAdd: (t) => handleChipAdd("eisenhower", "eliminate", t), onRemove: (i) => handleChipRemove("eisenhower", "eliminate", i) })
+                )
+              )
+            ),
+            // 8. RACI
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
+              e(
+                "table",
+                { className: "pc-raci-table" },
+                e("thead", null, e("tr", null, e("th", null, "\u0410\u043A\u0442\u0438\u0432\u043D\u0456\u0441\u0442\u044C"), data.raci.roles.map((r) => e("th", { key: r }, r)), e("th", null, ""))),
+                e(
+                  "tbody",
+                  null,
+                  data.raci.rows.map(
+                    (row, rowIdx) => e(
+                      "tr",
+                      { key: rowIdx },
+                      e("td", null, e("input", { className: "pc-task-name", value: row.task, onChange: (ev) => handleRaciTaskChange(rowIdx, ev.target.value) })),
+                      row.values.map(
+                        (val, colIdx) => e(
+                          "td",
+                          { key: colIdx },
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: val, onChange: (ev) => handleRaciCellChange(rowIdx, colIdx, ev.target.value) },
+                            RACI_VALUES.map((v) => e("option", { key: v, value: v }, v || "\u2014"))
+                          )
+                        )
+                      ),
+                      e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRaciRemoveRow(rowIdx) }, "\u2715"))
+                    )
+                  )
+                )
+              ),
+              e("button", { className: "pc-add-btn", onClick: handleRaciAddRow }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0430\u043A\u0442\u0438\u0432\u043D\u0456\u0441\u0442\u044C"),
+              e(
+                "div",
+                { className: "pc-raci-legend" },
+                e("div", { className: "pc-raci-legend-item" }, e("span", { className: "pc-raci-badge r" }, "R"), " Responsible \u2014 \u0432\u0438\u043A\u043E\u043D\u0443\u0454"),
+                e("div", { className: "pc-raci-legend-item" }, e("span", { className: "pc-raci-badge a" }, "A"), " Accountable \u2014 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u0438\u0439"),
+                e("div", { className: "pc-raci-legend-item" }, e("span", { className: "pc-raci-badge c" }, "C"), " Consulted \u2014 \u043A\u043E\u043D\u0441\u0443\u043B\u044C\u0442\u0443\u044E\u0442\u044C"),
+                e("div", { className: "pc-raci-legend-item" }, e("span", { className: "pc-raci-badge i" }, "I"), " Informed \u2014 \u0456\u043D\u0444\u043E\u0440\u043C\u0443\u044E\u0442\u044C")
+              )
+            ),
+            // 9. SWOT / TOWS
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "09"), e("h2", { className: "pc-card-title" }, "SWOT / TOWS-\u0430\u043D\u0430\u043B\u0456\u0437")),
+              e(
+                "div",
+                { className: "pc-swot-wrap" },
+                e(
+                  "div",
+                  null,
+                  e("p", { className: "pc-swot-subtitle" }, "SWOT"),
+                  e(
+                    "div",
+                    { className: "pc-quad-grid" },
+                    e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "\u0421\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (S)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.strengths, onChange: (ev) => handleSwotChange("strengths", ev.target.value) })),
+                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0421\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (W)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.weaknesses, onChange: (ev) => handleSwotChange("weaknesses", ev.target.value) })),
+                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u041C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456 (O)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.opportunities, onChange: (ev) => handleSwotChange("opportunities", ev.target.value) })),
+                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0417\u0430\u0433\u0440\u043E\u0437\u0438 (T)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.threats, onChange: (ev) => handleSwotChange("threats", ev.target.value) }))
+                  )
+                ),
+                e(
+                  "div",
+                  null,
+                  e("p", { className: "pc-swot-subtitle" }, "TOWS \u2014 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u0457"),
+                  e(
+                    "div",
+                    { className: "pc-quad-grid" },
+                    e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "SO \u2014 \u0432\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u0430\u0442\u0438 \u0441\u0438\u043B\u0443"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.so, onChange: (ev) => handleSwotChange("so", ev.target.value) })),
+                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WO \u2014 \u043F\u043E\u0434\u043E\u043B\u0430\u0442\u0438 \u0441\u043B\u0430\u0431\u043A\u0456\u0441\u0442\u044C"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.wo, onChange: (ev) => handleSwotChange("wo", ev.target.value) })),
+                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "ST \u2014 \u0441\u0438\u043B\u0430 \u043F\u0440\u043E\u0442\u0438 \u0437\u0430\u0433\u0440\u043E\u0437\u0438"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.st, onChange: (ev) => handleSwotChange("st", ev.target.value) })),
+                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WT \u2014 \u043C\u0456\u043D\u0456\u043C\u0456\u0437\u0443\u0432\u0430\u0442\u0438 \u043E\u0431\u0438\u0434\u0432\u0430"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.wt, onChange: (ev) => handleSwotChange("wt", ev.target.value) }))
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    );
+  }
+  function RootApp() {
+    const [user, setUser] = (0, import_react3.useState)(null);
+    const [email, setEmail] = (0, import_react3.useState)("");
+    const [password, setPassword] = (0, import_react3.useState)("");
+    const [loading, setLoading] = (0, import_react3.useState)(true);
+    const [authError, setAuthError] = (0, import_react3.useState)("");
+    const [activeTab, setActiveTab] = (0, import_react3.useState)("tree");
+    (0, import_react3.useEffect)(() => {
+      const initAuth = () => __async(null, null, function* () {
+        var _a;
+        if (!supabase) {
+          setLoading(false);
+          return;
+        }
+        try {
+          const { data } = yield supabase.auth.getSession();
+          if ((_a = data == null ? void 0 : data.session) == null ? void 0 : _a.user) setUser(data.session.user);
+        } catch (err) {
+          console.error("Auth check failed:", err);
+        } finally {
+          setLoading(false);
+        }
+      });
+      initAuth();
+    }, []);
+    const handleLogin = (0, import_react3.useCallback)((ev) => __async(null, null, function* () {
+      var _a;
+      ev.preventDefault();
+      if (!supabase) return;
+      setAuthError("");
+      try {
+        const { data, error } = yield supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          setAuthError(error.message);
+        } else if ((_a = data.session) == null ? void 0 : _a.user) {
+          setUser(data.session.user);
+          setEmail("");
+          setPassword("");
+        }
+      } catch (err) {
+        setAuthError("\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0432\u0445\u043E\u0434\u0443: " + err.message);
+      }
+    }), [email, password]);
+    const handleSignup = (0, import_react3.useCallback)((ev) => __async(null, null, function* () {
+      var _a;
+      ev.preventDefault();
+      if (!supabase) return;
+      setAuthError("");
+      try {
+        const { data, error } = yield supabase.auth.signUp({ email, password });
+        if (error) {
+          setAuthError(error.message);
+        } else if ((_a = data.session) == null ? void 0 : _a.user) {
+          setUser(data.session.user);
+          setEmail("");
+          setPassword("");
+        } else {
+          setAuthError("\u041F\u0435\u0440\u0435\u0432\u0456\u0440\u0442\u0435 \u0432\u0430\u0448\u0443 \u043F\u043E\u0448\u0442\u0443 \u0434\u043B\u044F \u043F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043D\u043D\u044F \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457");
+        }
+      } catch (err) {
+        setAuthError("\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457: " + err.message);
+      }
+    }), [email, password]);
+    const handleLogout = (0, import_react3.useCallback)(() => __async(null, null, function* () {
+      if (!supabase) return;
+      try {
+        yield supabase.auth.signOut();
+        setUser(null);
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    }), []);
+    if (loading) {
+      return e("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" } }, "\u0417\u0430\u0432\u0430\u043D\u0442\u0430\u0436\u0435\u043D\u043D\u044F...");
+    }
+    if (!user) {
+      return e(
+        "div",
+        { style: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", background: "#f9f9f9" } },
+        e(
+          "div",
+          { style: { width: "400px", background: "white", padding: "40px", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" } },
+          e("h1", { style: { marginBottom: "24px", textAlign: "center", color: "#1f2430" } }, "\u0420\u043E\u0431\u043E\u0447\u0438\u0439 \u043F\u0440\u043E\u0441\u0442\u0456\u0440 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+          e("p", { style: { textAlign: "center", color: "#6b7280", marginBottom: "24px" } }, "\u0412\u0445\u0456\u0434 \u0434\u043E \u0432\u0430\u0448\u043E\u0433\u043E \u043E\u0431\u043B\u0456\u043A\u043E\u0432\u043E\u0433\u043E \u0437\u0430\u043F\u0438\u0441\u0443"),
+          authError && e("div", { style: { color: "#b91c1c", background: "#fef2f2", padding: "12px", borderRadius: "8px", marginBottom: "16px", fontSize: "14px" } }, authError),
+          e(
+            "form",
+            { onSubmit: handleLogin, style: { marginBottom: "16px" } },
+            e("input", {
+              type: "email",
+              placeholder: "Email",
+              value: email,
+              onChange: (ev) => setEmail(ev.target.value),
+              style: { width: "100%", padding: "10px", marginBottom: "12px", border: "1.5px solid #e2e4ec", borderRadius: "8px", fontSize: "14px" }
+            }),
+            e("input", {
+              type: "password",
+              placeholder: "\u041F\u0430\u0440\u043E\u043B\u044C",
+              value: password,
+              onChange: (ev) => setPassword(ev.target.value),
+              style: { width: "100%", padding: "10px", marginBottom: "16px", border: "1.5px solid #e2e4ec", borderRadius: "8px", fontSize: "14px" }
+            }),
+            e("button", { type: "submit", style: { width: "100%", padding: "10px", background: "#6d28d9", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" } }, "\u0423\u0432\u0456\u0439\u0442\u0438")
+          ),
+          e(
+            "button",
+            { onClick: handleSignup, style: { width: "100%", padding: "10px", background: "#047857", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" } },
+            "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"
+          )
+        )
+      );
+    }
+    return e(
+      "div",
+      { style: { height: "100%" } },
+      e(
+        "div",
+        { style: { height: "100%", display: activeTab === "tree" ? "flex" : "none", flexDirection: "column" } },
+        e(DecisionTreeView, { user, active: activeTab === "tree", activeTab, onTabChange: setActiveTab, onLogout: handleLogout })
+      ),
+      e(
+        "div",
+        { style: { height: "100%", display: activeTab === "card" ? "flex" : "none", flexDirection: "column" } },
+        e(ProductCardView, { user, active: activeTab === "card", activeTab, onTabChange: setActiveTab, onLogout: handleLogout })
+      )
+    );
+  }
   var root2 = (0, import_client.createRoot)(document.getElementById("root"));
-  root2.render(e(App));
+  root2.render(e(RootApp));
 })();
 /*! Bundled license information:
 
