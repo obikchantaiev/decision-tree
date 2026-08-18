@@ -707,11 +707,26 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; over
   color: #fff; border-bottom: 1.5px dashed rgba(255,255,255,0.4); padding: 2px 0; min-width: 240px; max-width: 100%;
 }
 .pc-header-title-input:focus { outline: none; border-bottom-color: #fff; }
+.pc-header-desc-input {
+  display: block; width: 100%; max-width: 480px; margin-top: 8px; background: transparent; border: none;
+  border-bottom: 1.5px dashed rgba(255,255,255,0.3); color: rgba(255,255,255,0.9); font-size: 13px;
+  padding: 3px 0; font-family: inherit;
+}
+.pc-header-desc-input::placeholder { color: rgba(255,255,255,0.6); }
+.pc-header-desc-input:focus { outline: none; border-bottom-color: #fff; }
 .pc-header-badge {
-  display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.16);
+  display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.16);
   border: 1px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 999px;
   font-size: 14px; font-weight: 600;
 }
+.pc-header-photo {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; cursor: pointer; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.18);
+  border: 1.5px dashed rgba(255,255,255,0.5);
+}
+.pc-header-photo img { width: 100%; height: 100%; object-fit: cover; }
+.pc-header-photo-placeholder { font-size: 14px; opacity: 0.85; }
+.pc-header-photo input[type="file"] { display: none; }
 .pc-header-badge input {
   background: transparent; border: none; color: #fff; font-weight: 600; font-size: 14px; width: 140px;
 }
@@ -749,6 +764,7 @@ body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; over
 textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 
 .pc-market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+.pc-market-grid-2 { grid-template-columns: repeat(2, 1fr); margin-bottom: 0; }
 .pc-market-stat { border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fbfbfe; }
 .pc-market-stat .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 8px; }
 .pc-market-stat input { font-size: 18px; font-weight: 700; color: var(--ink); border: none; background: transparent; width: 100%; padding: 0; }
@@ -63249,9 +63265,9 @@ ${suffix}`;
       e(
         "div",
         { className: "toolbar" },
-        e("button", { className: "tab-btn" + (activeTab === "tree" ? " active" : ""), onClick: () => onTabChange("tree") }, "\u{1F333} \u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C"),
-        e("button", { className: "tab-btn" + (activeTab === "card" ? " active" : ""), onClick: () => onTabChange("card") }, "\u{1F5C2} \u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
-        e("button", { className: "tab-btn" + (activeTab === "strategy" ? " active" : ""), onClick: () => onTabChange("strategy") }, "\u{1F9ED} \u0421\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u044F"),
+        e("button", { className: "tab-btn" + (activeTab === "card" ? " active" : ""), onClick: () => onTabChange("card") }, "\u{1F5C2} Product card"),
+        e("button", { className: "tab-btn" + (activeTab === "strategy" ? " active" : ""), onClick: () => onTabChange("strategy") }, "\u{1F5FA}\uFE0F Roadmap"),
+        e("button", { className: "tab-btn" + (activeTab === "tree" ? " active" : ""), onClick: () => onTabChange("tree") }, "\u{1F333} Decision tree"),
         ...toolbarExtra,
         saveStatus && e("span", { style: { color: saveStatus.includes("\u274C") ? "#b91c1c" : "#047857", fontSize: "14px", fontWeight: "500" } }, saveStatus),
         e("button", { onClick: onLogout, style: { marginLeft: "auto", background: "#dc2626", color: "white", padding: "8px 16px", border: "none", borderRadius: "6px", cursor: "pointer" } }, "\u0412\u0438\u0445\u0456\u0434")
@@ -63635,7 +63651,7 @@ ${suffix}`;
       "div",
       { style: { height: "100%", display: "flex", flexDirection: "column" } },
       e(AppTopBar, {
-        title: "\u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443",
+        title: "Decision tree",
         subtitle: "\u0413\u0456\u043F\u043E\u0442\u0435\u0437\u0438 \xB7 \u0440\u0456\u0448\u0435\u043D\u043D\u044F \xB7 \u0456\u0441\u0442\u043E\u0440\u0456\u044F \u0440\u043E\u0437\u0432\u0438\u0442\u043A\u0443 \u2014 \u043A\u043B\u0456\u043A\u0430\u0439\u0442\u0435, \u0449\u043E\u0431 \u0437\u0433\u043E\u0440\u0442\u0430\u0442\u0438/\u0440\u043E\u0437\u0433\u043E\u0440\u0442\u0430\u0442\u0438 \u0433\u0456\u043B\u043A\u0438",
         activeTab,
         onTabChange,
@@ -63690,11 +63706,18 @@ ${suffix}`;
     return {
       basic: {
         name: "Sine.pin",
+        shortDescription: "",
         productId: "PRD-2024-0847",
         vision: "\u0421\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u044F \u0430\u043B\u044C\u0442\u0435\u0440\u043D\u0430\u0442\u0438\u0432\u043D\u043E\u0433\u043E \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0439\u043D\u043E\u0433\u043E \u0440\u0456\u0448\u0435\u043D\u043D\u044F \u0434\u043B\u044F \u043C\u0430\u0432\u0456\u043A\u0456\u0441\u0442\u0456\u0432",
         mission: "\u0417\u0430\u0431\u0435\u0437\u043F\u0435\u0447\u0438\u0442\u0438 100% \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432 \u0437 \u043C\u0430\u0432\u0456\u043A\u0430\u043C\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u043C, \u0449\u043E \u0434\u043E\u0437\u0432\u043E\u043B\u0438\u0442\u044C \u043E\u0440\u0456\u0454\u043D\u0442\u0443\u0432\u0430\u0442\u0438\u0441\u044C \u043F\u043E SNS",
         status: "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456",
-        owner: "Yurii H"
+        owner: "Yurii H",
+        productManager: "",
+        photoDataUrl: ""
+      },
+      production: {
+        startDate: "",
+        produced: 0
       },
       market: {
         totalTeams: "40+ \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432-\u043C\u0430\u0432\u0456\u043A\u0456\u0441\u0442\u0456\u0432",
@@ -63724,6 +63747,14 @@ ${suffix}`;
         keepInformed: ["\u0421\u043B\u0443\u0436\u0431\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438", "\u0410\u043A\u0442\u0438\u0432\u043D\u0456 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456"],
         monitor: ["\u041F\u0430\u0440\u0442\u043D\u0435\u0440\u0438 2-\u0433\u043E \u0440\u0456\u0432\u043D\u044F"]
       },
+      risks: [
+        { id: newStrategyId(), description: "\u0412\u0442\u0440\u0430\u0442\u0430 GPS-\u0441\u0438\u0433\u043D\u0430\u043B\u0443 \u0432 \u0437\u043E\u043D\u0456 \u043F\u043E\u043B\u044C\u043E\u0442\u0443", probability: "\u0421\u0435\u0440\u0435\u0434\u043D\u044F", impact: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439", mitigation: "\u0420\u0435\u0437\u0435\u0440\u0432\u043D\u0430 \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u044F \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445" },
+        { id: newStrategyId(), description: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043D\u043D\u044F \u0430\u043F\u0430\u0440\u0430\u0442\u043D\u0438\u0445 \u043C\u043E\u0434\u0443\u043B\u0456\u0432", probability: "\u041D\u0438\u0437\u044C\u043A\u0430", impact: "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439", mitigation: "\u0414\u0440\u0443\u0433\u0438\u0439 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u0456\u0432" }
+      ],
+      insights: [
+        { id: newStrategyId(), date: "2026-08-10", source: "\u0406\u043D\u0442\u0435\u0440\u0432'\u044E \u0437 \u0435\u043A\u0456\u043F\u0430\u0436\u0435\u043C", text: "\u041F\u043E\u0442\u0440\u0456\u0431\u043D\u0430 \u043E\u0444\u043B\u0430\u0439\u043D-\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F \u0442\u043E\u0447\u043E\u043A \u043C\u0430\u0440\u0448\u0440\u0443\u0442\u0443 \u043F\u0440\u0438 \u0432\u0442\u0440\u0430\u0442\u0456 \u0437\u0432\u02BC\u044F\u0437\u043A\u0443" },
+        { id: newStrategyId(), date: "2026-07-28", source: "\u0421\u043B\u0443\u0436\u0431\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438", text: "\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456 \u043F\u043B\u0443\u0442\u0430\u044E\u0442\u044C\u0441\u044F \u0432 \u043F\u043E\u0437\u043D\u0430\u0447\u0435\u043D\u043D\u044F\u0445 SNS-\u043C\u0430\u044F\u043A\u0456\u0432 \u043D\u0430 \u043A\u0430\u0440\u0442\u0456" }
+      ],
       raci: {
         roles: ["PM", "\u0414\u0438\u0437\u0430\u0439\u043D\u0435\u0440", "\u0420\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A", "QA", "\u041C\u0430\u0440\u043A\u0435\u0442\u0438\u043D\u0433"],
         rows: [
@@ -63742,6 +63773,22 @@ ${suffix}`;
       }
     };
   }
+  function mergeProductCard(loaded) {
+    const base = defaultProductCard();
+    const safe = loaded && typeof loaded === "object" ? loaded : {};
+    return __spreadProps(__spreadValues(__spreadValues({}, base), safe), {
+      basic: __spreadValues(__spreadValues({}, base.basic), safe.basic || {}),
+      production: __spreadValues(__spreadValues({}, base.production), safe.production || {}),
+      market: __spreadValues(__spreadValues({}, base.market), safe.market || {}),
+      okr: __spreadProps(__spreadValues(__spreadValues({}, base.okr), safe.okr || {}), { keyResults: safe.okr && safe.okr.keyResults || base.okr.keyResults }),
+      metrics: __spreadValues(__spreadValues({}, base.metrics), safe.metrics || {}),
+      stakeholders: __spreadValues(__spreadValues({}, base.stakeholders), safe.stakeholders || {}),
+      raci: __spreadValues(__spreadValues({}, base.raci), safe.raci || {}),
+      swot: __spreadValues(__spreadValues({}, base.swot), safe.swot || {}),
+      risks: Array.isArray(safe.risks) ? safe.risks : base.risks,
+      insights: Array.isArray(safe.insights) ? safe.insights : base.insights
+    });
+  }
   var strategyIdCounter = 1;
   function newStrategyId() {
     return "s" + strategyIdCounter++;
@@ -63756,14 +63803,6 @@ ${suffix}`;
         { id: newStrategyId(), period: "Q3 2026", title: "\u0421\u0442\u0430\u0431\u0456\u043B\u0456\u0437\u0430\u0446\u0456\u044F \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0457 \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
         { id: newStrategyId(), period: "Q4 2026", title: "\u041F\u0456\u043B\u043E\u0442 \u043D\u0430 10 \u043D\u043E\u0432\u0438\u0445 \u0435\u043A\u0456\u043F\u0430\u0436\u0430\u0445", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
         { id: newStrategyId(), period: "Q1 2027", title: "\u041F\u043E\u0432\u043D\u0435 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u043A\u043E\u043C\u0430\u043D\u0434 \u0441\u0435\u0440\u0435\u0434\u043D\u044C\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }
-      ],
-      insights: [
-        { id: newStrategyId(), date: "2026-08-10", source: "\u0406\u043D\u0442\u0435\u0440\u0432'\u044E \u0437 \u0435\u043A\u0456\u043F\u0430\u0436\u0435\u043C", text: "\u041F\u043E\u0442\u0440\u0456\u0431\u043D\u0430 \u043E\u0444\u043B\u0430\u0439\u043D-\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F \u0442\u043E\u0447\u043E\u043A \u043C\u0430\u0440\u0448\u0440\u0443\u0442\u0443 \u043F\u0440\u0438 \u0432\u0442\u0440\u0430\u0442\u0456 \u0437\u0432\u02BC\u044F\u0437\u043A\u0443" },
-        { id: newStrategyId(), date: "2026-07-28", source: "\u0421\u043B\u0443\u0436\u0431\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438", text: "\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456 \u043F\u043B\u0443\u0442\u0430\u044E\u0442\u044C\u0441\u044F \u0432 \u043F\u043E\u0437\u043D\u0430\u0447\u0435\u043D\u043D\u044F\u0445 SNS-\u043C\u0430\u044F\u043A\u0456\u0432 \u043D\u0430 \u043A\u0430\u0440\u0442\u0456" }
-      ],
-      risks: [
-        { id: newStrategyId(), description: "\u0412\u0442\u0440\u0430\u0442\u0430 GPS-\u0441\u0438\u0433\u043D\u0430\u043B\u0443 \u0432 \u0437\u043E\u043D\u0456 \u043F\u043E\u043B\u044C\u043E\u0442\u0443", probability: "\u0421\u0435\u0440\u0435\u0434\u043D\u044F", impact: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439", mitigation: "\u0420\u0435\u0437\u0435\u0440\u0432\u043D\u0430 \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u044F \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445" },
-        { id: newStrategyId(), description: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043D\u043D\u044F \u0430\u043F\u0430\u0440\u0430\u0442\u043D\u0438\u0445 \u043C\u043E\u0434\u0443\u043B\u0456\u0432", probability: "\u041D\u0438\u0437\u044C\u043A\u0430", impact: "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439", mitigation: "\u0414\u0440\u0443\u0433\u0438\u0439 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u0456\u0432" }
       ]
     };
   }
@@ -63837,6 +63876,21 @@ ${suffix}`;
       });
     }, [card.update]);
     const handleBasicChange = (0, import_react3.useCallback)((field, value) => set3(["basic", field], value), [set3]);
+    const handlePhotoChange = (0, import_react3.useCallback)((ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => set3(["basic", "photoDataUrl"], reader.result);
+      reader.readAsDataURL(file);
+      ev.target.value = "";
+    }, [set3]);
+    const handleProductionChange = (0, import_react3.useCallback)((field, value) => {
+      if (field === "produced") {
+        set3(["production", "produced"], Number(value) || 0);
+      } else {
+        set3(["production", field], value);
+      }
+    }, [set3]);
     const handleMarketChange = (0, import_react3.useCallback)((field, value) => set3(["market", field], value), [set3]);
     const handleMetricsChange = (0, import_react3.useCallback)((field, value) => {
       if (field === "healthScore") {
@@ -63903,6 +63957,32 @@ ${suffix}`;
       }));
     }, [card.update]);
     const handleSwotChange = (0, import_react3.useCallback)((field, value) => set3(["swot", field], value), [set3]);
+    const handleRiskChange = (0, import_react3.useCallback)((id2, field, value) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        risks: prev.risks.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
+      }));
+    }, [card.update]);
+    const handleRiskAdd = (0, import_react3.useCallback)(() => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        risks: [...prev.risks, { id: newStrategyId(), description: "\u041D\u043E\u0432\u0438\u0439 \u0440\u0438\u0437\u0438\u043A", probability: "\u041D\u0438\u0437\u044C\u043A\u0430", impact: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439", mitigation: "" }]
+      }));
+    }, [card.update]);
+    const handleRiskRemove = (0, import_react3.useCallback)((id2) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), { risks: prev.risks.filter((item) => item.id !== id2) }));
+    }, [card.update]);
+    const handleInsightChange = (0, import_react3.useCallback)((id2, field, value) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        insights: prev.insights.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
+      }));
+    }, [card.update]);
+    const handleInsightAdd = (0, import_react3.useCallback)(() => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        insights: [{ id: newStrategyId(), date: "", source: "", text: "" }, ...prev.insights]
+      }));
+    }, [card.update]);
+    const handleInsightRemove = (0, import_react3.useCallback)((id2) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), { insights: prev.insights.filter((item) => item.id !== id2) }));
+    }, [card.update]);
     const handleReset = (0, import_react3.useCallback)(() => card.update(defaultProductCard()), [card.update]);
     const handleExport = (0, import_react3.useCallback)(() => {
       const blob = new Blob([JSON.stringify(card.state, null, 2)], { type: "application/json" });
@@ -63921,7 +64001,7 @@ ${suffix}`;
         try {
           const parsed = JSON.parse(reader.result);
           if (parsed && typeof parsed === "object") {
-            card.update(parsed);
+            card.update(mergeProductCard(parsed));
           }
         } catch (err) {
           window.alert("\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u0438 \u0444\u0430\u0439\u043B: " + err.message);
@@ -63957,7 +64037,7 @@ ${suffix}`;
         try {
           const { data: rows, error } = yield supabase.from("product_cards").select("data").eq("owner", user.id).limit(1);
           if (!error && rows && rows.length > 0) {
-            card.load(rows[0].data);
+            card.load(mergeProductCard(rows[0].data));
           }
         } catch (err) {
           console.error("Failed to load product card:", err);
@@ -64009,8 +64089,8 @@ ${suffix}`;
       "div",
       { style: { height: "100%", display: "flex", flexDirection: "column" } },
       e(AppTopBar, {
-        title: "\u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443",
-        subtitle: "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F, \u0440\u0438\u043D\u043E\u043A, OKR, \u043C\u0435\u0442\u0440\u0438\u043A\u0438, PDLC, \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0438, RACI, SWOT \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+        title: "Product card",
+        subtitle: "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F, \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E, \u0440\u0438\u043D\u043E\u043A, OKR, \u043C\u0435\u0442\u0440\u0438\u043A\u0438, PDLC, \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0438, \u0440\u0438\u0437\u0438\u043A\u0438, \u0456\u043D\u0441\u0430\u0439\u0442\u0438, RACI, SWOT \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
         activeTab,
         onTabChange,
         toolbarExtra,
@@ -64032,17 +64112,29 @@ ${suffix}`;
               { className: "pc-header-top" },
               e(
                 "div",
-                null,
-                e("p", { className: "pc-header-eyebrow" }, "Product Manager \xB7 \u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+                { style: { flex: 1, minWidth: 0 } },
+                e("p", { className: "pc-header-eyebrow" }, "Product card"),
                 e("input", {
                   className: "pc-header-title-input",
                   value: data.basic.name,
                   onChange: (ev) => handleBasicChange("name", ev.target.value)
+                }),
+                e("input", {
+                  className: "pc-header-desc-input",
+                  value: data.basic.shortDescription,
+                  placeholder: "\u041A\u043E\u0440\u043E\u0442\u043A\u0438\u0439 \u043E\u043F\u0438\u0441 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443\u2026",
+                  onChange: (ev) => handleBasicChange("shortDescription", ev.target.value)
                 })
               ),
               e(
                 "div",
                 { className: "pc-header-badge" },
+                e(
+                  "label",
+                  { className: "pc-header-photo", title: "\u0417\u0430\u0432\u0430\u043D\u0442\u0430\u0436\u0438\u0442\u0438 \u0444\u043E\u0442\u043E \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443" },
+                  data.basic.photoDataUrl ? e("img", { src: data.basic.photoDataUrl, alt: "\u0424\u043E\u0442\u043E \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443" }) : e("span", { className: "pc-header-photo-placeholder" }, "\u{1F4F7}"),
+                  e("input", { type: "file", accept: "image/*", onChange: handlePhotoChange })
+                ),
                 e("span", { className: "pc-header-dot" }),
                 e("select", {
                   value: data.basic.status,
@@ -64063,8 +64155,14 @@ ${suffix}`;
               e(
                 "div",
                 { className: "pc-header-meta-item" },
-                e("p", { className: "pc-label" }, "\u0412\u043B\u0430\u0441\u043D\u0438\u043A \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+                e("p", { className: "pc-label" }, "Product owner"),
                 e("input", { value: data.basic.owner, onChange: (ev) => handleBasicChange("owner", ev.target.value) })
+              ),
+              e(
+                "div",
+                { className: "pc-header-meta-item" },
+                e("p", { className: "pc-label" }, "Product manager"),
+                e("input", { value: data.basic.productManager, onChange: (ev) => handleBasicChange("productManager", ev.target.value) })
               )
             )
           ),
@@ -64137,11 +64235,23 @@ ${suffix}`;
             e(
               "div",
               { className: "pc-col" },
-              // 2. Market
+              // 2. Production
               e(
                 "section",
                 { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u0420\u0438\u043D\u043E\u043A")),
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u0412\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E")),
+                e(
+                  "div",
+                  { className: "pc-market-grid pc-market-grid-2" },
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u0430"), e("input", { type: "date", value: data.production.startDate, onChange: (ev) => handleProductionChange("startDate", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u043E"), e("input", { type: "number", min: 0, value: data.production.produced, onChange: (ev) => handleProductionChange("produced", ev.target.value) }))
+                )
+              ),
+              // 4. Market
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "04"), e("h2", { className: "pc-card-title" }, "\u0420\u0438\u043D\u043E\u043A")),
                 e(
                   "div",
                   { className: "pc-market-grid" },
@@ -64156,11 +64266,11 @@ ${suffix}`;
                   e("input", { value: data.market.growth, onChange: (ev) => handleMarketChange("growth", ev.target.value) })
                 )
               ),
-              // 4. Metrics
+              // 5. Metrics
               e(
                 "section",
                 { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "04"), e("h2", { className: "pc-card-title" }, "\u041C\u0435\u0442\u0440\u0438\u043A\u0438")),
+                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "05"), e("h2", { className: "pc-card-title" }, "\u041C\u0435\u0442\u0440\u0438\u043A\u0438")),
                 e(
                   "div",
                   { className: "pc-metric-row" },
@@ -64195,11 +64305,11 @@ ${suffix}`;
           e(
             "div",
             { className: "pc-extra" },
-            // 5. PDLC
+            // 6. PDLC
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "05"), e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "06"), e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
               e(
                 "div",
                 { className: "pc-pdlc-scroll" },
@@ -64224,11 +64334,11 @@ ${suffix}`;
                 )
               )
             ),
-            // 6. stakeholders
+            // 7. stakeholders
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "06"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "07"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
               e(
                 "div",
                 { className: "pc-quad-grid" },
@@ -64238,11 +64348,83 @@ ${suffix}`;
                 e(ChipQuadrant, { title: "\u041C\u043E\u043D\u0456\u0442\u043E\u0440\u0438\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.monitor, onAdd: (t) => handleChipAdd("stakeholders", "monitor", t), onRemove: (i) => handleChipRemove("stakeholders", "monitor", i) })
               )
             ),
-            // 7. RACI
+            // 8. Risk register
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "07"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432")),
+              e(
+                "div",
+                { className: "pc-raci-scroll" },
+                e(
+                  "table",
+                  { className: "pc-raci-table sg-risk-table" },
+                  e("thead", null, e("tr", null, e("th", null, "\u041E\u043F\u0438\u0441 \u0440\u0438\u0437\u0438\u043A\u0443"), e("th", null, "\u0419\u043C\u043E\u0432\u0456\u0440\u043D\u0456\u0441\u0442\u044C"), e("th", null, "\u0412\u043F\u043B\u0438\u0432"), e("th", null, "\u041C\u0456\u0442\u0438\u0433\u0430\u0446\u0456\u044F"), e("th", null, ""))),
+                  e(
+                    "tbody",
+                    null,
+                    data.risks.map(
+                      (item) => e(
+                        "tr",
+                        { key: item.id },
+                        e("td", null, e("input", { className: "pc-task-name", value: item.description, onChange: (ev) => handleRiskChange(item.id, "description", ev.target.value) })),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: item.probability, onChange: (ev) => handleRiskChange(item.id, "probability", ev.target.value) },
+                            PROBABILITY_LEVELS.map((v) => e("option", { key: v, value: v }, v))
+                          )
+                        ),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: item.impact, onChange: (ev) => handleRiskChange(item.id, "impact", ev.target.value) },
+                            IMPACT_LEVELS.map((v) => e("option", { key: v, value: v }, v))
+                          )
+                        ),
+                        e("td", null, e("input", { className: "pc-task-name", value: item.mitigation, onChange: (ev) => handleRiskChange(item.id, "mitigation", ev.target.value) })),
+                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRiskRemove(item.id) }, "\u2715"))
+                      )
+                    )
+                  )
+                )
+              ),
+              e("button", { className: "pc-add-btn", onClick: handleRiskAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0440\u0438\u0437\u0438\u043A")
+            ),
+            // 9. Insights & feedback
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "09"), e("h2", { className: "pc-card-title" }, "\u0406\u043D\u0441\u0430\u0439\u0442\u0438 \u0442\u0430 \u0444\u0456\u0434\u0431\u0435\u043A")),
+              e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: handleInsightAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0456\u043D\u0441\u0430\u0439\u0442"),
+              e(
+                "div",
+                { className: "sg-insight-list" },
+                data.insights.map(
+                  (item) => e(
+                    "div",
+                    { className: "sg-insight-item", key: item.id },
+                    e(
+                      "div",
+                      { className: "sg-insight-meta" },
+                      e("input", { className: "pc-mini-input", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => handleInsightChange(item.id, "date", ev.target.value) }),
+                      e("input", { className: "pc-mini-input", placeholder: "\u0414\u0436\u0435\u0440\u0435\u043B\u043E", value: item.source, onChange: (ev) => handleInsightChange(item.id, "source", ev.target.value) }),
+                      e("button", { className: "pc-row-remove-btn", onClick: () => handleInsightRemove(item.id) }, "\u2715")
+                    ),
+                    e("textarea", { className: "pc-field-input", rows: 2, value: item.text, onChange: (ev) => handleInsightChange(item.id, "text", ev.target.value) })
+                  )
+                )
+              )
+            ),
+            // 10. RACI
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "10"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
               e(
                 "div",
                 { className: "pc-raci-scroll" },
@@ -64289,7 +64471,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "SWOT-\u0430\u043D\u0430\u043B\u0456\u0437")),
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "11"), e("h2", { className: "pc-card-title" }, "SWOT-\u0430\u043D\u0430\u043B\u0456\u0437")),
               e(
                 "div",
                 { className: "pc-quad-grid" },
@@ -64323,32 +64505,6 @@ ${suffix}`;
     }, [strategy.update]);
     const handleRoadmapRemove = (0, import_react3.useCallback)((id2) => {
       strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmap: prev.roadmap.filter((item) => item.id !== id2) }));
-    }, [strategy.update]);
-    const handleInsightChange = (0, import_react3.useCallback)((id2, field, value) => {
-      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
-        insights: prev.insights.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
-      }));
-    }, [strategy.update]);
-    const handleInsightAdd = (0, import_react3.useCallback)(() => {
-      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
-        insights: [{ id: newStrategyId(), date: "", source: "", text: "" }, ...prev.insights]
-      }));
-    }, [strategy.update]);
-    const handleInsightRemove = (0, import_react3.useCallback)((id2) => {
-      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { insights: prev.insights.filter((item) => item.id !== id2) }));
-    }, [strategy.update]);
-    const handleRiskChange = (0, import_react3.useCallback)((id2, field, value) => {
-      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
-        risks: prev.risks.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
-      }));
-    }, [strategy.update]);
-    const handleRiskAdd = (0, import_react3.useCallback)(() => {
-      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
-        risks: [...prev.risks, { id: newStrategyId(), description: "\u041D\u043E\u0432\u0438\u0439 \u0440\u0438\u0437\u0438\u043A", probability: "\u041D\u0438\u0437\u044C\u043A\u0430", impact: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439", mitigation: "" }]
-      }));
-    }, [strategy.update]);
-    const handleRiskRemove = (0, import_react3.useCallback)((id2) => {
-      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { risks: prev.risks.filter((item) => item.id !== id2) }));
     }, [strategy.update]);
     const handleReset = (0, import_react3.useCallback)(() => strategy.update(defaultStrategy()), [strategy.update]);
     const handleExport = (0, import_react3.useCallback)(() => {
@@ -64456,8 +64612,8 @@ ${suffix}`;
       "div",
       { style: { height: "100%", display: "flex", flexDirection: "column" } },
       e(AppTopBar, {
-        title: "\u0421\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u044F",
-        subtitle: "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430, \u0456\u043D\u0441\u0430\u0439\u0442\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432 \u0442\u0430 \u0440\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+        title: "Roadmap",
+        subtitle: "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 \u043F\u043E \u043A\u0432\u0430\u0440\u0442\u0430\u043B\u0430\u0445 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
         activeTab,
         onTabChange,
         toolbarExtra,
@@ -64497,78 +64653,6 @@ ${suffix}`;
                 )
               ),
               e("button", { className: "pc-add-btn", onClick: handleRoadmapAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438")
-            ),
-            // Insights
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u0406\u043D\u0441\u0430\u0439\u0442\u0438 \u0442\u0430 \u0444\u0456\u0434\u0431\u0435\u043A")),
-              e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: handleInsightAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0456\u043D\u0441\u0430\u0439\u0442"),
-              e(
-                "div",
-                { className: "sg-insight-list" },
-                data.insights.map(
-                  (item) => e(
-                    "div",
-                    { className: "sg-insight-item", key: item.id },
-                    e(
-                      "div",
-                      { className: "sg-insight-meta" },
-                      e("input", { className: "pc-mini-input", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => handleInsightChange(item.id, "date", ev.target.value) }),
-                      e("input", { className: "pc-mini-input", placeholder: "\u0414\u0436\u0435\u0440\u0435\u043B\u043E", value: item.source, onChange: (ev) => handleInsightChange(item.id, "source", ev.target.value) }),
-                      e("button", { className: "pc-row-remove-btn", onClick: () => handleInsightRemove(item.id) }, "\u2715")
-                    ),
-                    e("textarea", { className: "pc-field-input", rows: 2, value: item.text, onChange: (ev) => handleInsightChange(item.id, "text", ev.target.value) })
-                  )
-                )
-              )
-            ),
-            // Risk register
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "03"), e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432")),
-              e(
-                "div",
-                { className: "pc-raci-scroll" },
-                e(
-                  "table",
-                  { className: "pc-raci-table sg-risk-table" },
-                  e("thead", null, e("tr", null, e("th", null, "\u041E\u043F\u0438\u0441 \u0440\u0438\u0437\u0438\u043A\u0443"), e("th", null, "\u0419\u043C\u043E\u0432\u0456\u0440\u043D\u0456\u0441\u0442\u044C"), e("th", null, "\u0412\u043F\u043B\u0438\u0432"), e("th", null, "\u041C\u0456\u0442\u0438\u0433\u0430\u0446\u0456\u044F"), e("th", null, ""))),
-                  e(
-                    "tbody",
-                    null,
-                    data.risks.map(
-                      (item) => e(
-                        "tr",
-                        { key: item.id },
-                        e("td", null, e("input", { className: "pc-task-name", value: item.description, onChange: (ev) => handleRiskChange(item.id, "description", ev.target.value) })),
-                        e(
-                          "td",
-                          null,
-                          e(
-                            "select",
-                            { className: "pc-raci-select", value: item.probability, onChange: (ev) => handleRiskChange(item.id, "probability", ev.target.value) },
-                            PROBABILITY_LEVELS.map((v) => e("option", { key: v, value: v }, v))
-                          )
-                        ),
-                        e(
-                          "td",
-                          null,
-                          e(
-                            "select",
-                            { className: "pc-raci-select", value: item.impact, onChange: (ev) => handleRiskChange(item.id, "impact", ev.target.value) },
-                            IMPACT_LEVELS.map((v) => e("option", { key: v, value: v }, v))
-                          )
-                        ),
-                        e("td", null, e("input", { className: "pc-task-name", value: item.mitigation, onChange: (ev) => handleRiskChange(item.id, "mitigation", ev.target.value) })),
-                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRiskRemove(item.id) }, "\u2715"))
-                      )
-                    )
-                  )
-                )
-              ),
-              e("button", { className: "pc-add-btn", onClick: handleRiskAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0440\u0438\u0437\u0438\u043A")
             )
           )
         )
@@ -64581,7 +64665,7 @@ ${suffix}`;
     const [password, setPassword] = (0, import_react3.useState)("");
     const [loading, setLoading] = (0, import_react3.useState)(true);
     const [authError, setAuthError] = (0, import_react3.useState)("");
-    const [activeTab, setActiveTab] = (0, import_react3.useState)("tree");
+    const [activeTab, setActiveTab] = (0, import_react3.useState)("card");
     (0, import_react3.useEffect)(() => {
       const initAuth = () => __async(null, null, function* () {
         var _a;
