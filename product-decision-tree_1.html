@@ -65290,26 +65290,6 @@ ${suffix}`;
         setAuthError("\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0432\u0445\u043E\u0434\u0443: " + err.message);
       }
     }), [email, password]);
-    const handleSignup = (0, import_react3.useCallback)((ev) => __async(null, null, function* () {
-      var _a;
-      ev.preventDefault();
-      if (!supabase) return;
-      setAuthError("");
-      try {
-        const { data, error } = yield supabase.auth.signUp({ email, password });
-        if (error) {
-          setAuthError(error.message);
-        } else if ((_a = data.session) == null ? void 0 : _a.user) {
-          setUser(data.session.user);
-          setEmail("");
-          setPassword("");
-        } else {
-          setAuthError("\u041F\u0435\u0440\u0435\u0432\u0456\u0440\u0442\u0435 \u0432\u0430\u0448\u0443 \u043F\u043E\u0448\u0442\u0443 \u0434\u043B\u044F \u043F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043D\u043D\u044F \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457");
-        }
-      } catch (err) {
-        setAuthError("\u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457: " + err.message);
-      }
-    }), [email, password]);
     const handleLogout = (0, import_react3.useCallback)(() => __async(null, null, function* () {
       if (!supabase) return;
       try {
@@ -65351,11 +65331,7 @@ ${suffix}`;
             }),
             e("button", { type: "submit", style: { width: "100%", padding: "10px", background: "#6d28d9", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" } }, "\u0423\u0432\u0456\u0439\u0442\u0438")
           ),
-          e(
-            "button",
-            { onClick: handleSignup, style: { width: "100%", padding: "10px", background: "#047857", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "500" } },
-            "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"
-          )
+          e("p", { style: { textAlign: "center", color: "#9ca3af", fontSize: "12px", marginTop: "8px" } }, "\u0414\u043E\u0441\u0442\u0443\u043F \u043B\u0438\u0448\u0435 \u0434\u043B\u044F \u0437\u0430\u043F\u0440\u043E\u0448\u0435\u043D\u0438\u0445 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432. \u0417\u0432\u0435\u0440\u043D\u0456\u0442\u044C\u0441\u044F \u0434\u043E \u0432\u043B\u0430\u0441\u043D\u0438\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443, \u0449\u043E\u0431 \u043E\u0442\u0440\u0438\u043C\u0430\u0442\u0438 \u043E\u0431\u043B\u0456\u043A\u043E\u0432\u0438\u0439 \u0437\u0430\u043F\u0438\u0441.")
         )
       );
     }
