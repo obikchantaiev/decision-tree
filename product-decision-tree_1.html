@@ -858,8 +858,41 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 
 .pc-raci-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .pc-raci-scroll .pc-raci-table { min-width: 480px; }
+.pc-raci-scroll .sg-risk-table { min-width: 620px; }
 .pc-pdlc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
 .pc-pdlc-scroll .pc-pdlc-track { min-width: 700px; }
+
+/* ---- STRATEGY TAB (sg-*) ---- */
+.sg-roadmap-list { display: flex; flex-direction: column; gap: 10px; }
+.sg-roadmap-item {
+  display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--border);
+  border-left-width: 4px; border-radius: 12px; padding: 10px 14px; background: #fbfbfe;
+}
+.sg-roadmap-item .sg-status-planned { border-left: none; }
+.sg-roadmap-item:has(.sg-status-progress) { border-left-color: var(--grad-end); }
+.sg-roadmap-item:has(.sg-status-done) { border-left-color: var(--good); }
+.sg-roadmap-item:has(.sg-status-planned) { border-left-color: var(--border); }
+.sg-roadmap-period {
+  width: 100px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+  font-size: 13px; font-weight: 700; color: var(--grad-end); background: #fff; font-family: inherit;
+}
+.sg-roadmap-title { flex: 1; min-width: 0; }
+.sg-roadmap-status { width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 600; }
+.sg-insight-list { display: flex; flex-direction: column; gap: 12px; }
+.sg-insight-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fbfbfe; }
+.sg-insight-meta { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+.sg-insight-meta .pc-mini-input:first-child { width: 130px; flex: none; }
+.sg-insight-meta .pc-mini-input:nth-child(2) { flex: 1; }
+
+@media (max-width: 640px) {
+  .sg-roadmap-item { flex-wrap: wrap; }
+  .sg-roadmap-period { width: auto; order: 1; flex: 0 0 auto; }
+  .sg-roadmap-item > .pc-row-remove-btn { order: 2; margin-left: auto; }
+  .sg-roadmap-title { width: 100%; order: 3; flex: 1 1 100%; }
+  .sg-roadmap-status { width: 100%; order: 4; flex: 1 1 100%; }
+  .sg-insight-meta { flex-wrap: wrap; }
+  .sg-insight-meta .pc-mini-input:first-child { width: auto; flex: 1 1 40%; }
+}
 
 /* ---- Responsive breakpoints (tablet) ---- */
 @media (max-width: 900px) {
@@ -63218,6 +63251,7 @@ ${suffix}`;
         { className: "toolbar" },
         e("button", { className: "tab-btn" + (activeTab === "tree" ? " active" : ""), onClick: () => onTabChange("tree") }, "\u{1F333} \u0414\u0435\u0440\u0435\u0432\u043E \u0440\u0456\u0448\u0435\u043D\u044C"),
         e("button", { className: "tab-btn" + (activeTab === "card" ? " active" : ""), onClick: () => onTabChange("card") }, "\u{1F5C2} \u041A\u0430\u0440\u0442\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"),
+        e("button", { className: "tab-btn" + (activeTab === "strategy" ? " active" : ""), onClick: () => onTabChange("strategy") }, "\u{1F9ED} \u0421\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u044F"),
         ...toolbarExtra,
         saveStatus && e("span", { style: { color: saveStatus.includes("\u274C") ? "#b91c1c" : "#047857", fontSize: "14px", fontWeight: "500" } }, saveStatus),
         e("button", { onClick: onLogout, style: { marginLeft: "auto", background: "#dc2626", color: "white", padding: "8px 16px", border: "none", borderRadius: "6px", cursor: "pointer" } }, "\u0412\u0438\u0445\u0456\u0434")
@@ -63663,10 +63697,10 @@ ${suffix}`;
         owner: "Yurii H"
       },
       market: {
-        tam: "$4.2 \u043C\u043B\u0440\u0434",
-        sam: "$860 \u043C\u043B\u043D",
-        som: "$45 \u043C\u043B\u043D",
-        cagr: "\u25B2 24% \u043D\u0430 \u0440\u0456\u043A"
+        totalTeams: "40+ \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432-\u043C\u0430\u0432\u0456\u043A\u0456\u0441\u0442\u0456\u0432",
+        coveredTeams: "12 \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432",
+        quarterlyTarget: "25 \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432",
+        growth: "+18% \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F / \u043A\u0432"
       },
       okr: {
         period: "Q3 2026 (\u043B\u0438\u043F\u2013\u0432\u0435\u0440)",
@@ -63690,12 +63724,6 @@ ${suffix}`;
         keepInformed: ["\u0421\u043B\u0443\u0436\u0431\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438", "\u0410\u043A\u0442\u0438\u0432\u043D\u0456 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456"],
         monitor: ["\u041F\u0430\u0440\u0442\u043D\u0435\u0440\u0438 2-\u0433\u043E \u0440\u0456\u0432\u043D\u044F"]
       },
-      eisenhower: {
-        doNow: ["\u0412\u0438\u043F\u0440\u0430\u0432\u0438\u0442\u0438 \u043A\u0440\u0438\u0442\u0438\u0447\u043D\u0438\u0439 \u0431\u0430\u0433"],
-        schedule: ["\u0414\u043E\u0441\u043B\u0456\u0434\u0436\u0435\u043D\u043D\u044F \u0440\u0438\u043D\u043A\u0443", "Roadmap Q4"],
-        delegate: ["\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456 \u0432 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0443"],
-        eliminate: ["\u0414\u0440\u0443\u0433\u043E\u0440\u044F\u0434\u043D\u0456 \u0437\u0432\u0456\u0442\u0438"]
-      },
       raci: {
         roles: ["PM", "\u0414\u0438\u0437\u0430\u0439\u043D\u0435\u0440", "\u0420\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A", "QA", "\u041C\u0430\u0440\u043A\u0435\u0442\u0438\u043D\u0433"],
         rows: [
@@ -63710,12 +63738,33 @@ ${suffix}`;
         strengths: "\u0428\u0432\u0438\u0434\u043A\u0430 \u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F, \u043D\u0430\u0434\u0456\u0439\u043D\u0430 \u0430\u0440\u0445\u0456\u0442\u0435\u043A\u0442\u0443\u0440\u0430, \u043B\u043E\u044F\u043B\u044C\u043D\u0430 \u0431\u0430\u0437\u0430 \u043A\u043B\u0456\u0454\u043D\u0442\u0456\u0432",
         weaknesses: "\u041E\u0431\u043C\u0435\u0436\u0435\u043D\u0430 \u043A\u043E\u043C\u0430\u043D\u0434\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438, \u0437\u0430\u043B\u0435\u0436\u043D\u0456\u0441\u0442\u044C \u0432\u0456\u0434 \u043E\u0434\u043D\u043E\u0433\u043E \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A\u0430 \u0445\u043C\u0430\u0440\u0438",
         opportunities: "\u0417\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u0440\u0438\u043D\u043A\u0443 \u043D\u0430 24% \u043D\u0430 \u0440\u0456\u043A, \u043F\u043E\u043F\u0438\u0442 \u043D\u0430 remote-\u0456\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442\u0438",
-        threats: "\u041D\u043E\u0432\u0456 \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u0438, \u0437\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u0432\u0430\u0440\u0442\u043E\u0441\u0442\u0456 \u0445\u043C\u0430\u0440\u043D\u043E\u0457 \u0456\u043D\u0444\u0440\u0430\u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438",
-        so: "\u041C\u0430\u0441\u0448\u0442\u0430\u0431\u0443\u0432\u0430\u0442\u0438 \u043F\u0440\u043E\u0434\u0430\u0436\u0456 \u043D\u0430 \u043D\u043E\u0432\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438, \u0432\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u043E\u0432\u0443\u044E\u0447\u0438 \u043D\u0430\u0434\u0456\u0439\u043D\u0456\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443",
-        wo: "\u041D\u0430\u0439\u043D\u044F\u0442\u0438 \u0434\u043E\u0434\u0430\u0442\u043A\u043E\u0432\u0443 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0443 \u043F\u0456\u0434 \u0437\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u043F\u043E\u043F\u0438\u0442\u0443",
-        st: "\u0414\u0438\u0444\u0435\u0440\u0435\u043D\u0446\u0456\u044E\u0432\u0430\u0442\u0438\u0441\u044F \u043D\u0430\u0434\u0456\u0439\u043D\u0456\u0441\u0442\u044E \u043F\u0440\u043E\u0442\u0438 \u043D\u043E\u0432\u0438\u0445 \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u0456\u0432",
-        wt: "\u0414\u0438\u0432\u0435\u0440\u0441\u0438\u0444\u0456\u043A\u0443\u0432\u0430\u0442\u0438 \u0445\u043C\u0430\u0440\u043D\u0438\u0445 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A\u0456\u0432 \u0434\u043B\u044F \u0437\u043D\u0438\u0436\u0435\u043D\u043D\u044F \u0440\u0438\u0437\u0438\u043A\u0456\u0432"
+        threats: "\u041D\u043E\u0432\u0456 \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u0438, \u0437\u0440\u043E\u0441\u0442\u0430\u043D\u043D\u044F \u0432\u0430\u0440\u0442\u043E\u0441\u0442\u0456 \u0445\u043C\u0430\u0440\u043D\u043E\u0457 \u0456\u043D\u0444\u0440\u0430\u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438"
       }
+    };
+  }
+  var strategyIdCounter = 1;
+  function newStrategyId() {
+    return "s" + strategyIdCounter++;
+  }
+  var ROADMAP_STATUS = ["\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E", "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456", "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E"];
+  var ROADMAP_STATUS_SLUG = { "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E": "planned", "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456": "progress", "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E": "done" };
+  var PROBABILITY_LEVELS = ["\u041D\u0438\u0437\u044C\u043A\u0430", "\u0421\u0435\u0440\u0435\u0434\u043D\u044F", "\u0412\u0438\u0441\u043E\u043A\u0430"];
+  var IMPACT_LEVELS = ["\u041D\u0438\u0437\u044C\u043A\u0438\u0439", "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439", "\u0412\u0438\u0441\u043E\u043A\u0438\u0439"];
+  function defaultStrategy() {
+    return {
+      roadmap: [
+        { id: newStrategyId(), period: "Q3 2026", title: "\u0421\u0442\u0430\u0431\u0456\u043B\u0456\u0437\u0430\u0446\u0456\u044F \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0457 \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
+        { id: newStrategyId(), period: "Q4 2026", title: "\u041F\u0456\u043B\u043E\u0442 \u043D\u0430 10 \u043D\u043E\u0432\u0438\u0445 \u0435\u043A\u0456\u043F\u0430\u0436\u0430\u0445", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), period: "Q1 2027", title: "\u041F\u043E\u0432\u043D\u0435 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u043A\u043E\u043C\u0430\u043D\u0434 \u0441\u0435\u0440\u0435\u0434\u043D\u044C\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }
+      ],
+      insights: [
+        { id: newStrategyId(), date: "2026-08-10", source: "\u0406\u043D\u0442\u0435\u0440\u0432'\u044E \u0437 \u0435\u043A\u0456\u043F\u0430\u0436\u0435\u043C", text: "\u041F\u043E\u0442\u0440\u0456\u0431\u043D\u0430 \u043E\u0444\u043B\u0430\u0439\u043D-\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F \u0442\u043E\u0447\u043E\u043A \u043C\u0430\u0440\u0448\u0440\u0443\u0442\u0443 \u043F\u0440\u0438 \u0432\u0442\u0440\u0430\u0442\u0456 \u0437\u0432\u02BC\u044F\u0437\u043A\u0443" },
+        { id: newStrategyId(), date: "2026-07-28", source: "\u0421\u043B\u0443\u0436\u0431\u0430 \u043F\u0456\u0434\u0442\u0440\u0438\u043C\u043A\u0438", text: "\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456 \u043F\u043B\u0443\u0442\u0430\u044E\u0442\u044C\u0441\u044F \u0432 \u043F\u043E\u0437\u043D\u0430\u0447\u0435\u043D\u043D\u044F\u0445 SNS-\u043C\u0430\u044F\u043A\u0456\u0432 \u043D\u0430 \u043A\u0430\u0440\u0442\u0456" }
+      ],
+      risks: [
+        { id: newStrategyId(), description: "\u0412\u0442\u0440\u0430\u0442\u0430 GPS-\u0441\u0438\u0433\u043D\u0430\u043B\u0443 \u0432 \u0437\u043E\u043D\u0456 \u043F\u043E\u043B\u044C\u043E\u0442\u0443", probability: "\u0421\u0435\u0440\u0435\u0434\u043D\u044F", impact: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439", mitigation: "\u0420\u0435\u0437\u0435\u0440\u0432\u043D\u0430 \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u044F \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445" },
+        { id: newStrategyId(), description: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043D\u043D\u044F \u0430\u043F\u0430\u0440\u0430\u0442\u043D\u0438\u0445 \u043C\u043E\u0434\u0443\u043B\u0456\u0432", probability: "\u041D\u0438\u0437\u044C\u043A\u0430", impact: "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439", mitigation: "\u0414\u0440\u0443\u0433\u0438\u0439 \u043F\u043E\u0441\u0442\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u0456\u0432" }
+      ]
     };
   }
   function ChipQuadrant({ title, sub, chips, onAdd: onAdd2, onRemove: onRemove2, primary }) {
@@ -64096,16 +64145,15 @@ ${suffix}`;
                 e(
                   "div",
                   { className: "pc-market-grid" },
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "TAM"), e("input", { value: data.market.tam, onChange: (ev) => handleMarketChange("tam", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "SAM"), e("input", { value: data.market.sam, onChange: (ev) => handleMarketChange("sam", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "SOM"), e("input", { value: data.market.som, onChange: (ev) => handleMarketChange("som", ev.target.value) }))
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0442\u0435\u043D\u0446\u0456\u0439\u043D\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438"), e("input", { value: data.market.totalTeams, onChange: (ev) => handleMarketChange("totalTeams", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041E\u0445\u043E\u043F\u043B\u0435\u043D\u043E \u043A\u043E\u043C\u0430\u043D\u0434"), e("input", { value: data.market.coveredTeams, onChange: (ev) => handleMarketChange("coveredTeams", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0426\u0456\u043B\u044C \u043D\u0430 \u043A\u0432\u0430\u0440\u0442\u0430\u043B"), e("input", { value: data.market.quarterlyTarget, onChange: (ev) => handleMarketChange("quarterlyTarget", ev.target.value) }))
                 ),
-                e("div", { className: "pc-funnel" }, e("div", { style: { width: "100%" } }), e("div", { style: { width: "20%" } }), e("div", { style: { width: "5%" } })),
                 e(
                   "div",
                   { className: "pc-growth-row" },
-                  e("span", { className: "pc-field-label", style: { margin: 0 } }, "\u0422\u0435\u043C\u043F \u0440\u043E\u0441\u0442\u0443 \u0440\u0438\u043D\u043A\u0443 (CAGR)"),
-                  e("input", { value: data.market.cagr, onChange: (ev) => handleMarketChange("cagr", ev.target.value) })
+                  e("span", { className: "pc-field-label", style: { margin: 0 } }, "\u041F\u0440\u0438\u0440\u0456\u0441\u0442 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F"),
+                  e("input", { value: data.market.growth, onChange: (ev) => handleMarketChange("growth", ev.target.value) })
                 )
               ),
               // 4. Metrics
@@ -64176,42 +64224,25 @@ ${suffix}`;
                 )
               )
             ),
-            // 6 & 7: stakeholders + eisenhower
-            e(
-              "div",
-              { className: "pc-matrix-row" },
-              e(
-                "section",
-                { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "06"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
-                e(
-                  "div",
-                  { className: "pc-quad-grid" },
-                  e(ChipQuadrant, { title: "\u041A\u0435\u0440\u0443\u0432\u0430\u0442\u0438 \u0443\u0432\u0430\u0436\u043D\u043E", sub: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u0432\u0438\u0441\u043E\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.manageClosely, primary: true, onAdd: (t) => handleChipAdd("stakeholders", "manageClosely", t), onRemove: (i) => handleChipRemove("stakeholders", "manageClosely", i) }),
-                  e(ChipQuadrant, { title: "\u0422\u0440\u0438\u043C\u0430\u0442\u0438 \u0437\u0430\u0434\u043E\u0432\u043E\u043B\u0435\u043D\u0438\u043C", sub: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.keepSatisfied, onAdd: (t) => handleChipAdd("stakeholders", "keepSatisfied", t), onRemove: (i) => handleChipRemove("stakeholders", "keepSatisfied", i) }),
-                  e(ChipQuadrant, { title: "\u0406\u043D\u0444\u043E\u0440\u043C\u0443\u0432\u0430\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u0432\u0438\u0441\u043E\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.keepInformed, onAdd: (t) => handleChipAdd("stakeholders", "keepInformed", t), onRemove: (i) => handleChipRemove("stakeholders", "keepInformed", i) }),
-                  e(ChipQuadrant, { title: "\u041C\u043E\u043D\u0456\u0442\u043E\u0440\u0438\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.monitor, onAdd: (t) => handleChipAdd("stakeholders", "monitor", t), onRemove: (i) => handleChipRemove("stakeholders", "monitor", i) })
-                )
-              ),
-              e(
-                "section",
-                { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "07"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0415\u0439\u0437\u0435\u043D\u0445\u0430\u0443\u0435\u0440\u0430")),
-                e(
-                  "div",
-                  { className: "pc-quad-grid" },
-                  e(ChipQuadrant, { title: "\u0417\u0440\u043E\u0431\u0438\u0442\u0438 \u0437\u0430\u0440\u0430\u0437", sub: "\u0422\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E \xB7 \u0432\u0430\u0436\u043B\u0438\u0432\u043E", chips: data.eisenhower.doNow, primary: true, onAdd: (t) => handleChipAdd("eisenhower", "doNow", t), onRemove: (i) => handleChipRemove("eisenhower", "doNow", i) }),
-                  e(ChipQuadrant, { title: "\u0417\u0430\u043F\u043B\u0430\u043D\u0443\u0432\u0430\u0442\u0438", sub: "\u0412\u0430\u0436\u043B\u0438\u0432\u043E \xB7 \u043D\u0435 \u0442\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E", chips: data.eisenhower.schedule, onAdd: (t) => handleChipAdd("eisenhower", "schedule", t), onRemove: (i) => handleChipRemove("eisenhower", "schedule", i) }),
-                  e(ChipQuadrant, { title: "\u0414\u0435\u043B\u0435\u0433\u0443\u0432\u0430\u0442\u0438", sub: "\u0422\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E \xB7 \u043D\u0435 \u0432\u0430\u0436\u043B\u0438\u0432\u043E", chips: data.eisenhower.delegate, onAdd: (t) => handleChipAdd("eisenhower", "delegate", t), onRemove: (i) => handleChipRemove("eisenhower", "delegate", i) }),
-                  e(ChipQuadrant, { title: "\u0412\u0456\u0434\u043A\u043B\u0430\u0441\u0442\u0438 / \u043F\u0440\u0438\u0431\u0440\u0430\u0442\u0438", sub: "\u041D\u0435 \u0442\u0435\u0440\u043C\u0456\u043D\u043E\u0432\u043E \xB7 \u043D\u0435 \u0432\u0430\u0436\u043B\u0438\u0432\u043E", chips: data.eisenhower.eliminate, onAdd: (t) => handleChipAdd("eisenhower", "eliminate", t), onRemove: (i) => handleChipRemove("eisenhower", "eliminate", i) })
-                )
-              )
-            ),
-            // 8. RACI
+            // 6. stakeholders
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "06"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
+              e(
+                "div",
+                { className: "pc-quad-grid" },
+                e(ChipQuadrant, { title: "\u041A\u0435\u0440\u0443\u0432\u0430\u0442\u0438 \u0443\u0432\u0430\u0436\u043D\u043E", sub: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u0432\u0438\u0441\u043E\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.manageClosely, primary: true, onAdd: (t) => handleChipAdd("stakeholders", "manageClosely", t), onRemove: (i) => handleChipRemove("stakeholders", "manageClosely", i) }),
+                e(ChipQuadrant, { title: "\u0422\u0440\u0438\u043C\u0430\u0442\u0438 \u0437\u0430\u0434\u043E\u0432\u043E\u043B\u0435\u043D\u0438\u043C", sub: "\u0412\u0438\u0441\u043E\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.keepSatisfied, onAdd: (t) => handleChipAdd("stakeholders", "keepSatisfied", t), onRemove: (i) => handleChipRemove("stakeholders", "keepSatisfied", i) }),
+                e(ChipQuadrant, { title: "\u0406\u043D\u0444\u043E\u0440\u043C\u0443\u0432\u0430\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u0432\u0438\u0441\u043E\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.keepInformed, onAdd: (t) => handleChipAdd("stakeholders", "keepInformed", t), onRemove: (i) => handleChipRemove("stakeholders", "keepInformed", i) }),
+                e(ChipQuadrant, { title: "\u041C\u043E\u043D\u0456\u0442\u043E\u0440\u0438\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.monitor, onAdd: (t) => handleChipAdd("stakeholders", "monitor", t), onRemove: (i) => handleChipRemove("stakeholders", "monitor", i) })
+              )
+            ),
+            // 7. RACI
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "07"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
               e(
                 "div",
                 { className: "pc-raci-scroll" },
@@ -64254,41 +64285,290 @@ ${suffix}`;
                 e("div", { className: "pc-raci-legend-item" }, e("span", { className: "pc-raci-badge i" }, "I"), " Informed \u2014 \u0456\u043D\u0444\u043E\u0440\u043C\u0443\u044E\u0442\u044C")
               )
             ),
-            // 9. SWOT / TOWS
+            // 8. SWOT
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "09"), e("h2", { className: "pc-card-title" }, "SWOT / TOWS-\u0430\u043D\u0430\u043B\u0456\u0437")),
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "SWOT-\u0430\u043D\u0430\u043B\u0456\u0437")),
               e(
                 "div",
-                { className: "pc-swot-wrap" },
-                e(
-                  "div",
-                  null,
-                  e("p", { className: "pc-swot-subtitle" }, "SWOT"),
-                  e(
+                { className: "pc-quad-grid" },
+                e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "\u0421\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (S)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.strengths, onChange: (ev) => handleSwotChange("strengths", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0421\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (W)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.weaknesses, onChange: (ev) => handleSwotChange("weaknesses", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u041C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456 (O)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.opportunities, onChange: (ev) => handleSwotChange("opportunities", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0417\u0430\u0433\u0440\u043E\u0437\u0438 (T)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.threats, onChange: (ev) => handleSwotChange("threats", ev.target.value) }))
+              )
+            )
+          )
+        )
+      )
+    );
+  }
+  function StrategyView({ user, active, activeTab, onTabChange, onLogout }) {
+    const strategy = useUndoableState(defaultStrategy());
+    const [saveStatus, setSaveStatus] = (0, import_react3.useState)("");
+    const autoSaveTimeoutRef = (0, import_react3.useRef)(null);
+    const loadedForUserRef = (0, import_react3.useRef)(null);
+    const hasLoadedRef = (0, import_react3.useRef)(false);
+    const fileInputRef = (0, import_react3.useRef)(null);
+    const handleRoadmapChange = (0, import_react3.useCallback)((id2, field, value) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        roadmap: prev.roadmap.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
+      }));
+    }, [strategy.update]);
+    const handleRoadmapAdd = (0, import_react3.useCallback)(() => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        roadmap: [...prev.roadmap, { id: newStrategyId(), period: "Q1 2027", title: "\u041D\u043E\u0432\u0438\u0439 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }]
+      }));
+    }, [strategy.update]);
+    const handleRoadmapRemove = (0, import_react3.useCallback)((id2) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmap: prev.roadmap.filter((item) => item.id !== id2) }));
+    }, [strategy.update]);
+    const handleInsightChange = (0, import_react3.useCallback)((id2, field, value) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        insights: prev.insights.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
+      }));
+    }, [strategy.update]);
+    const handleInsightAdd = (0, import_react3.useCallback)(() => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        insights: [{ id: newStrategyId(), date: "", source: "", text: "" }, ...prev.insights]
+      }));
+    }, [strategy.update]);
+    const handleInsightRemove = (0, import_react3.useCallback)((id2) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { insights: prev.insights.filter((item) => item.id !== id2) }));
+    }, [strategy.update]);
+    const handleRiskChange = (0, import_react3.useCallback)((id2, field, value) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        risks: prev.risks.map((item) => item.id === id2 ? __spreadProps(__spreadValues({}, item), { [field]: value }) : item)
+      }));
+    }, [strategy.update]);
+    const handleRiskAdd = (0, import_react3.useCallback)(() => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        risks: [...prev.risks, { id: newStrategyId(), description: "\u041D\u043E\u0432\u0438\u0439 \u0440\u0438\u0437\u0438\u043A", probability: "\u041D\u0438\u0437\u044C\u043A\u0430", impact: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439", mitigation: "" }]
+      }));
+    }, [strategy.update]);
+    const handleRiskRemove = (0, import_react3.useCallback)((id2) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { risks: prev.risks.filter((item) => item.id !== id2) }));
+    }, [strategy.update]);
+    const handleReset = (0, import_react3.useCallback)(() => strategy.update(defaultStrategy()), [strategy.update]);
+    const handleExport = (0, import_react3.useCallback)(() => {
+      const blob = new Blob([JSON.stringify(strategy.state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "strategy.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }, [strategy.state]);
+    const handleImportFile = (0, import_react3.useCallback)((ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (parsed && typeof parsed === "object") {
+            strategy.update(parsed);
+          }
+        } catch (err) {
+          window.alert("\u041D\u0435 \u0432\u0434\u0430\u043B\u043E\u0441\u044F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u0438 \u0444\u0430\u0439\u043B: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      ev.target.value = "";
+    }, [strategy.update]);
+    (0, import_react3.useEffect)(() => {
+      if (!active) return;
+      const onKeyDown = (ev) => {
+        const mod = ev.ctrlKey || ev.metaKey;
+        if (!mod) return;
+        if (ev.key.toLowerCase() === "z" && !ev.shiftKey) {
+          ev.preventDefault();
+          strategy.undo();
+        } else if (ev.key.toLowerCase() === "z" && ev.shiftKey || ev.key.toLowerCase() === "y") {
+          ev.preventDefault();
+          strategy.redo();
+        }
+      };
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
+    }, [active, strategy.undo, strategy.redo]);
+    (0, import_react3.useEffect)(() => {
+      if (!user || !supabase) {
+        hasLoadedRef.current = true;
+        return;
+      }
+      if (loadedForUserRef.current === user.id) return;
+      loadedForUserRef.current = user.id;
+      (() => __async(null, null, function* () {
+        try {
+          const { data: rows, error } = yield supabase.from("strategy_data").select("data").eq("owner", user.id).limit(1);
+          if (!error && rows && rows.length > 0) {
+            strategy.load(rows[0].data);
+          }
+        } catch (err) {
+          console.error("Failed to load strategy data:", err);
+        } finally {
+          hasLoadedRef.current = true;
+        }
+      }))();
+    }, [user]);
+    (0, import_react3.useEffect)(() => {
+      if (!user || !supabase || !hasLoadedRef.current) return;
+      setSaveStatus("\u0417\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F...");
+      if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
+      autoSaveTimeoutRef.current = setTimeout(() => __async(null, null, function* () {
+        try {
+          const { error } = yield supabase.from("strategy_data").upsert(
+            { owner: user.id, data: strategy.state, updated_at: (/* @__PURE__ */ new Date()).toISOString() },
+            { onConflict: "owner" }
+          );
+          if (error) {
+            console.error("Save error:", error);
+            setSaveStatus("\u274C \u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F");
+          } else {
+            setSaveStatus("\u0417\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043E \u2713");
+            setTimeout(() => setSaveStatus(""), 3e3);
+          }
+        } catch (err) {
+          console.error("Save failed:", err);
+          setSaveStatus("\u274C \u041F\u043E\u043C\u0438\u043B\u043A\u0430 \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043D\u043D\u044F");
+        }
+      }), 1e3);
+      return () => {
+        if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
+      };
+    }, [strategy.state, user]);
+    const data = strategy.state;
+    const toolbarExtra = [
+      e("button", { key: "undo", onClick: strategy.undo, disabled: !strategy.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
+      e("button", { key: "redo", onClick: strategy.redo, disabled: !strategy.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
+      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e(
+        "label",
+        { key: "import" },
+        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
+      ),
+      e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
+    ];
+    return e(
+      "div",
+      { style: { height: "100%", display: "flex", flexDirection: "column" } },
+      e(AppTopBar, {
+        title: "\u0421\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u044F",
+        subtitle: "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430, \u0456\u043D\u0441\u0430\u0439\u0442\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432 \u0442\u0430 \u0440\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+        activeTab,
+        onTabChange,
+        toolbarExtra,
+        saveStatus,
+        onLogout
+      }),
+      e(
+        "div",
+        { className: "pc-scroll" },
+        e(
+          "div",
+          { className: "pc-page" },
+          e(
+            "div",
+            { className: "pc-extra", style: { paddingTop: "24px" } },
+            // Roadmap
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "01"), e("h2", { className: "pc-card-title" }, "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430")),
+              e(
+                "div",
+                { className: "sg-roadmap-list" },
+                data.roadmap.map(
+                  (item) => e(
                     "div",
-                    { className: "pc-quad-grid" },
-                    e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "\u0421\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (S)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.strengths, onChange: (ev) => handleSwotChange("strengths", ev.target.value) })),
-                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0421\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (W)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.weaknesses, onChange: (ev) => handleSwotChange("weaknesses", ev.target.value) })),
-                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u041C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456 (O)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.opportunities, onChange: (ev) => handleSwotChange("opportunities", ev.target.value) })),
-                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0417\u0430\u0433\u0440\u043E\u0437\u0438 (T)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.threats, onChange: (ev) => handleSwotChange("threats", ev.target.value) }))
+                    { className: "sg-roadmap-item", key: item.id },
+                    e("input", { className: "sg-roadmap-period", value: item.period, onChange: (ev) => handleRoadmapChange(item.id, "period", ev.target.value) }),
+                    e("input", { className: "pc-field-input sg-roadmap-title", value: item.title, onChange: (ev) => handleRoadmapChange(item.id, "title", ev.target.value) }),
+                    e(
+                      "select",
+                      { className: "pc-field-input sg-roadmap-status sg-status-" + (ROADMAP_STATUS_SLUG[item.status] || "planned"), value: item.status, onChange: (ev) => handleRoadmapChange(item.id, "status", ev.target.value) },
+                      ROADMAP_STATUS.map((s) => e("option", { key: s, value: s }, s))
+                    ),
+                    e("button", { className: "pc-row-remove-btn", onClick: () => handleRoadmapRemove(item.id) }, "\u2715")
                   )
-                ),
-                e(
-                  "div",
-                  null,
-                  e("p", { className: "pc-swot-subtitle" }, "TOWS \u2014 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u0457"),
-                  e(
+                )
+              ),
+              e("button", { className: "pc-add-btn", onClick: handleRoadmapAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438")
+            ),
+            // Insights
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u0406\u043D\u0441\u0430\u0439\u0442\u0438 \u0442\u0430 \u0444\u0456\u0434\u0431\u0435\u043A")),
+              e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: handleInsightAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0456\u043D\u0441\u0430\u0439\u0442"),
+              e(
+                "div",
+                { className: "sg-insight-list" },
+                data.insights.map(
+                  (item) => e(
                     "div",
-                    { className: "pc-quad-grid" },
-                    e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "SO \u2014 \u0432\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u0430\u0442\u0438 \u0441\u0438\u043B\u0443"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.so, onChange: (ev) => handleSwotChange("so", ev.target.value) })),
-                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WO \u2014 \u043F\u043E\u0434\u043E\u043B\u0430\u0442\u0438 \u0441\u043B\u0430\u0431\u043A\u0456\u0441\u0442\u044C"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.wo, onChange: (ev) => handleSwotChange("wo", ev.target.value) })),
-                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "ST \u2014 \u0441\u0438\u043B\u0430 \u043F\u0440\u043E\u0442\u0438 \u0437\u0430\u0433\u0440\u043E\u0437\u0438"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.st, onChange: (ev) => handleSwotChange("st", ev.target.value) })),
-                    e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WT \u2014 \u043C\u0456\u043D\u0456\u043C\u0456\u0437\u0443\u0432\u0430\u0442\u0438 \u043E\u0431\u0438\u0434\u0432\u0430"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.wt, onChange: (ev) => handleSwotChange("wt", ev.target.value) }))
+                    { className: "sg-insight-item", key: item.id },
+                    e(
+                      "div",
+                      { className: "sg-insight-meta" },
+                      e("input", { className: "pc-mini-input", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => handleInsightChange(item.id, "date", ev.target.value) }),
+                      e("input", { className: "pc-mini-input", placeholder: "\u0414\u0436\u0435\u0440\u0435\u043B\u043E", value: item.source, onChange: (ev) => handleInsightChange(item.id, "source", ev.target.value) }),
+                      e("button", { className: "pc-row-remove-btn", onClick: () => handleInsightRemove(item.id) }, "\u2715")
+                    ),
+                    e("textarea", { className: "pc-field-input", rows: 2, value: item.text, onChange: (ev) => handleInsightChange(item.id, "text", ev.target.value) })
                   )
                 )
               )
+            ),
+            // Risk register
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "03"), e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432")),
+              e(
+                "div",
+                { className: "pc-raci-scroll" },
+                e(
+                  "table",
+                  { className: "pc-raci-table sg-risk-table" },
+                  e("thead", null, e("tr", null, e("th", null, "\u041E\u043F\u0438\u0441 \u0440\u0438\u0437\u0438\u043A\u0443"), e("th", null, "\u0419\u043C\u043E\u0432\u0456\u0440\u043D\u0456\u0441\u0442\u044C"), e("th", null, "\u0412\u043F\u043B\u0438\u0432"), e("th", null, "\u041C\u0456\u0442\u0438\u0433\u0430\u0446\u0456\u044F"), e("th", null, ""))),
+                  e(
+                    "tbody",
+                    null,
+                    data.risks.map(
+                      (item) => e(
+                        "tr",
+                        { key: item.id },
+                        e("td", null, e("input", { className: "pc-task-name", value: item.description, onChange: (ev) => handleRiskChange(item.id, "description", ev.target.value) })),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: item.probability, onChange: (ev) => handleRiskChange(item.id, "probability", ev.target.value) },
+                            PROBABILITY_LEVELS.map((v) => e("option", { key: v, value: v }, v))
+                          )
+                        ),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: item.impact, onChange: (ev) => handleRiskChange(item.id, "impact", ev.target.value) },
+                            IMPACT_LEVELS.map((v) => e("option", { key: v, value: v }, v))
+                          )
+                        ),
+                        e("td", null, e("input", { className: "pc-task-name", value: item.mitigation, onChange: (ev) => handleRiskChange(item.id, "mitigation", ev.target.value) })),
+                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRiskRemove(item.id) }, "\u2715"))
+                      )
+                    )
+                  )
+                )
+              ),
+              e("button", { className: "pc-add-btn", onClick: handleRiskAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0440\u0438\u0437\u0438\u043A")
             )
           )
         )
@@ -64419,6 +64699,11 @@ ${suffix}`;
         "div",
         { style: { height: "100%", display: activeTab === "card" ? "flex" : "none", flexDirection: "column" } },
         e(ProductCardView, { user, active: activeTab === "card", activeTab, onTabChange: setActiveTab, onLogout: handleLogout })
+      ),
+      e(
+        "div",
+        { style: { height: "100%", display: activeTab === "strategy" ? "flex" : "none", flexDirection: "column" } },
+        e(StrategyView, { user, active: activeTab === "strategy", activeTab, onTabChange: setActiveTab, onLogout: handleLogout })
       )
     );
   }
