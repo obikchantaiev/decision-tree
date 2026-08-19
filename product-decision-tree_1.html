@@ -765,15 +765,18 @@ input, select, textarea, button { font-family: inherit; }
   font-size: 14px; font-weight: 600; flex-shrink: 0; align-self: flex-start;
 }
 .pc-header-photo {
-  /* Fixed 300x300 square - explicit pixel size, not row-height-derived, so a
-     real uploaded photo's own (often huge) intrinsic dimensions can never
-     feed back into sizing this box or the row around it. */
-  position: relative; width: 300px; height: 300px; aspect-ratio: 1 / 1; border-radius: 8px; cursor: pointer; overflow: hidden;
+  /* No explicit height: the grid row's auto height (set by the title/desc
+     column) stretches this cell; 1:1 aspect-ratio derives the width from
+     that resolved height. The <img> inside is position:absolute (see below)
+     so its own intrinsic pixel size can NEVER feed back into this box's
+     (or the row's) auto-sizing - that circular feedback was the earlier bug
+     where a real, large uploaded photo ballooned the whole header. */
+  position: relative; aspect-ratio: 1 / 1; border-radius: 8px; cursor: pointer; overflow: hidden;
   display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.18);
-  border: 1.5px dashed rgba(255,255,255,0.5); align-self: start;
+  border: 1.5px dashed rgba(255,255,255,0.5);
 }
-.pc-header-photo img { width: 100%; height: 100%; object-fit: cover; }
-.pc-header-photo-placeholder { font-size: 64px; opacity: 0.85; }
+.pc-header-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pc-header-photo-placeholder { font-size: 32px; opacity: 0.85; }
 .pc-header-photo input[type="file"] { display: none; }
 .pc-header-photo-remove {
   position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%;
