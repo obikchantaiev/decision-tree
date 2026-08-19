@@ -805,12 +805,19 @@ input, select, textarea, button { font-family: inherit; }
 }
 .pc-card-title { font-size: 17px; font-weight: 700; margin: 0; }
 
-.pc-field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pc-field { display: flex; flex-direction: column; gap: 6px; }
+/* 4 tracks so a row can be split either in halves (span-2 + span-2) or as
+   half + quarter + quarter (Назва продукту | Дата створення | Поточна версія). */
+.pc-field-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.pc-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .pc-field.span-2 { grid-column: span 2; }
+/* Auto-growing textarea (see AutoTextarea): JS sets an exact pixel height from
+   scrollHeight, so overflow must stay hidden and manual resize is disabled -
+   otherwise the two would fight and text could still end up clipped. */
+.pc-autogrow { overflow: hidden; resize: none; min-height: 46px; }
+.pc-field > textarea.pc-autogrow { flex: 1 1 auto; }
 .pc-field-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.03em; }
 .pc-field-input {
-  border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px;
+  border: 1.5px solid var(--border); border-radius: 4px; padding: 10px 14px; font-size: 14px;
   color: var(--ink); background: #fbfbfe; min-height: 20px; font-family: inherit; width: 100%;
 }
 .pc-field-input:focus { outline: none; border-color: var(--grad-start); }
@@ -818,7 +825,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 
 .pc-market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
 .pc-market-grid-2 { grid-template-columns: repeat(2, 1fr); margin-bottom: 8px; }
-.pc-market-stat { border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 14px; background: #fbfbfe; }
+.pc-market-stat { border: 1.5px solid var(--border); border-radius: 4px; padding: 12px 14px; background: #fbfbfe; }
 .pc-market-stat .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 8px; }
 .pc-market-stat input { font-size: 18px; font-weight: 700; color: var(--ink); border: none; background: transparent; width: 100%; padding: 0; }
 .pc-market-stat input:focus { outline: none; }
@@ -828,7 +835,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-funnel div:nth-child(2) { background: rgba(118,75,162,0.55); }
 .pc-funnel div:nth-child(3) { background: rgba(118,75,162,0.28); }
 
-.pc-growth-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border: 1.5px solid var(--border); border-radius: 8px; padding: 16px; background: #fbfbfe; gap: 8px; }
+.pc-growth-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border: 1.5px solid var(--border); border-radius: 4px; padding: 16px; background: #fbfbfe; gap: 8px; }
 .pc-growth-row input { border: none; background: transparent; font-weight: 700; color: var(--good); font-size: 15px; text-align: right; }
 .pc-growth-row input:focus { outline: none; }
 
@@ -839,23 +846,24 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-okr-period input { border: none; background: transparent; color: #4338ca; font-weight: 600; font-size: 13px; }
 .pc-okr-period input:focus { outline: none; }
 
-.pc-objective-box { border: 1.5px solid var(--border); border-radius: 8px; padding: 16px; background: #fbfbfe; margin-bottom: 8px; }
+.pc-objective-box { border: 1.5px solid var(--border); border-radius: 4px; padding: 16px; background: #fbfbfe; margin-bottom: 8px; }
 .pc-objective-box .pc-field-label { margin-bottom: 6px; }
 .pc-objective-box textarea { font-size: 15px; font-weight: 600; color: var(--ink); border: none; background: transparent; width: 100%; resize: vertical; font-family: inherit; padding: 0; }
 .pc-objective-box textarea:focus { outline: none; }
 
-.pc-kr { border: 1.5px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 8px; background: #fbfbfe; }
+.pc-kr { border: 1.5px solid var(--border); border-radius: 4px; padding: 16px; margin-bottom: 8px; background: #fbfbfe; }
 .pc-kr:last-child { margin-bottom: 0; }
 .pc-kr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
 .pc-kr-name { font-size: 14px; font-weight: 600; color: var(--ink); border: none; background: transparent; flex: 1; font-family: inherit; }
 .pc-kr-name:focus { outline: none; }
 .pc-kr-values { font-size: 13px; color: var(--ink-soft); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
-.pc-kr-values input { width: 52px; border: 1px solid var(--border); border-radius: 6px; padding: 3px 6px; font-size: 13px; text-align: center; }
+.pc-kr-values input { width: 52px; border: 1px solid var(--border); border-radius: 4px; padding: 3px 6px; font-size: 13px; text-align: center; }
+.pc-kr-unit { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
 .pc-progress-track { width: 100%; height: 8px; border-radius: 999px; background: #edeef5; overflow: hidden; }
 .pc-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); }
 
 .pc-metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.pc-metric-card { border: 1.5px solid var(--border); border-radius: 8px; padding: 16px; background: #fbfbfe; text-align: center; }
+.pc-metric-card { border: 1.5px solid var(--border); border-radius: 4px; padding: 16px; background: #fbfbfe; text-align: center; }
 .pc-metric-card .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 10px; }
 .pc-health-ring {
   width: 84px; height: 84px; margin: 0 auto 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -873,19 +881,49 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-matrix-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 @media (max-width: 900px) { .pc-matrix-row { grid-template-columns: 1fr; } }
 
-.pc-pdlc-track { position: relative; display: flex; justify-content: space-between; margin-top: 14px; padding: 0 8px; }
-.pc-pdlc-line-bg, .pc-pdlc-line-fill { position: absolute; top: 17px; left: 40px; right: 40px; height: 3px; border-radius: 999px; }
-.pc-pdlc-line-bg { background: var(--border); }
-.pc-pdlc-line-fill { background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); right: auto; }
-.pc-pdlc-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100px; background: none; border: none; padding: 0; }
-.pc-pdlc-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; background: #fff; border: 2px solid var(--border); color: var(--ink-soft); }
-.pc-pdlc-step.done .pc-pdlc-dot { background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); border-color: transparent; color: #fff; }
-.pc-pdlc-step.current .pc-pdlc-dot { background: #fff; border-color: var(--grad-end); color: var(--grad-end); box-shadow: 0 0 0 5px rgba(118,75,162,0.15); }
-.pc-pdlc-label { font-size: 12px; font-weight: 600; text-align: center; color: var(--ink-soft); }
+/* Phase headers and the stage track share one 7-column grid, so each phase
+   label spans exactly the stages it covers and every dot lands on a column
+   centre - that keeps all 7 stages inside the card's existing width. */
+.pc-pdlc-phases { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-bottom: 10px; }
+.pc-pdlc-phase {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.3;
+  color: var(--ink-soft); background: #fbfbfe; border: 1px solid var(--border); border-radius: 4px;
+  padding: 5px 4px; text-align: center;
+}
+.pc-pdlc-track { position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+/* Line spans dot-centre to dot-centre: each column is 1/7 wide, so half a
+   column (1/14) is inset from each end. */
+.pc-pdlc-line-bg { position: absolute; top: 13px; left: calc(100% / 14); right: calc(100% / 14); height: 2px; border-radius: 999px; background: var(--border); }
+.pc-pdlc-line-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); }
+.pc-pdlc-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; padding: 0 4px; cursor: pointer; }
+/* Flat icons: solid fill / plain ring, no gradient or drop shadow. */
+.pc-pdlc-dot {
+  width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 12px; background: #fff; border: 2px solid var(--border); color: var(--ink-soft);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.pc-pdlc-step.done .pc-pdlc-dot { background: var(--grad-start); border-color: var(--grad-start); color: #fff; }
+.pc-pdlc-step.current .pc-pdlc-dot { background: #fff; border-color: var(--grad-start); color: var(--grad-start); }
+.pc-pdlc-step:hover .pc-pdlc-dot { border-color: var(--grad-end); }
+.pc-pdlc-label { font-size: 12px; font-weight: 700; text-align: center; color: var(--ink-soft); }
 .pc-pdlc-step.current .pc-pdlc-label, .pc-pdlc-step.done .pc-pdlc-label { color: var(--ink); }
+.pc-pdlc-tag {
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--grad-end); background: #faf5fb; border-radius: 4px; padding: 1px 5px; white-space: nowrap;
+}
+.pc-pdlc-tag.empty { visibility: hidden; }
+.pc-pdlc-units { font-size: 10px; color: var(--ink-soft); text-align: center; line-height: 1.3; }
+.pc-pdlc-sub { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); display: flex; flex-direction: column; gap: 8px; }
+.pc-pdlc-sub-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.pc-pdlc-sub-chip {
+  font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 4px; cursor: pointer;
+  border: 1.5px solid var(--border); background: #fbfbfe; color: var(--ink-soft); font-family: inherit;
+}
+.pc-pdlc-sub-chip:hover { border-color: var(--grad-end); color: var(--ink); }
+.pc-pdlc-sub-chip.active { background: var(--grad-start); border-color: var(--grad-start); color: #fff; }
 
 .pc-quad-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; }
-.pc-quad { border: 1.5px solid var(--border); border-radius: 8px; padding: 16px; background: #fbfbfe; min-height: 108px; }
+.pc-quad { border: 1.5px solid var(--border); border-radius: 4px; padding: 16px; background: #fbfbfe; min-height: 108px; }
 .pc-quad-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
 .pc-quad-sub { font-size: 11px; color: var(--ink-soft); margin-bottom: 10px; }
 .pc-quad-text { font-size: 13px; color: var(--ink); line-height: 1.55; margin: 0; border: none; background: transparent; width: 100%; resize: vertical; font-family: inherit; }
@@ -897,9 +935,9 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 }
 .pc-chip-remove { background: none; border: none; color: #4338ca; cursor: pointer; font-size: 13px; line-height: 1; padding: 0 2px; }
 .pc-add-row { display: flex; gap: 6px; }
-.pc-mini-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 5px 8px; font-size: 12px; font-family: inherit; }
+.pc-mini-input { flex: 1; border: 1px solid var(--border); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-family: inherit; }
 .pc-mini-input:focus { outline: none; border-color: var(--grad-start); }
-.pc-mini-add-btn { border: 1px solid #34d399; color: #047857; background: #ecfdf5; border-radius: 8px; padding: 5px 10px; font-size: 13px; cursor: pointer; }
+.pc-mini-add-btn { border: 1px solid #34d399; color: #047857; background: #ecfdf5; border-radius: 4px; padding: 5px 10px; font-size: 13px; cursor: pointer; }
 .pc-quad.pc-q-primary { background: linear-gradient(135deg, rgba(102,126,234,0.08), rgba(118,75,162,0.08)); border-color: #c7d2fe; }
 
 .pc-raci-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -908,18 +946,18 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-raci-table input.pc-task-name { font-weight: 600; color: var(--ink); border: none; background: transparent; width: 100%; font-family: inherit; }
 .pc-raci-table input.pc-task-name:focus { outline: none; }
 .pc-raci-select {
-  width: 100%; text-align: center; font-weight: 700; font-size: 12px; border-radius: 8px; border: 1.5px solid var(--border);
+  width: 100%; text-align: center; font-weight: 700; font-size: 12px; border-radius: 4px; border: 1.5px solid var(--border);
   padding: 4px 2px; background: #fff; cursor: pointer;
 }
 .pc-raci-legend { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .pc-raci-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-soft); }
-.pc-raci-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; font-weight: 700; font-size: 11px; }
+.pc-raci-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 4px; font-weight: 700; font-size: 11px; }
 .pc-raci-badge.r { background: #dbeafe; color: #1d4ed8; }
 .pc-raci-badge.a { background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: #fff; }
 .pc-raci-badge.c { background: #d1fae5; color: #047857; }
 .pc-raci-badge.i { background: #f1f2f6; color: #6b7280; }
-.pc-row-remove-btn { border: 1px solid #f87171; color: #b91c1c; background: #fef2f2; border-radius: 6px; padding: 4px 8px; font-size: 11px; cursor: pointer; }
-.pc-add-btn { border: 1px dashed #a78bfa; color: #6d28d9; background: #f5f3ff; border-radius: 8px; padding: 8px 12px; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%; }
+.pc-row-remove-btn { border: 1px solid #f87171; color: #b91c1c; background: #fef2f2; border-radius: 4px; padding: 4px 8px; font-size: 11px; cursor: pointer; }
+.pc-add-btn { border: 1px dashed #a78bfa; color: #6d28d9; background: #f5f3ff; border-radius: 4px; padding: 8px 12px; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%; }
 
 .pc-swot-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 @media (max-width: 900px) { .pc-swot-wrap { grid-template-columns: 1fr; } }
@@ -929,26 +967,26 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-raci-scroll .pc-raci-table { min-width: 480px; }
 .pc-raci-scroll .sg-risk-table { min-width: 620px; }
 .pc-pdlc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-.pc-pdlc-scroll .pc-pdlc-track { min-width: 700px; }
+.pc-pdlc-scroll .pc-pdlc { min-width: 760px; }
 
 /* ---- STRATEGY TAB (sg-*) ---- */
 .sg-roadmap-list { display: flex; flex-direction: column; gap: 10px; }
 .sg-roadmap-item {
   display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--border);
-  border-left-width: 4px; border-radius: 8px; padding: 16px; background: #fbfbfe;
+  border-left-width: 4px; border-radius: 4px; padding: 16px; background: #fbfbfe;
 }
 .sg-roadmap-item .sg-status-planned { border-left: none; }
 .sg-roadmap-item:has(.sg-status-progress) { border-left-color: var(--grad-end); }
 .sg-roadmap-item:has(.sg-status-done) { border-left-color: var(--good); }
 .sg-roadmap-item:has(.sg-status-planned) { border-left-color: var(--border); }
 .sg-roadmap-period {
-  width: 100px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+  width: 100px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 4px; padding: 8px 10px;
   font-size: 13px; font-weight: 700; color: var(--grad-end); background: #fff; font-family: inherit;
 }
 .sg-roadmap-title { flex: 1; min-width: 0; }
 .sg-roadmap-status { width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 600; }
 .sg-insight-list { display: flex; flex-direction: column; gap: 8px; }
-.sg-insight-item { border: 1.5px solid var(--border); border-radius: 8px; padding: 16px; background: #fbfbfe; }
+.sg-insight-item { border: 1.5px solid var(--border); border-radius: 4px; padding: 16px; background: #fbfbfe; }
 .sg-insight-meta { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; flex-wrap: wrap; }
 .sg-meta-type { width: 130px; flex: none; }
 .sg-meta-date { width: 130px; flex: none; }
@@ -965,7 +1003,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .sg-timeline-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
 .sg-timeline { display: flex; gap: 8px; min-width: min-content; }
 .sg-timeline-col {
-  flex: 0 0 180px; width: 180px; border: 1.5px solid var(--border); border-radius: 8px;
+  flex: 0 0 180px; width: 180px; border: 1.5px solid var(--border); border-radius: 4px;
   padding: 16px; background: #fbfbfe; display: flex; flex-direction: column; gap: 8px;
 }
 .sg-timeline-period {
@@ -973,7 +1011,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
   letter-spacing: 0.03em; padding-bottom: 6px; border-bottom: 1.5px dashed var(--border);
 }
 .sg-timeline-chip {
-  font-size: 12px; font-weight: 600; color: #fff; border-radius: 8px; padding: 8px 10px;
+  font-size: 12px; font-weight: 600; color: #fff; border-radius: 4px; padding: 8px 10px;
   background: var(--ink-soft); line-height: 1.35; overflow: hidden; text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1059,7 +1097,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
   flex: 1;
   padding: 6px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -1086,7 +1124,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .card-input {
   padding: 6px 8px;
   border: 1px solid #e2e4ec;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 13px;
   font-family: inherit;
 }
@@ -63386,6 +63424,24 @@ ${suffix}`;
     }, [update, key]);
     return { onCellChange, onRemove: onRemove2, onAdd: onAdd2 };
   }
+  function AutoTextarea(props) {
+    const ref = (0, import_react3.useRef)(null);
+    const fit = (0, import_react3.useCallback)(() => {
+      const el = ref.current;
+      if (!el || el.offsetParent === null) return;
+      el.style.height = "auto";
+      const borders = el.offsetHeight - el.clientHeight;
+      el.style.height = el.scrollHeight + borders + "px";
+    }, []);
+    (0, import_react3.useEffect)(() => {
+      fit();
+    }, [props.value, fit]);
+    (0, import_react3.useEffect)(() => {
+      window.addEventListener("resize", fit);
+      return () => window.removeEventListener("resize", fit);
+    }, [fit]);
+    return e("textarea", __spreadProps(__spreadValues({}, props), { ref, className: (props.className || "") + " pc-autogrow", onInput: fit }));
+  }
   function SimpleTable({ columns, rows, onCellChange, onRemove: onRemove2, onAdd: onAdd2, addLabel, addFactory, emptyText }) {
     if (rows.length === 0 && emptyText) {
       return e(
@@ -63945,7 +64001,66 @@ ${suffix}`;
       )
     );
   }
-  var PDLC_STAGES = ["\u0406\u0434\u0435\u044F", "\u0414\u043E\u0441\u043B\u0456\u0434\u0436\u0435\u043D\u043D\u044F", "\u0414\u0438\u0437\u0430\u0439\u043D", "\u0420\u043E\u0437\u0440\u043E\u0431\u043A\u0430", "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F", "\u0417\u0430\u043F\u0443\u0441\u043A", "\u0420\u0456\u0441\u0442"];
+  var PDLC_STAGES = [
+    {
+      label: "POC",
+      phase: "Feasibility & Concept",
+      tag: "",
+      units: "1\u20133 \u0448\u0442",
+      substages: ["\u0414\u0435\u043C\u043E\u043D\u0441\u0442\u0440\u0430\u0442\u043E\u0440\u0438 \u0442\u0430 \u043C\u0430\u043A\u0435\u0442\u0438", "\u0412\u0438\u043A\u043E\u0440\u0438\u0441\u0442\u0430\u043D\u043D\u044F HDK", "Arduino / Raspberry Pi", "\u0415\u0441\u043A\u0456\u0437\u0438 \u0434\u0438\u0437\u0430\u0439\u043D\u0443", "\u0420\u0435\u043D\u0434\u0435\u0440\u0438"]
+    },
+    {
+      label: "EVT-1",
+      phase: "Engineering Validation Tests",
+      tag: "early ALPHAs",
+      units: "3\u201310 \u0448\u0442",
+      substages: ["\u0406\u043D\u0436\u0435\u043D\u0435\u0440\u043D\u0435 \u043F\u0440\u043E\u0442\u043E\u0442\u0438\u043F\u0443\u0432\u0430\u043D\u043D\u044F", "\u0412\u0430\u043B\u0456\u0434\u0430\u0446\u0456\u044F \u0430\u043F\u0430\u0440\u0430\u0442\u043D\u043E\u0457 \u0447\u0430\u0441\u0442\u0438\u043D\u0438", "\u0406\u043D\u0442\u0435\u0433\u0440\u0430\u0446\u0456\u044F \u0441\u043E\u0444\u0442\u0443 \u0439 \u0437\u0430\u043B\u0456\u0437\u0430", "\u0422\u0435\u0441\u0442\u0438 \u0432 \u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u0456\u0457"]
+    },
+    {
+      label: "EVT-x",
+      phase: "Engineering Validation Tests",
+      tag: "late ALPHAs",
+      units: "\u043F\u0430\u0440\u0442\u0456\u044F \u0434\u043E 50 \u0448\u0442",
+      substages: ["\u0406\u043D\u0436\u0435\u043D\u0435\u0440\u043D\u0435 \u043F\u0440\u043E\u0442\u043E\u0442\u0438\u043F\u0443\u0432\u0430\u043D\u043D\u044F", "\u0412\u0430\u043B\u0456\u0434\u0430\u0446\u0456\u044F \u0430\u043F\u0430\u0440\u0430\u0442\u043D\u043E\u0457 \u0447\u0430\u0441\u0442\u0438\u043D\u0438", "\u0406\u043D\u0442\u0435\u0433\u0440\u0430\u0446\u0456\u044F \u0441\u043E\u0444\u0442\u0443 \u0439 \u0437\u0430\u043B\u0456\u0437\u0430", "\u0422\u0435\u0441\u0442\u0438 \u0432 \u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u0456\u0457"]
+    },
+    {
+      label: "DVT-1",
+      phase: "Design Validation Tests",
+      tag: "MVP",
+      units: "5\u201320 \u0448\u0442",
+      substages: ["\u0412\u0430\u043B\u0456\u0434\u0430\u0446\u0456\u044F \u0430\u043F\u0430\u0440\u0430\u0442\u043D\u043E\u0457 \u0447\u0430\u0441\u0442\u0438\u043D\u0438", "\u0424\u0456\u043D\u0430\u043B\u0456\u0437\u0430\u0446\u0456\u044F \u043F\u0440\u043E\u043C\u0438\u0441\u043B\u043E\u0432\u043E\u0433\u043E \u0434\u0438\u0437\u0430\u0439\u043D\u0443", "\u0420\u043E\u0437\u0448\u0438\u0440\u0435\u043D\u0456 \u0442\u0435\u0441\u0442\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432", "\u041A\u043E\u0440\u0438\u0433\u0443\u0432\u0430\u043D\u043D\u044F \u0434\u0438\u0437\u0430\u0439\u043D\u0443"]
+    },
+    {
+      label: "DVT-x",
+      phase: "Design Validation Tests",
+      tag: "",
+      units: "\u043F\u0430\u0440\u0442\u0456\u044F \u0434\u043E 200 \u0448\u0442",
+      substages: ["\u0421\u0442\u0430\u0440\u0442 DF-X", "\u0414\u0438\u0437\u0430\u0439\u043D \u0443\u043F\u0430\u043A\u043E\u0432\u043A\u0438 \u0442\u0430 \u0431\u043E\u043A\u0441\u0443", "\u041A\u043E\u0440\u0438\u0433\u0443\u0432\u0430\u043D\u043D\u044F \u0434\u0438\u0437\u0430\u0439\u043D\u0443", "\u041E\u0446\u0456\u043D\u043A\u0430 \u0432\u0430\u0440\u0442\u043E\u0441\u0442\u0456 \u043F\u0440\u043E\u0442\u043E\u0442\u0438\u043F\u0456\u0432"]
+    },
+    {
+      label: "PVT",
+      phase: "Manufacturing Pilots",
+      tag: "BETA",
+      units: "\u043F\u0430\u0440\u0442\u0456\u044F \u0434\u043E 500 \u0448\u0442",
+      substages: ["BETA-\u043F\u0440\u043E\u0442\u043E\u0442\u0438\u043F", "\u041F\u0440\u043E\u0454\u043A\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043E\u0441\u043D\u0430\u0441\u0442\u043A\u0438", "\u0412\u0430\u043B\u0456\u0434\u0430\u0446\u0456\u044F \u043D\u0430 \u0442\u0435\u0441\u0442\u043E\u0432\u043E\u043C\u0443 \u0441\u0442\u0435\u043D\u0434\u0456", "\u0412\u0456\u0434\u0432\u0430\u043D\u0442\u0430\u0436\u0435\u043D\u043D\u044F \u0440\u0430\u043D\u043D\u0456\u043C \u043F\u043E\u043A\u0443\u043F\u0446\u044F\u043C"]
+    },
+    {
+      label: "MP-x",
+      phase: "Volume Production",
+      tag: "",
+      units: "1000+ \u0448\u0442",
+      substages: ["\u041F\u0440\u043E\u0434\u0430\u0436\u0456 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443", "\u041E\u043F\u0442\u0438\u043C\u0456\u0437\u0430\u0446\u0456\u044F \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u0456\u0432 \u0456 \u0432\u0430\u0440\u0442\u043E\u0441\u0442\u0456", "\u041F\u043B\u0430\u043D\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u043E\u0432\u0438\u0445 \u0432\u0435\u0440\u0441\u0456\u0439", "\u041F\u043B\u0430\u043D\u0443\u0432\u0430\u043D\u043D\u044F EOL"]
+    }
+  ];
+  function pdlcPhaseGroups() {
+    const groups = [];
+    PDLC_STAGES.forEach((stage) => {
+      const last = groups[groups.length - 1];
+      if (last && last.phase === stage.phase) last.span += 1;
+      else groups.push({ phase: stage.phase, span: 1 });
+    });
+    return groups;
+  }
   var RACI_VALUES = ["", "R", "A", "C", "I"];
   var STATUS_OPTIONS = ["\u0406\u0434\u0435\u044F", "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456", "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F", "\u0410\u043A\u0442\u0438\u0432\u043D\u0438\u0439", "\u041F\u0440\u0438\u0437\u0443\u043F\u0438\u043D\u0435\u043D\u043E", "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E"];
   function defaultProductCard() {
@@ -63956,6 +64071,8 @@ ${suffix}`;
         name: "Sine.pin",
         shortDescription: "",
         productId: "PRD-2024-0847",
+        createdDate: "",
+        version: "v1.0",
         vision: "\u0421\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u044F \u0430\u043B\u044C\u0442\u0435\u0440\u043D\u0430\u0442\u0438\u0432\u043D\u043E\u0433\u043E \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0439\u043D\u043E\u0433\u043E \u0440\u0456\u0448\u0435\u043D\u043D\u044F \u0434\u043B\u044F \u043C\u0430\u0432\u0456\u043A\u0456\u0441\u0442\u0456\u0432",
         mission: "\u0417\u0430\u0431\u0435\u0437\u043F\u0435\u0447\u0438\u0442\u0438 100% \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432 \u0437 \u043C\u0430\u0432\u0456\u043A\u0430\u043C\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u043C, \u0449\u043E \u0434\u043E\u0437\u0432\u043E\u043B\u0438\u0442\u044C \u043E\u0440\u0456\u0454\u043D\u0442\u0443\u0432\u0430\u0442\u0438\u0441\u044C \u043F\u043E SNS",
         status: "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456",
@@ -63965,11 +64082,14 @@ ${suffix}`;
       },
       production: {
         startDate: "",
-        produced: 0
+        produced: 0,
+        components: 5,
+        shiftCapacity: 10
       },
       budget: {
         cost: "",
-        marketValue: "",
+        internalPrice: "",
+        exportPrice: "",
         notes: []
       },
       market: {
@@ -64001,7 +64121,8 @@ ${suffix}`;
         ltv: "$1 840",
         ltvCacRatio: "LTV:CAC = 8.8x"
       },
-      pdlcStage: 4,
+      pdlcStage: 3,
+      pdlcSubstage: 1,
       stakeholders: {
         manageClosely: ["CEO", "\u041A\u0435\u0440\u0456\u0432\u043D\u0438\u043A \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"],
         keepSatisfied: ["\u0406\u043D\u0432\u0435\u0441\u0442\u043E\u0440\u0438", "\u042E\u0440\u0438\u0434\u0438\u0447\u043D\u0438\u0439 \u0432\u0456\u0434\u0434\u0456\u043B"],
@@ -64049,20 +64170,29 @@ ${suffix}`;
     };
   }
   function mergeProductCard(loaded) {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
     const base = defaultProductCard();
     const safe = loaded && typeof loaded === "object" ? loaded : {};
+    const pdlcStage = Math.min(Math.max(0, Number(safe.pdlcStage) || 0), PDLC_STAGES.length - 1);
+    const pdlcSubstage = Math.min(Math.max(0, Number(safe.pdlcSubstage) || 0), PDLC_STAGES[pdlcStage].substages.length - 1);
     return __spreadProps(__spreadValues(__spreadValues({}, base), safe), {
       subtitle: typeof safe.subtitle === "string" ? safe.subtitle : base.subtitle,
       marketSubtitle: typeof safe.marketSubtitle === "string" ? safe.marketSubtitle : base.marketSubtitle,
+      pdlcStage,
+      pdlcSubstage,
       basic: __spreadValues(__spreadValues({}, base.basic), safe.basic || {}),
-      production: __spreadValues(__spreadValues({}, base.production), safe.production || {}),
+      production: __spreadProps(__spreadValues(__spreadValues({}, base.production), safe.production || {}), {
+        components: Number((_a = safe.production) == null ? void 0 : _a.components) || base.production.components,
+        shiftCapacity: Number((_b = safe.production) == null ? void 0 : _b.shiftCapacity) || base.production.shiftCapacity
+      }),
       // Migrates the older {planned, spent, note} shape (before "Бюджет" was
-      // renamed to "Вартість продукту" and notes became a removable list).
+      // renamed to "Вартість продукту" and notes became a removable list), and
+      // the later {marketValue} key (renamed to "Внутрішня ціна" / internalPrice).
       budget: {
-        cost: typeof ((_a = safe.budget) == null ? void 0 : _a.cost) === "string" ? safe.budget.cost : typeof ((_b = safe.budget) == null ? void 0 : _b.planned) === "string" ? safe.budget.planned : base.budget.cost,
-        marketValue: typeof ((_c = safe.budget) == null ? void 0 : _c.marketValue) === "string" ? safe.budget.marketValue : typeof ((_d = safe.budget) == null ? void 0 : _d.spent) === "string" ? safe.budget.spent : base.budget.marketValue,
-        notes: Array.isArray((_e = safe.budget) == null ? void 0 : _e.notes) ? safe.budget.notes : ((_f = safe.budget) == null ? void 0 : _f.note) ? [safe.budget.note] : base.budget.notes
+        cost: typeof ((_c = safe.budget) == null ? void 0 : _c.cost) === "string" ? safe.budget.cost : typeof ((_d = safe.budget) == null ? void 0 : _d.planned) === "string" ? safe.budget.planned : base.budget.cost,
+        internalPrice: typeof ((_e = safe.budget) == null ? void 0 : _e.internalPrice) === "string" ? safe.budget.internalPrice : typeof ((_f = safe.budget) == null ? void 0 : _f.marketValue) === "string" ? safe.budget.marketValue : typeof ((_g = safe.budget) == null ? void 0 : _g.spent) === "string" ? safe.budget.spent : base.budget.internalPrice,
+        exportPrice: typeof ((_h = safe.budget) == null ? void 0 : _h.exportPrice) === "string" ? safe.budget.exportPrice : base.budget.exportPrice,
+        notes: Array.isArray((_i = safe.budget) == null ? void 0 : _i.notes) ? safe.budget.notes : ((_j = safe.budget) == null ? void 0 : _j.note) ? [safe.budget.note] : base.budget.notes
       },
       market: __spreadValues(__spreadValues({}, base.market), safe.market || {}),
       okr: __spreadProps(__spreadValues(__spreadValues({}, base.okr), safe.okr || {}), { keyResults: safe.okr && safe.okr.keyResults || base.okr.keyResults }),
@@ -64268,8 +64398,8 @@ ${suffix}`;
       set3(["basic", "photoDataUrl"], "");
     }, [set3]);
     const handleProductionChange = (0, import_react3.useCallback)((field, value) => {
-      if (field === "produced") {
-        set3(["production", "produced"], Number(value) || 0);
+      if (field === "produced" || field === "components" || field === "shiftCapacity") {
+        set3(["production", field], Math.max(0, Number(value) || 0));
       } else {
         set3(["production", field], value);
       }
@@ -64310,7 +64440,10 @@ ${suffix}`;
         okr: __spreadProps(__spreadValues({}, prev.okr), { keyResults: prev.okr.keyResults.filter((_, i) => i !== idx) })
       }));
     }, [card.update]);
-    const handlePdlcChange = (0, import_react3.useCallback)((idx) => set3(["pdlcStage"], idx), [set3]);
+    const handlePdlcChange = (0, import_react3.useCallback)((idx) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), { pdlcStage: idx, pdlcSubstage: 0 }));
+    }, [card.update]);
+    const handlePdlcSubstageChange = (0, import_react3.useCallback)((idx) => set3(["pdlcSubstage"], idx), [set3]);
     const handleChipAdd = (0, import_react3.useCallback)((section, quadrant, text) => {
       card.update((prev) => __spreadProps(__spreadValues({}, prev), {
         [section]: __spreadProps(__spreadValues({}, prev[section]), { [quadrant]: [...prev[section][quadrant], text] })
@@ -64601,20 +64734,58 @@ ${suffix}`;
               { className: "pc-pdlc-scroll" },
               e(
                 "div",
-                { className: "pc-pdlc-track" },
-                e("div", { className: "pc-pdlc-line-bg" }),
-                e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } }),
-                PDLC_STAGES.map(
-                  (label, idx) => e(
+                { className: "pc-pdlc" },
+                e(
+                  "div",
+                  { className: "pc-pdlc-phases" },
+                  pdlcPhaseGroups().map(
+                    (group) => e("div", { key: group.phase, className: "pc-pdlc-phase", style: { gridColumn: "span " + group.span } }, group.phase)
+                  )
+                ),
+                e(
+                  "div",
+                  { className: "pc-pdlc-track" },
+                  e(
+                    "div",
+                    { className: "pc-pdlc-line-bg" },
+                    e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } })
+                  ),
+                  PDLC_STAGES.map(
+                    (stage, idx) => e(
+                      "button",
+                      {
+                        key: stage.label,
+                        className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
+                        onClick: () => handlePdlcChange(idx),
+                        title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
+                      },
+                      e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
+                      e("span", { className: "pc-pdlc-label" }, stage.label),
+                      // Always rendered (hidden when empty) so the units line below
+                      // stays on one baseline across all 7 stages.
+                      e("span", { className: "pc-pdlc-tag" + (stage.tag ? "" : " empty") }, stage.tag || "\u2014"),
+                      e("span", { className: "pc-pdlc-units" }, stage.units)
+                    )
+                  )
+                )
+              )
+            ),
+            e(
+              "div",
+              { className: "pc-pdlc-sub" },
+              e("span", { className: "pc-field-label" }, "\u041F\u0456\u0434\u0441\u0442\u0430\u0434\u0456\u044F \xB7 " + PDLC_STAGES[data.pdlcStage].label),
+              e(
+                "div",
+                { className: "pc-pdlc-sub-list" },
+                PDLC_STAGES[data.pdlcStage].substages.map(
+                  (sub, idx) => e(
                     "button",
                     {
-                      key: label,
-                      className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
-                      onClick: () => handlePdlcChange(idx),
-                      title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
+                      key: sub,
+                      className: "pc-pdlc-sub-chip" + (idx === data.pdlcSubstage ? " active" : ""),
+                      onClick: () => handlePdlcSubstageChange(idx)
                     },
-                    e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
-                    e("span", { className: "pc-pdlc-label" }, label)
+                    sub
                   )
                 )
               )
@@ -64635,12 +64806,13 @@ ${suffix}`;
                 e(
                   "div",
                   { className: "pc-field-grid" },
-                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u041D\u0430\u0437\u0432\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"), e("input", { className: "pc-field-input", value: data.basic.name, onChange: (ev) => handleBasicChange("name", ev.target.value) })),
-                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "ID"), e("input", { className: "pc-field-input", value: data.basic.productId, onChange: (ev) => handleBasicChange("productId", ev.target.value) })),
-                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u0412\u0456\u0437\u0456\u044F"), e("textarea", { className: "pc-field-input", rows: 2, value: data.basic.vision, onChange: (ev) => handleBasicChange("vision", ev.target.value) })),
-                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u041C\u0456\u0441\u0456\u044F"), e("textarea", { className: "pc-field-input", rows: 2, value: data.basic.mission, onChange: (ev) => handleBasicChange("mission", ev.target.value) })),
-                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u0421\u0442\u0430\u0442\u0443\u0441"), e("select", { className: "pc-field-input", value: data.basic.status, onChange: (ev) => handleBasicChange("status", ev.target.value) }, STATUS_OPTIONS.map((s) => e("option", { key: s, value: s }, s)))),
-                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u0412\u043B\u0430\u0441\u043D\u0438\u043A"), e("input", { className: "pc-field-input", value: data.basic.owner, onChange: (ev) => handleBasicChange("owner", ev.target.value) }))
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u041D\u0430\u0437\u0432\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443"), e("input", { className: "pc-field-input", value: data.basic.name, onChange: (ev) => handleBasicChange("name", ev.target.value) })),
+                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u0414\u0430\u0442\u0430 \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u044F"), e("input", { className: "pc-field-input", type: "date", value: data.basic.createdDate, onChange: (ev) => handleBasicChange("createdDate", ev.target.value) })),
+                  e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u041F\u043E\u0442\u043E\u0447\u043D\u0430 \u0432\u0435\u0440\u0441\u0456\u044F"), e("input", { className: "pc-field-input", value: data.basic.version, placeholder: "v1.0", onChange: (ev) => handleBasicChange("version", ev.target.value) })),
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u0412\u0456\u0437\u0456\u044F"), e(AutoTextarea, { className: "pc-field-input", rows: 2, value: data.basic.vision, onChange: (ev) => handleBasicChange("vision", ev.target.value) })),
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u041C\u0456\u0441\u0456\u044F"), e(AutoTextarea, { className: "pc-field-input", rows: 2, value: data.basic.mission, onChange: (ev) => handleBasicChange("mission", ev.target.value) })),
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u0421\u0442\u0430\u0442\u0443\u0441"), e("select", { className: "pc-field-input", value: data.basic.status, onChange: (ev) => handleBasicChange("status", ev.target.value) }, STATUS_OPTIONS.map((s) => e("option", { key: s, value: s }, s)))),
+                  e("div", { className: "pc-field span-2" }, e("span", { className: "pc-field-label" }, "\u0412\u043B\u0430\u0441\u043D\u0438\u043A"), e("input", { className: "pc-field-input", value: data.basic.owner, onChange: (ev) => handleBasicChange("owner", ev.target.value) }))
                 )
               ),
               e(
@@ -64651,7 +64823,9 @@ ${suffix}`;
                   "div",
                   { className: "pc-market-grid pc-market-grid-2" },
                   e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u0430"), e("input", { type: "date", value: data.production.startDate, onChange: (ev) => handleProductionChange("startDate", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u043E"), e("input", { type: "number", min: 0, value: data.production.produced, onChange: (ev) => handleProductionChange("produced", ev.target.value) }))
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u043E"), e("input", { type: "number", min: 0, value: data.production.produced, onChange: (ev) => handleProductionChange("produced", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041A\u0456\u043B\u044C\u043A\u0456\u0441\u0442\u044C \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u0456\u0432"), e("input", { type: "number", min: 0, value: data.production.components, onChange: (ev) => handleProductionChange("components", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u0440\u043E\u043F\u0443\u0441\u043A\u043D\u0430 \u0437\u0434\u0430\u0442\u043D\u0456\u0441\u0442\u044C \u0437\u043C\u0456\u043D\u0438"), e("input", { type: "number", min: 0, value: data.production.shiftCapacity, onChange: (ev) => handleProductionChange("shiftCapacity", ev.target.value) }))
                 )
               )
             ),
@@ -64689,7 +64863,7 @@ ${suffix}`;
                         e("input", { type: "number", value: kr.current, onChange: (ev) => handleKrChange(idx, "current", ev.target.value) }),
                         " / ",
                         e("input", { type: "number", value: kr.target, onChange: (ev) => handleKrChange(idx, "target", ev.target.value) }),
-                        e("input", { style: { width: "56px" }, value: kr.unit, onChange: (ev) => handleKrChange(idx, "unit", ev.target.value) }),
+                        e("span", { className: "pc-kr-unit" }, "%"),
                         e("button", { className: "pc-row-remove-btn", onClick: () => handleRemoveKr(idx) }, "\u2715")
                       )
                     ),
@@ -64704,9 +64878,10 @@ ${suffix}`;
                 e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443")),
                 e(
                   "div",
-                  { className: "pc-market-grid pc-market-grid-2" },
+                  { className: "pc-market-grid" },
                   e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0421\u043E\u0431\u0456\u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C"), e("input", { value: data.budget.cost, placeholder: "$ 12 000", onChange: (ev) => handleBudgetChange("cost", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0420\u0438\u043D\u043A\u043E\u0432\u0430 \u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C"), e("input", { value: data.budget.marketValue, placeholder: "$ 19 000", onChange: (ev) => handleBudgetChange("marketValue", ev.target.value) }))
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u043D\u0443\u0442\u0440\u0456\u0448\u043D\u044F \u0446\u0456\u043D\u0430"), e("input", { value: data.budget.internalPrice, placeholder: "$ 19 000", onChange: (ev) => handleBudgetChange("internalPrice", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0415\u043A\u0441\u043F\u043E\u0440\u0442\u043D\u0430 \u0446\u0456\u043D\u0430"), e("input", { value: data.budget.exportPrice, placeholder: "$ 24 000", onChange: (ev) => handleBudgetChange("exportPrice", ev.target.value) }))
                 ),
                 e(ChipQuadrant, { title: "\u041F\u0440\u0438\u043C\u0456\u0442\u043A\u0430", sub: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0456 \u0437\u0430 \u043F\u043E\u0442\u0440\u0435\u0431\u0438 \u0432\u0438\u0434\u0430\u043B\u0456\u0442\u044C \u0431\u0443\u0434\u044C-\u044F\u043A\u0443 \u043F\u0440\u0438\u043C\u0456\u0442\u043A\u0443", chips: data.budget.notes, onAdd: handleBudgetNoteAdd, onRemove: handleBudgetNoteRemove })
               )
