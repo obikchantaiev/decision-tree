@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Дерево рішень продукту</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
 <style id="xyflow-base-css">
 /* this gets exported as style.css and can be used for the default theming */
 /* these are the necessary styles for React/Svelte Flow, they get used by base.css and style.css */
@@ -633,14 +636,15 @@ svg.react-flow__connectionline {
 
 </style>
 <style>
-body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; overflow-x: hidden; }
+body { margin: 0; font-family: "Inter", -apple-system, Segoe UI, Roboto, sans-serif; font-optical-sizing: auto; overflow-x: hidden; }
+p { font-size: 16px; }
 #root { width: 100%; height: 100vh; }
 * { box-sizing: border-box; }
 input, select, textarea, button { font-family: inherit; }
 .pc-scroll *, .app-header * { min-width: 0; }
 .pc-header-title-input, .pc-field-input, .pc-quad-text, .pc-kr-name, .pc-market-stat input, .pc-growth-row input, .pc-okr-period input, .pc-objective-box textarea, .pc-task-name, .pc-metric-value, .pc-ratio-pill { max-width: 100%; }
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%);
   color: white;
   padding: 16px 24px;
   display: flex;
@@ -649,7 +653,19 @@ input, select, textarea, button { font-family: inherit; }
   gap: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-.app-header-top { display: flex; flex-direction: column; }
+.app-header-top { display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.app-gradient-picker { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.app-gradient-picker-label { font-size: 12px; font-weight: 600; opacity: 0.9; white-space: nowrap; }
+.app-gradient-picker input[type="color"] {
+  width: 26px; height: 26px; padding: 0; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 6px;
+  background: none; cursor: pointer;
+}
+.app-gradient-picker input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
+.app-gradient-picker input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+@media (max-width: 640px) {
+  .app-header-top { flex-direction: column; }
+  .app-gradient-picker { align-self: flex-start; }
+}
 .app-title { margin: 0; font-size: 20px; font-weight: 600; }
 .app-subtitle-input {
   margin: 4px 0 0 0;
@@ -722,8 +738,8 @@ input, select, textarea, button { font-family: inherit; }
   background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%);
   color: #fff;
   padding: 32px 40px 28px;
-  border-radius: 18px;
-  margin: 0 40px 24px;
+  border-radius: 8px;
+  margin: 0 40px 8px;
 }
 .pc-header-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .pc-header-eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; margin: 0 0 6px; }
@@ -765,11 +781,11 @@ input, select, textarea, button { font-family: inherit; }
 }
 .pc-header-meta-item input:focus { outline: none; border-bottom-color: #fff; }
 
-.pc-content { padding: 0 40px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+.pc-content { padding: 0 40px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 8px; }
 @media (max-width: 900px) { .pc-content { grid-template-columns: 1fr; } }
-.pc-col { display: flex; flex-direction: column; gap: 24px; }
+.pc-col { display: flex; flex-direction: column; gap: 8px; }
 
-.pc-card { background: var(--white); border-radius: 18px; padding: 26px 28px 28px; box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 8px 24px rgba(16,24,40,0.06); }
+.pc-card { background: var(--white); border-radius: 8px; padding: 26px 28px 28px; box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 8px 24px rgba(16,24,40,0.06); }
 .pc-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
 .pc-card-icon {
   width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
@@ -790,7 +806,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 
 .pc-market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
 .pc-market-grid-2 { grid-template-columns: repeat(2, 1fr); margin-bottom: 0; }
-.pc-market-stat { border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fbfbfe; }
+.pc-market-stat { border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 14px; background: #fbfbfe; }
 .pc-market-stat .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 8px; }
 .pc-market-stat input { font-size: 18px; font-weight: 700; color: var(--ink); border: none; background: transparent; width: 100%; padding: 0; }
 .pc-market-stat input:focus { outline: none; }
@@ -800,7 +816,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-funnel div:nth-child(2) { background: rgba(118,75,162,0.55); }
 .pc-funnel div:nth-child(3) { background: rgba(118,75,162,0.28); }
 
-.pc-growth-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 16px; background: #fbfbfe; gap: 10px; }
+.pc-growth-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 16px; background: #fbfbfe; gap: 10px; }
 .pc-growth-row input { border: none; background: transparent; font-weight: 700; color: var(--good); font-size: 15px; text-align: right; }
 .pc-growth-row input:focus { outline: none; }
 
@@ -811,12 +827,12 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-okr-period input { border: none; background: transparent; color: #4338ca; font-weight: 600; font-size: 13px; }
 .pc-okr-period input:focus { outline: none; }
 
-.pc-objective-box { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; background: #fbfbfe; margin-bottom: 18px; }
+.pc-objective-box { border: 1.5px solid var(--border); border-radius: 8px; padding: 14px 16px; background: #fbfbfe; margin-bottom: 18px; }
 .pc-objective-box .pc-field-label { margin-bottom: 6px; }
 .pc-objective-box textarea { font-size: 15px; font-weight: 600; color: var(--ink); border: none; background: transparent; width: 100%; resize: vertical; font-family: inherit; padding: 0; }
 .pc-objective-box textarea:focus { outline: none; }
 
-.pc-kr { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; background: #fbfbfe; }
+.pc-kr { border: 1.5px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; background: #fbfbfe; }
 .pc-kr:last-child { margin-bottom: 0; }
 .pc-kr-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 12px; }
 .pc-kr-name { font-size: 14px; font-weight: 600; color: var(--ink); border: none; background: transparent; flex: 1; font-family: inherit; }
@@ -827,7 +843,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--grad-start), var(--grad-end)); }
 
 .pc-metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.pc-metric-card { border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 16px; background: #fbfbfe; text-align: center; }
+.pc-metric-card { border: 1.5px solid var(--border); border-radius: 8px; padding: 18px 16px; background: #fbfbfe; text-align: center; }
 .pc-metric-card .pc-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; margin-bottom: 10px; }
 .pc-health-ring {
   width: 84px; height: 84px; margin: 0 auto 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -841,8 +857,8 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-metric-sub { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
 .pc-ratio-pill { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: #e8fbf0; color: #15803d; border: none; text-align: center; }
 
-.pc-extra { padding: 0 40px; display: flex; flex-direction: column; gap: 24px; margin-top: 24px; }
-.pc-matrix-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.pc-extra { padding: 0 40px; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.pc-matrix-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 @media (max-width: 900px) { .pc-matrix-row { grid-template-columns: 1fr; } }
 
 .pc-pdlc-track { position: relative; display: flex; justify-content: space-between; margin-top: 14px; padding: 0 8px; }
@@ -857,7 +873,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-pdlc-step.current .pc-pdlc-label, .pc-pdlc-step.done .pc-pdlc-label { color: var(--ink); }
 
 .pc-quad-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
-.pc-quad { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; background: #fbfbfe; min-height: 108px; }
+.pc-quad { border: 1.5px solid var(--border); border-radius: 8px; padding: 14px 16px; background: #fbfbfe; min-height: 108px; }
 .pc-quad-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
 .pc-quad-sub { font-size: 11px; color: var(--ink-soft); margin-bottom: 10px; }
 .pc-quad-text { font-size: 13px; color: var(--ink); line-height: 1.55; margin: 0; border: none; background: transparent; width: 100%; resize: vertical; font-family: inherit; }
@@ -893,7 +909,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-row-remove-btn { border: 1px solid #f87171; color: #b91c1c; background: #fef2f2; border-radius: 6px; padding: 4px 8px; font-size: 11px; cursor: pointer; }
 .pc-add-btn { border: 1px dashed #a78bfa; color: #6d28d9; background: #f5f3ff; border-radius: 8px; padding: 8px 12px; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%; }
 
-.pc-swot-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.pc-swot-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 @media (max-width: 900px) { .pc-swot-wrap { grid-template-columns: 1fr; } }
 .pc-swot-subtitle { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 10px; letter-spacing: 0.04em; }
 
@@ -907,7 +923,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .sg-roadmap-list { display: flex; flex-direction: column; gap: 10px; }
 .sg-roadmap-item {
   display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--border);
-  border-left-width: 4px; border-radius: 12px; padding: 10px 14px; background: #fbfbfe;
+  border-left-width: 4px; border-radius: 8px; padding: 10px 14px; background: #fbfbfe;
 }
 .sg-roadmap-item .sg-status-planned { border-left: none; }
 .sg-roadmap-item:has(.sg-status-progress) { border-left-color: var(--grad-end); }
@@ -920,7 +936,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .sg-roadmap-title { flex: 1; min-width: 0; }
 .sg-roadmap-status { width: 150px; flex-shrink: 0; font-size: 12px; font-weight: 600; }
 .sg-insight-list { display: flex; flex-direction: column; gap: 12px; }
-.sg-insight-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fbfbfe; }
+.sg-insight-item { border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 14px; background: #fbfbfe; }
 .sg-insight-meta { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; flex-wrap: wrap; }
 .sg-meta-type { width: 130px; flex: none; }
 .sg-meta-date { width: 130px; flex: none; }
@@ -937,7 +953,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .sg-timeline-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
 .sg-timeline { display: flex; gap: 14px; min-width: min-content; }
 .sg-timeline-col {
-  flex: 0 0 180px; width: 180px; border: 1.5px solid var(--border); border-radius: 12px;
+  flex: 0 0 180px; width: 180px; border: 1.5px solid var(--border); border-radius: 8px;
   padding: 10px; background: #fbfbfe; display: flex; flex-direction: column; gap: 8px;
 }
 .sg-timeline-period {
@@ -970,7 +986,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 
 /* ---- Responsive breakpoints (tablet) ---- */
 @media (max-width: 900px) {
-  .pc-header { padding: 24px 20px 20px; margin: 0 16px 20px; }
+  .pc-header { padding: 24px 20px 20px; margin: 0 16px 8px; }
   .pc-content { padding: 0 16px; }
   .pc-extra { padding: 0 16px; }
   .pc-market-grid { grid-template-columns: repeat(2, 1fr); }
@@ -980,19 +996,19 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 /* ---- Responsive breakpoints (mobile) ---- */
 @media (max-width: 640px) {
   .pc-page { padding: 16px 0 40px; }
-  .pc-header { padding: 20px 16px 16px; margin: 0 10px 16px; border-radius: 14px; }
+  .pc-header { padding: 20px 16px 16px; margin: 0 10px 8px; border-radius: 8px; }
   .pc-header-title-input { font-size: 20px; min-width: 0; width: 100%; }
   .pc-header-meta { gap: 16px; }
-  .pc-content { padding: 0 10px; gap: 16px; }
-  .pc-extra { padding: 0 10px; gap: 16px; }
-  .pc-card { padding: 18px 16px 20px; border-radius: 14px; }
+  .pc-content { padding: 0 10px; gap: 8px; }
+  .pc-extra { padding: 0 10px; gap: 8px; }
+  .pc-card { padding: 18px 16px 20px; border-radius: 8px; }
   .pc-field-grid { grid-template-columns: 1fr; }
   .pc-field.span-2 { grid-column: span 1; }
   .pc-market-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .pc-metric-row { grid-template-columns: 1fr; }
   .pc-quad-grid { grid-template-columns: 1fr; grid-template-rows: none; }
-  .pc-matrix-row { gap: 16px; }
-  .pc-swot-wrap { gap: 16px; }
+  .pc-matrix-row { gap: 8px; }
+  .pc-swot-wrap { gap: 8px; }
 }
 .legend {
   background: #f9f9f9;
@@ -1014,7 +1030,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .card-node {
   background: white;
   border: 1.5px solid #ddd6fe;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 12px;
   width: 220px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -1035,7 +1051,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 }
 .root-badge {
   display: inline-block;
-  background: #764ba2;
+  background: var(--grad-end);
   color: white;
   padding: 4px 12px;
   border-radius: 16px;
@@ -1078,7 +1094,7 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .icon-btn:hover { background: #f3f4f6; }
 .icon-btn.add { border-color: #34d399; color: #047857; background: #ecfdf5; }
 .icon-btn.danger { border-color: #f87171; color: #b91c1c; background: #fef2f2; }
-.rf-handle { width: 8px; height: 8px; background: #667eea; border: 2px solid white; border-radius: 50%; }
+.rf-handle { width: 8px; height: 8px; background: var(--grad-start); border: 2px solid white; border-radius: 50%; }
 </style>
 </head>
 <body>
@@ -63269,6 +63285,39 @@ ${suffix}`;
   } catch (err) {
     console.error("Failed to initialize Supabase:", err);
   }
+  var GRADIENT_STORAGE_KEY = "dtree-gradient-theme";
+  var DEFAULT_GRADIENT = { start: "#667eea", end: "#764ba2" };
+  var GRADIENT_EVENT = "dtree-gradient-change";
+  function getStoredGradient() {
+    try {
+      const raw = window.localStorage.getItem(GRADIENT_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed.start === "string" && typeof parsed.end === "string") {
+          return parsed;
+        }
+      }
+    } catch (err) {
+    }
+    return __spreadValues({}, DEFAULT_GRADIENT);
+  }
+  function applyGradientVars(gradient) {
+    document.documentElement.style.setProperty("--grad-start", gradient.start);
+    document.documentElement.style.setProperty("--grad-end", gradient.end);
+  }
+  function setStoredGradient(gradient) {
+    try {
+      window.localStorage.setItem(GRADIENT_STORAGE_KEY, JSON.stringify(gradient));
+    } catch (err) {
+    }
+    applyGradientVars(gradient);
+    window.dispatchEvent(new CustomEvent(GRADIENT_EVENT, { detail: gradient }));
+  }
+  applyGradientVars(getStoredGradient());
+  function getGradientEndColor() {
+    const value = getComputedStyle(document.documentElement).getPropertyValue("--grad-end").trim();
+    return value || DEFAULT_GRADIENT.end;
+  }
   function useUndoableState(initialValue) {
     const [state, setState] = (0, import_react3.useState)(initialValue);
     const [history, setHistory] = (0, import_react3.useState)([]);
@@ -63369,19 +63418,51 @@ ${suffix}`;
     );
   }
   function AppTopBar({ title, subtitle, onSubtitleChange, activeTab, onTabChange, toolbarExtra, saveStatus, onLogout }) {
+    const [gradient, setGradient] = (0, import_react3.useState)(getStoredGradient);
+    (0, import_react3.useEffect)(() => {
+      const onGradientChange = (ev) => setGradient(ev.detail);
+      window.addEventListener(GRADIENT_EVENT, onGradientChange);
+      return () => window.removeEventListener(GRADIENT_EVENT, onGradientChange);
+    }, []);
+    const handleGradientChange = (0, import_react3.useCallback)((field, value) => {
+      const next = __spreadProps(__spreadValues({}, gradient), { [field]: value });
+      setGradient(next);
+      setStoredGradient(next);
+    }, [gradient]);
     return e(
       "header",
       { className: "app-header" },
       e(
         "div",
         { className: "app-header-top" },
-        e("p", { className: "app-title" }, title),
-        e("input", {
-          className: "app-subtitle-input",
-          value: subtitle,
-          placeholder: "\u041E\u043F\u0438\u0441 \u0432\u043A\u043B\u0430\u0434\u043A\u0438\u2026",
-          onChange: (ev) => onSubtitleChange && onSubtitleChange(ev.target.value)
-        })
+        e(
+          "div",
+          { style: { flex: 1, minWidth: 0 } },
+          e("p", { className: "app-title" }, title),
+          e("input", {
+            className: "app-subtitle-input",
+            value: subtitle,
+            placeholder: "\u041E\u043F\u0438\u0441 \u0432\u043A\u043B\u0430\u0434\u043A\u0438\u2026",
+            onChange: (ev) => onSubtitleChange && onSubtitleChange(ev.target.value)
+          })
+        ),
+        e(
+          "div",
+          { className: "app-gradient-picker", title: "\u0411\u0430\u0437\u043E\u0432\u0438\u0439 \u0433\u0440\u0430\u0434\u0456\u0454\u043D\u0442 \u0437\u0430\u0441\u0442\u043E\u0441\u0443\u043D\u043A\u0443" },
+          e("span", { className: "app-gradient-picker-label" }, "\u{1F3A8} \u0413\u0440\u0430\u0434\u0456\u0454\u043D\u0442"),
+          e("input", {
+            type: "color",
+            value: gradient.start,
+            onChange: (ev) => handleGradientChange("start", ev.target.value),
+            title: "\u041F\u043E\u0447\u0430\u0442\u043A\u043E\u0432\u0438\u0439 \u043A\u043E\u043B\u0456\u0440 \u0433\u0440\u0430\u0434\u0456\u0454\u043D\u0442\u0430"
+          }),
+          e("input", {
+            type: "color",
+            value: gradient.end,
+            onChange: (ev) => handleGradientChange("end", ev.target.value),
+            title: "\u041A\u0456\u043D\u0446\u0435\u0432\u0438\u0439 \u043A\u043E\u043B\u0456\u0440 \u0433\u0440\u0430\u0434\u0456\u0454\u043D\u0442\u0430"
+          })
+        )
       ),
       e(
         "div",
@@ -63787,11 +63868,11 @@ ${suffix}`;
       e("button", { key: "undo", onClick: tree.undo, disabled: !tree.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: tree.redo, disabled: !tree.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
       e("button", { key: "dir", onClick: () => setDirection((d) => d === "LR" ? "TB" : "LR") }, direction === "LR" ? "\u2195 \u0432\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u043E" : "\u2194 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442\u0430\u043B\u044C\u043D\u043E"),
-      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e("button", { key: "export", onClick: handleExport }, "\u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
       e(
         "label",
         { key: "import" },
-        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        "\u0406\u043C\u043F\u043E\u0440\u0442 JSON",
         e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
       ),
       e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
@@ -63842,7 +63923,7 @@ ${suffix}`;
           e(Background, { gap: 20, color: "#e2e4ec" }),
           e(Controls, null),
           e(MiniMap, {
-            nodeColor: (n) => n.data.isRoot ? "#764ba2" : (TYPE_COLORS[n.data.type] || TYPE_COLORS["\u041D\u043E\u0442\u0430\u0442\u043A\u0430"]).mm,
+            nodeColor: (n) => n.data.isRoot ? getGradientEndColor() : (TYPE_COLORS[n.data.type] || TYPE_COLORS["\u041D\u043E\u0442\u0430\u0442\u043A\u0430"]).mm,
             maskColor: "rgba(244,245,251,0.7)"
           })
         )
@@ -64394,11 +64475,11 @@ ${suffix}`;
     const toolbarExtra = [
       e("button", { key: "undo", onClick: card.undo, disabled: !card.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: card.redo, disabled: !card.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
-      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e("button", { key: "export", onClick: handleExport }, "\u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
       e(
         "label",
         { key: "import" },
-        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        "\u0406\u043C\u043F\u043E\u0440\u0442 JSON",
         e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
       ),
       e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
@@ -64488,7 +64569,7 @@ ${suffix}`;
           // ===== PDLC: right after the main product-card block =====
           !isMarketTab && e(
             "section",
-            { className: "pc-card", style: { margin: "24px 24px 0" } },
+            { className: "pc-card", style: { margin: "8px 24px 0" } },
             e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
             e(
               "div",
@@ -65076,11 +65157,11 @@ ${suffix}`;
     const toolbarExtra = [
       e("button", { key: "undo", onClick: strategy.undo, disabled: !strategy.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: strategy.redo, disabled: !strategy.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
-      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e("button", { key: "export", onClick: handleExport }, "\u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
       e(
         "label",
         { key: "import" },
-        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        "\u0406\u043C\u043F\u043E\u0440\u0442 JSON",
         e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
       ),
       e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
@@ -65337,11 +65418,11 @@ ${suffix}`;
     const toolbarExtra = [
       e("button", { key: "undo", onClick: execution.undo, disabled: !execution.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: execution.redo, disabled: !execution.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
-      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e("button", { key: "export", onClick: handleExport }, "\u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
       e(
         "label",
         { key: "import" },
-        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        "\u0406\u043C\u043F\u043E\u0440\u0442 JSON",
         e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
       ),
       e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
@@ -65566,11 +65647,11 @@ ${suffix}`;
     const toolbarExtra = [
       e("button", { key: "undo", onClick: testing.undo, disabled: !testing.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: testing.redo, disabled: !testing.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
-      e("button", { key: "export", onClick: handleExport }, "\u2B73 \u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
+      e("button", { key: "export", onClick: handleExport }, "\u0415\u043A\u0441\u043F\u043E\u0440\u0442 JSON"),
       e(
         "label",
         { key: "import" },
-        "\u2B71 \u0406\u043C\u043F\u043E\u0440\u0442 JSON",
+        "\u0406\u043C\u043F\u043E\u0440\u0442 JSON",
         e("input", { type: "file", accept: "application/json", ref: fileInputRef, onChange: handleImportFile })
       ),
       e("button", { key: "reset", onClick: handleReset }, "\u21BA \u043F\u0440\u0438\u043A\u043B\u0430\u0434")
