@@ -63390,6 +63390,7 @@ ${suffix}`;
           "div",
           { className: "app-tabs" },
           e("button", { className: "tab-btn" + (activeTab === "card" ? " active" : ""), onClick: () => onTabChange("card") }, "\u{1F5C2} Product card"),
+          e("button", { className: "tab-btn" + (activeTab === "market" ? " active" : ""), onClick: () => onTabChange("market") }, "\u{1F4C8} Market"),
           e("button", { className: "tab-btn" + (activeTab === "strategy" ? " active" : ""), onClick: () => onTabChange("strategy") }, "\u{1F5FA}\uFE0F Roadmap"),
           e("button", { className: "tab-btn" + (activeTab === "execution" ? " active" : ""), onClick: () => onTabChange("execution") }, "\u{1F3C3} Execution"),
           e("button", { className: "tab-btn" + (activeTab === "tree" ? " active" : ""), onClick: () => onTabChange("tree") }, "\u{1F333} Decision tree"),
@@ -63853,7 +63854,8 @@ ${suffix}`;
   var STATUS_OPTIONS = ["\u0406\u0434\u0435\u044F", "\u0412 \u0440\u043E\u0437\u0440\u043E\u0431\u0446\u0456", "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F", "\u0410\u043A\u0442\u0438\u0432\u043D\u0438\u0439", "\u041F\u0440\u0438\u0437\u0443\u043F\u0438\u043D\u0435\u043D\u043E", "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E"];
   function defaultProductCard() {
     return {
-      subtitle: "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F, \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E, \u0440\u0438\u043D\u043E\u043A, OKR, \u043C\u0435\u0442\u0440\u0438\u043A\u0438, PDLC, \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0438, \u0440\u0438\u0437\u0438\u043A\u0438, \u0456\u043D\u0441\u0430\u0439\u0442\u0438, RACI, SWOT \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+      subtitle: "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F, PDLC, OKR, \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E, \u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443, \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0438, \u043A\u043E\u043C\u0443\u043D\u0456\u043A\u0430\u0446\u0456\u0457, RACI, \u0440\u0438\u0437\u0438\u043A\u0438, \u0456\u043D\u0441\u0430\u0439\u0442\u0438, \u0433\u043B\u043E\u0441\u0430\u0440\u0456\u0439 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+      marketSubtitle: "SWOT, \u0440\u0438\u043D\u043E\u043A, \u043C\u0435\u0442\u0440\u0438\u043A\u0438, \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043D\u0438\u0439 \u0430\u043D\u0430\u043B\u0456\u0437, \u043F\u0435\u0440\u0441\u043E\u043D\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
       basic: {
         name: "Sine.pin",
         shortDescription: "",
@@ -63870,9 +63872,9 @@ ${suffix}`;
         produced: 0
       },
       budget: {
-        planned: "",
-        spent: "",
-        note: ""
+        cost: "",
+        marketValue: "",
+        notes: []
       },
       market: {
         totalTeams: "40+ \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432-\u043C\u0430\u0432\u0456\u043A\u0456\u0441\u0442\u0456\u0432",
@@ -63951,13 +63953,21 @@ ${suffix}`;
     };
   }
   function mergeProductCard(loaded) {
+    var _a, _b, _c, _d, _e, _f;
     const base = defaultProductCard();
     const safe = loaded && typeof loaded === "object" ? loaded : {};
     return __spreadProps(__spreadValues(__spreadValues({}, base), safe), {
       subtitle: typeof safe.subtitle === "string" ? safe.subtitle : base.subtitle,
+      marketSubtitle: typeof safe.marketSubtitle === "string" ? safe.marketSubtitle : base.marketSubtitle,
       basic: __spreadValues(__spreadValues({}, base.basic), safe.basic || {}),
       production: __spreadValues(__spreadValues({}, base.production), safe.production || {}),
-      budget: __spreadValues(__spreadValues({}, base.budget), safe.budget || {}),
+      // Migrates the older {planned, spent, note} shape (before "Бюджет" was
+      // renamed to "Вартість продукту" and notes became a removable list).
+      budget: {
+        cost: typeof ((_a = safe.budget) == null ? void 0 : _a.cost) === "string" ? safe.budget.cost : typeof ((_b = safe.budget) == null ? void 0 : _b.planned) === "string" ? safe.budget.planned : base.budget.cost,
+        marketValue: typeof ((_c = safe.budget) == null ? void 0 : _c.marketValue) === "string" ? safe.budget.marketValue : typeof ((_d = safe.budget) == null ? void 0 : _d.spent) === "string" ? safe.budget.spent : base.budget.marketValue,
+        notes: Array.isArray((_e = safe.budget) == null ? void 0 : _e.notes) ? safe.budget.notes : ((_f = safe.budget) == null ? void 0 : _f.note) ? [safe.budget.note] : base.budget.notes
+      },
       market: __spreadValues(__spreadValues({}, base.market), safe.market || {}),
       okr: __spreadProps(__spreadValues(__spreadValues({}, base.okr), safe.okr || {}), { keyResults: safe.okr && safe.okr.keyResults || base.okr.keyResults }),
       metrics: __spreadValues(__spreadValues({}, base.metrics), safe.metrics || {}),
@@ -64054,19 +64064,26 @@ ${suffix}`;
   var TESTING_TYPES = ["\u0424\u0456\u0434\u0431\u0435\u043A", "\u0417\u0430\u043F\u0438\u0442", "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F"];
   function defaultTesting() {
     return {
-      subtitle: "\u0424\u0456\u0434\u0431\u0435\u043A, \u0437\u0430\u043F\u0438\u0442\u0438 \u0442\u0430 \u0437\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F \u0437 \u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
-      entries: [
-        { id: newStrategyId(), type: "\u0424\u0456\u0434\u0431\u0435\u043A", date: "2026-08-05", who: "QA-\u0456\u043D\u0436\u0435\u043D\u0435\u0440", title: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u0440\u0438 \u0432\u0442\u0440\u0430\u0442\u0456 \u0441\u0438\u0433\u043D\u0430\u043B\u0443", text: "\u041F\u0440\u0438 \u0440\u0456\u0437\u043A\u0456\u0439 \u0432\u0442\u0440\u0430\u0442\u0456 \u0441\u0438\u0433\u043D\u0430\u043B\u0443 SNS-\u043C\u0430\u044F\u043A\u0430 \u0434\u043E\u0434\u0430\u0442\u043E\u043A \u043D\u0430 \u0441\u0435\u043A\u0443\u043D\u0434\u0443 \u043F\u0456\u0434\u0432\u0438\u0441\u0430\u0454 \u043F\u0435\u0440\u0435\u0434 \u043F\u043E\u043A\u0430\u0437\u043E\u043C \u0456\u043D\u0434\u0438\u043A\u0430\u0442\u043E\u0440\u0430" },
-        { id: newStrategyId(), type: "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F", date: "2026-08-06", who: "\u0420\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A", title: "\u0427\u0438 \u043F\u043E\u0442\u0440\u0456\u0431\u043D\u0430 \u043E\u0444\u043B\u0430\u0439\u043D-\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F \u0434\u043B\u044F \u043D\u043E\u0432\u0438\u0445 \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432", text: "\u041D\u0435\u0437\u0440\u043E\u0437\u0443\u043C\u0456\u043B\u043E, \u0447\u0438 \u043C\u0430\u0454 \u043E\u0444\u043B\u0430\u0439\u043D-\u043A\u0435\u0448 \u0442\u043E\u0447\u043E\u043A \u043C\u0430\u0440\u0448\u0440\u0443\u0442\u0443 \u043F\u0440\u0430\u0446\u044E\u0432\u0430\u0442\u0438 \u043E\u0434\u0440\u0430\u0437\u0443 \u043F\u0440\u0438 \u043F\u0435\u0440\u0448\u043E\u043C\u0443 \u0432\u0445\u043E\u0434\u0456 \u0432 \u0430\u043A\u0430\u0443\u043D\u0442" }
+      subtitle: "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u0438 \u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u044C \u043F\u043E \u043A\u043E\u0436\u043D\u043E\u043C\u0443 \u0442\u0435\u0441\u0442\u0435\u0440\u0443 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+      sections: [
+        {
+          id: newStrategyId(),
+          testerLabel: "Early adopter \u21161",
+          entries: [
+            { id: newStrategyId(), type: "\u0424\u0456\u0434\u0431\u0435\u043A", date: "2026-08-05", who: "QA-\u0456\u043D\u0436\u0435\u043D\u0435\u0440", title: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u0440\u0438 \u0432\u0442\u0440\u0430\u0442\u0456 \u0441\u0438\u0433\u043D\u0430\u043B\u0443", text: "\u041F\u0440\u0438 \u0440\u0456\u0437\u043A\u0456\u0439 \u0432\u0442\u0440\u0430\u0442\u0456 \u0441\u0438\u0433\u043D\u0430\u043B\u0443 SNS-\u043C\u0430\u044F\u043A\u0430 \u0434\u043E\u0434\u0430\u0442\u043E\u043A \u043D\u0430 \u0441\u0435\u043A\u0443\u043D\u0434\u0443 \u043F\u0456\u0434\u0432\u0438\u0441\u0430\u0454 \u043F\u0435\u0440\u0435\u0434 \u043F\u043E\u043A\u0430\u0437\u043E\u043C \u0456\u043D\u0434\u0438\u043A\u0430\u0442\u043E\u0440\u0430" },
+            { id: newStrategyId(), type: "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F", date: "2026-08-06", who: "\u0420\u043E\u0437\u0440\u043E\u0431\u043D\u0438\u043A", title: "\u0427\u0438 \u043F\u043E\u0442\u0440\u0456\u0431\u043D\u0430 \u043E\u0444\u043B\u0430\u0439\u043D-\u0441\u0438\u043D\u0445\u0440\u043E\u043D\u0456\u0437\u0430\u0446\u0456\u044F \u0434\u043B\u044F \u043D\u043E\u0432\u0438\u0445 \u0435\u043A\u0456\u043F\u0430\u0436\u0456\u0432", text: "\u041D\u0435\u0437\u0440\u043E\u0437\u0443\u043C\u0456\u043B\u043E, \u0447\u0438 \u043C\u0430\u0454 \u043E\u0444\u043B\u0430\u0439\u043D-\u043A\u0435\u0448 \u0442\u043E\u0447\u043E\u043A \u043C\u0430\u0440\u0448\u0440\u0443\u0442\u0443 \u043F\u0440\u0430\u0446\u044E\u0432\u0430\u0442\u0438 \u043E\u0434\u0440\u0430\u0437\u0443 \u043F\u0440\u0438 \u043F\u0435\u0440\u0448\u043E\u043C\u0443 \u0432\u0445\u043E\u0434\u0456 \u0432 \u0430\u043A\u0430\u0443\u043D\u0442" }
+          ]
+        }
       ]
     };
   }
   function mergeTesting(loaded) {
     const base = defaultTesting();
     const safe = loaded && typeof loaded === "object" ? loaded : {};
+    const sections = Array.isArray(safe.sections) ? safe.sections : Array.isArray(safe.entries) ? [{ id: newStrategyId(), testerLabel: "", entries: safe.entries }] : base.sections;
     return __spreadProps(__spreadValues(__spreadValues({}, base), safe), {
       subtitle: typeof safe.subtitle === "string" ? safe.subtitle : base.subtitle,
-      entries: Array.isArray(safe.entries) ? safe.entries : base.entries
+      sections
     });
   }
   function ChipQuadrant({ title, sub, chips, onAdd: onAdd2, onRemove: onRemove2, primary }) {
@@ -64139,6 +64156,7 @@ ${suffix}`;
       });
     }, [card.update]);
     const handleSubtitleChange = (0, import_react3.useCallback)((value) => set3(["subtitle"], value), [set3]);
+    const handleMarketSubtitleChange = (0, import_react3.useCallback)((value) => set3(["marketSubtitle"], value), [set3]);
     const handleBasicChange = (0, import_react3.useCallback)((field, value) => set3(["basic", field], value), [set3]);
     const handlePhotoChange = (0, import_react3.useCallback)((ev) => {
       const file = ev.target.files && ev.target.files[0];
@@ -64156,6 +64174,12 @@ ${suffix}`;
       }
     }, [set3]);
     const handleBudgetChange = (0, import_react3.useCallback)((field, value) => set3(["budget", field], value), [set3]);
+    const handleBudgetNoteAdd = (0, import_react3.useCallback)((text) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), { budget: __spreadProps(__spreadValues({}, prev.budget), { notes: [...prev.budget.notes, text] }) }));
+    }, [card.update]);
+    const handleBudgetNoteRemove = (0, import_react3.useCallback)((idx) => {
+      card.update((prev) => __spreadProps(__spreadValues({}, prev), { budget: __spreadProps(__spreadValues({}, prev.budget), { notes: prev.budget.notes.filter((_, i) => i !== idx) }) }));
+    }, [card.update]);
     const handleMarketChange = (0, import_react3.useCallback)((field, value) => set3(["market", field], value), [set3]);
     const handleMetricsChange = (0, import_react3.useCallback)((field, value) => {
       if (field === "healthScore") {
@@ -64366,6 +64390,7 @@ ${suffix}`;
       };
     }, [card.state, user]);
     const data = card.state;
+    const isMarketTab = activeTab === "market";
     const toolbarExtra = [
       e("button", { key: "undo", onClick: card.undo, disabled: !card.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: card.redo, disabled: !card.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
@@ -64382,9 +64407,9 @@ ${suffix}`;
       "div",
       { style: { height: "100%", display: "flex", flexDirection: "column" } },
       e(AppTopBar, {
-        title: "Product card",
-        subtitle: data.subtitle,
-        onSubtitleChange: handleSubtitleChange,
+        title: isMarketTab ? "Market" : "Product card",
+        subtitle: isMarketTab ? data.marketSubtitle : data.subtitle,
+        onSubtitleChange: isMarketTab ? handleMarketSubtitleChange : handleSubtitleChange,
         activeTab,
         onTabChange,
         toolbarExtra,
@@ -64460,19 +64485,47 @@ ${suffix}`;
               )
             )
           ),
-          // ===== CONTENT: 2 columns =====
-          e(
+          // ===== PDLC: right after the main product-card block =====
+          !isMarketTab && e(
+            "section",
+            { className: "pc-card", style: { margin: "24px 24px 0" } },
+            e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
+            e(
+              "div",
+              { className: "pc-pdlc-scroll" },
+              e(
+                "div",
+                { className: "pc-pdlc-track" },
+                e("div", { className: "pc-pdlc-line-bg" }),
+                e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } }),
+                PDLC_STAGES.map(
+                  (label, idx) => e(
+                    "button",
+                    {
+                      key: label,
+                      className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
+                      onClick: () => handlePdlcChange(idx),
+                      title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
+                    },
+                    e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
+                    e("span", { className: "pc-pdlc-label" }, label)
+                  )
+                )
+              )
+            )
+          ),
+          // ===== CONTENT: 2 columns (Product card tab only) =====
+          !isMarketTab && e(
             "div",
             { className: "pc-content" },
-            // LEFT COLUMN
+            // LEFT COLUMN: Basic info, Production
             e(
               "div",
               { className: "pc-col" },
-              // 1. Basic info
               e(
                 "section",
                 { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "01"), e("h2", { className: "pc-card-title" }, "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F")),
+                e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041E\u0441\u043D\u043E\u0432\u043D\u0430 \u0456\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F")),
                 e(
                   "div",
                   { className: "pc-field-grid" },
@@ -64484,11 +64537,26 @@ ${suffix}`;
                   e("div", { className: "pc-field" }, e("span", { className: "pc-field-label" }, "\u0412\u043B\u0430\u0441\u043D\u0438\u043A"), e("input", { className: "pc-field-input", value: data.basic.owner, onChange: (ev) => handleBasicChange("owner", ev.target.value) }))
                 )
               ),
-              // 3. OKR
               e(
                 "section",
                 { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "OKR")),
+                e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0412\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E")),
+                e(
+                  "div",
+                  { className: "pc-market-grid pc-market-grid-2" },
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u0430"), e("input", { type: "date", value: data.production.startDate, onChange: (ev) => handleProductionChange("startDate", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u043E"), e("input", { type: "number", min: 0, value: data.production.produced, onChange: (ev) => handleProductionChange("produced", ev.target.value) }))
+                )
+              )
+            ),
+            // RIGHT COLUMN: OKR, Вартість продукту
+            e(
+              "div",
+              { className: "pc-col" },
+              e(
+                "section",
+                { className: "pc-card" },
+                e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "OKR")),
                 e(
                   "div",
                   { className: "pc-okr-period" },
@@ -64523,163 +64591,109 @@ ${suffix}`;
                   )
                 ),
                 e("button", { className: "pc-add-btn", onClick: handleAddKr }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043A\u043B\u044E\u0447\u043E\u0432\u0438\u0439 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442")
-              )
-            ),
-            // RIGHT COLUMN
-            e(
-              "div",
-              { className: "pc-col" },
-              // 2. Production
+              ),
               e(
                 "section",
                 { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "03"), e("h2", { className: "pc-card-title" }, "\u0412\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E")),
+                e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443")),
                 e(
                   "div",
                   { className: "pc-market-grid pc-market-grid-2" },
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u0430"), e("input", { type: "date", value: data.production.startDate, onChange: (ev) => handleProductionChange("startDate", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u0438\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u043E"), e("input", { type: "number", min: 0, value: data.production.produced, onChange: (ev) => handleProductionChange("produced", ev.target.value) }))
-                )
-              ),
-              // 4. Budget
-              e(
-                "section",
-                { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "04"), e("h2", { className: "pc-card-title" }, "\u0411\u044E\u0434\u0436\u0435\u0442")),
-                e(
-                  "div",
-                  { className: "pc-market-grid pc-market-grid-2" },
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E"), e("input", { value: data.budget.planned, placeholder: "$ 12 000", onChange: (ev) => handleBudgetChange("planned", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0412\u0438\u0442\u0440\u0430\u0447\u0435\u043D\u043E"), e("input", { value: data.budget.spent, placeholder: "$ 7 400", onChange: (ev) => handleBudgetChange("spent", ev.target.value) }))
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0421\u043E\u0431\u0456\u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C"), e("input", { value: data.budget.cost, placeholder: "$ 12 000", onChange: (ev) => handleBudgetChange("cost", ev.target.value) })),
+                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0420\u0438\u043D\u043A\u043E\u0432\u0430 \u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C"), e("input", { value: data.budget.marketValue, placeholder: "$ 19 000", onChange: (ev) => handleBudgetChange("marketValue", ev.target.value) }))
                 ),
-                e(
-                  "div",
-                  { className: "pc-growth-row" },
-                  e("span", { className: "pc-field-label", style: { margin: 0 } }, "\u041F\u0440\u0438\u043C\u0456\u0442\u043A\u0430"),
-                  e("input", { value: data.budget.note, onChange: (ev) => handleBudgetChange("note", ev.target.value) })
-                )
-              ),
-              // 5. Market
-              e(
-                "section",
-                { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "05"), e("h2", { className: "pc-card-title" }, "\u0420\u0438\u043D\u043E\u043A")),
-                e(
-                  "div",
-                  { className: "pc-market-grid" },
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0442\u0435\u043D\u0446\u0456\u0439\u043D\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438"), e("input", { value: data.market.totalTeams, onChange: (ev) => handleMarketChange("totalTeams", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041E\u0445\u043E\u043F\u043B\u0435\u043D\u043E \u043A\u043E\u043C\u0430\u043D\u0434"), e("input", { value: data.market.coveredTeams, onChange: (ev) => handleMarketChange("coveredTeams", ev.target.value) })),
-                  e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0426\u0456\u043B\u044C \u043D\u0430 \u043A\u0432\u0430\u0440\u0442\u0430\u043B"), e("input", { value: data.market.quarterlyTarget, onChange: (ev) => handleMarketChange("quarterlyTarget", ev.target.value) }))
-                ),
-                e(
-                  "div",
-                  { className: "pc-growth-row" },
-                  e("span", { className: "pc-field-label", style: { margin: 0 } }, "\u041F\u0440\u0438\u0440\u0456\u0441\u0442 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F"),
-                  e("input", { value: data.market.growth, onChange: (ev) => handleMarketChange("growth", ev.target.value) })
-                )
-              ),
-              // 5. Metrics
-              e(
-                "section",
-                { className: "pc-card" },
-                e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "06"), e("h2", { className: "pc-card-title" }, "\u041C\u0435\u0442\u0440\u0438\u043A\u0438")),
-                e(
-                  "div",
-                  { className: "pc-metric-row" },
-                  e(
-                    "div",
-                    { className: "pc-metric-card" },
-                    e("div", { className: "pc-label" }, "North Star Metric"),
-                    e("input", { className: "pc-field-input", style: { marginBottom: "8px" }, value: data.metrics.northStarName, onChange: (ev) => handleMetricsChange("northStarName", ev.target.value) }),
-                    e("input", { className: "pc-metric-value", value: data.metrics.northStarValue, onChange: (ev) => handleMetricsChange("northStarValue", ev.target.value) }),
-                    e("div", { className: "pc-metric-sub" }, "\u043A\u043B\u044E\u0447\u043E\u0432\u0430 \u043C\u0435\u0442\u0440\u0438\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443")
-                  ),
-                  e(
-                    "div",
-                    { className: "pc-metric-card" },
-                    e("div", { className: "pc-label" }, "Health Score"),
-                    e("div", { className: "pc-health-ring", style: { "--pct": data.metrics.healthScore } }, e("span", null, data.metrics.healthScore)),
-                    e("input", { className: "pc-field-input pc-health-input", type: "number", min: 0, max: 100, value: data.metrics.healthScore, onChange: (ev) => handleMetricsChange("healthScore", ev.target.value) }),
-                    e("div", { className: "pc-metric-sub" }, "\u0456\u0437 100")
-                  ),
-                  e(
-                    "div",
-                    { className: "pc-metric-card" },
-                    e("div", { className: "pc-label" }, "CAC"),
-                    e("input", { className: "pc-metric-value", value: data.metrics.cac, onChange: (ev) => handleMetricsChange("cac", ev.target.value) }),
-                    e("div", { className: "pc-metric-sub" }, "\u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u0437\u0430\u043B\u0443\u0447\u0435\u043D\u043D\u044F \u043A\u043B\u0456\u0454\u043D\u0442\u0430")
-                  ),
-                  e(
-                    "div",
-                    { className: "pc-metric-card" },
-                    e("div", { className: "pc-label" }, "LTV"),
-                    e("input", { className: "pc-metric-value", value: data.metrics.ltv, onChange: (ev) => handleMetricsChange("ltv", ev.target.value) }),
-                    e("div", { className: "pc-metric-sub" }, "\u0434\u043E\u0432\u0456\u0447\u043D\u0430 \u0446\u0456\u043D\u043D\u0456\u0441\u0442\u044C \u043A\u043B\u0456\u0454\u043D\u0442\u0430"),
-                    e("input", { className: "pc-ratio-pill", value: data.metrics.ltvCacRatio, onChange: (ev) => handleMetricsChange("ltvCacRatio", ev.target.value) })
-                  )
-                )
+                e(ChipQuadrant, { title: "\u041F\u0440\u0438\u043C\u0456\u0442\u043A\u0430", sub: "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u0456 \u0437\u0430 \u043F\u043E\u0442\u0440\u0435\u0431\u0438 \u0432\u0438\u0434\u0430\u043B\u0456\u0442\u044C \u0431\u0443\u0434\u044C-\u044F\u043A\u0443 \u043F\u0440\u0438\u043C\u0456\u0442\u043A\u0443", chips: data.budget.notes, onAdd: handleBudgetNoteAdd, onRemove: handleBudgetNoteRemove })
               )
             )
           ),
-          // ===== EXTRA SECTIONS =====
-          e(
+          // ===== MARKET TAB CONTENT =====
+          isMarketTab && e(
             "div",
-            { className: "pc-extra" },
-            // 6. PDLC
+            { className: "pc-extra", style: { marginTop: 0 } },
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "07"), e("h2", { className: "pc-card-title" }, "\u0421\u0442\u0430\u0434\u0456\u044F \u0440\u043E\u0437\u0440\u043E\u0431\u043A\u0438 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 (PDLC)")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "SWOT-\u0430\u043D\u0430\u043B\u0456\u0437")),
               e(
                 "div",
-                { className: "pc-pdlc-scroll" },
+                { className: "pc-quad-grid" },
+                e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "\u0421\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (S)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.strengths, onChange: (ev) => handleSwotChange("strengths", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0421\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (W)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.weaknesses, onChange: (ev) => handleSwotChange("weaknesses", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u041C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456 (O)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.opportunities, onChange: (ev) => handleSwotChange("opportunities", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0417\u0430\u0433\u0440\u043E\u0437\u0438 (T)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.threats, onChange: (ev) => handleSwotChange("threats", ev.target.value) }))
+              ),
+              e("p", { className: "pc-swot-subtitle", style: { marginTop: "20px" } }, "TOWS-\u043C\u0430\u0442\u0440\u0438\u0446\u044F (\u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u0457 \u043D\u0430 \u043F\u0435\u0440\u0435\u0442\u0438\u043D\u0456 \u0444\u0430\u043A\u0442\u043E\u0440\u0456\u0432)"),
+              e(
+                "div",
+                { className: "pc-quad-grid" },
+                e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "SO \u2014 \u0441\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u043C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.so, onChange: (ev) => handleTowsChange("so", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WO \u2014 \u0441\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u043C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.wo, onChange: (ev) => handleTowsChange("wo", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "ST \u2014 \u0441\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u0437\u0430\u0433\u0440\u043E\u0437\u0438"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.st, onChange: (ev) => handleTowsChange("st", ev.target.value) })),
+                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WT \u2014 \u0441\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u0437\u0430\u0433\u0440\u043E\u0437\u0438"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.wt, onChange: (ev) => handleTowsChange("wt", ev.target.value) }))
+              )
+            ),
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0420\u0438\u043D\u043E\u043A")),
+              e(
+                "div",
+                { className: "pc-market-grid" },
+                e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041F\u043E\u0442\u0435\u043D\u0446\u0456\u0439\u043D\u0456 \u043A\u043E\u043C\u0430\u043D\u0434\u0438"), e("input", { value: data.market.totalTeams, onChange: (ev) => handleMarketChange("totalTeams", ev.target.value) })),
+                e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u041E\u0445\u043E\u043F\u043B\u0435\u043D\u043E \u043A\u043E\u043C\u0430\u043D\u0434"), e("input", { value: data.market.coveredTeams, onChange: (ev) => handleMarketChange("coveredTeams", ev.target.value) })),
+                e("div", { className: "pc-market-stat" }, e("div", { className: "pc-label" }, "\u0426\u0456\u043B\u044C \u043D\u0430 \u043A\u0432\u0430\u0440\u0442\u0430\u043B"), e("input", { value: data.market.quarterlyTarget, onChange: (ev) => handleMarketChange("quarterlyTarget", ev.target.value) }))
+              ),
+              e(
+                "div",
+                { className: "pc-growth-row" },
+                e("span", { className: "pc-field-label", style: { margin: 0 } }, "\u041F\u0440\u0438\u0440\u0456\u0441\u0442 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F"),
+                e("input", { value: data.market.growth, onChange: (ev) => handleMarketChange("growth", ev.target.value) })
+              )
+            ),
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041C\u0435\u0442\u0440\u0438\u043A\u0438")),
+              e(
+                "div",
+                { className: "pc-metric-row" },
                 e(
                   "div",
-                  { className: "pc-pdlc-track" },
-                  e("div", { className: "pc-pdlc-line-bg" }),
-                  e("div", { className: "pc-pdlc-line-fill", style: { width: data.pdlcStage / (PDLC_STAGES.length - 1) * 100 + "%" } }),
-                  PDLC_STAGES.map(
-                    (label, idx) => e(
-                      "button",
-                      {
-                        key: label,
-                        className: "pc-pdlc-step" + (idx < data.pdlcStage ? " done" : idx === data.pdlcStage ? " current" : ""),
-                        onClick: () => handlePdlcChange(idx),
-                        title: "\u0412\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u043E\u0442\u043E\u0447\u043D\u0438\u0439 \u0435\u0442\u0430\u043F"
-                      },
-                      e("div", { className: "pc-pdlc-dot" }, idx < data.pdlcStage ? "\u2713" : String(idx + 1)),
-                      e("span", { className: "pc-pdlc-label" }, label)
-                    )
-                  )
+                  { className: "pc-metric-card" },
+                  e("div", { className: "pc-label" }, "North Star Metric"),
+                  e("input", { className: "pc-field-input", style: { marginBottom: "8px" }, value: data.metrics.northStarName, onChange: (ev) => handleMetricsChange("northStarName", ev.target.value) }),
+                  e("input", { className: "pc-metric-value", value: data.metrics.northStarValue, onChange: (ev) => handleMetricsChange("northStarValue", ev.target.value) }),
+                  e("div", { className: "pc-metric-sub" }, "\u043A\u043B\u044E\u0447\u043E\u0432\u0430 \u043C\u0435\u0442\u0440\u0438\u043A\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443")
+                ),
+                e(
+                  "div",
+                  { className: "pc-metric-card" },
+                  e("div", { className: "pc-label" }, "Health Score"),
+                  e("div", { className: "pc-health-ring", style: { "--pct": data.metrics.healthScore } }, e("span", null, data.metrics.healthScore)),
+                  e("input", { className: "pc-field-input pc-health-input", type: "number", min: 0, max: 100, value: data.metrics.healthScore, onChange: (ev) => handleMetricsChange("healthScore", ev.target.value) }),
+                  e("div", { className: "pc-metric-sub" }, "\u0456\u0437 100")
+                ),
+                e(
+                  "div",
+                  { className: "pc-metric-card" },
+                  e("div", { className: "pc-label" }, "CAC"),
+                  e("input", { className: "pc-metric-value", value: data.metrics.cac, onChange: (ev) => handleMetricsChange("cac", ev.target.value) }),
+                  e("div", { className: "pc-metric-sub" }, "\u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u0437\u0430\u043B\u0443\u0447\u0435\u043D\u043D\u044F \u043A\u043B\u0456\u0454\u043D\u0442\u0430")
+                ),
+                e(
+                  "div",
+                  { className: "pc-metric-card" },
+                  e("div", { className: "pc-label" }, "LTV"),
+                  e("input", { className: "pc-metric-value", value: data.metrics.ltv, onChange: (ev) => handleMetricsChange("ltv", ev.target.value) }),
+                  e("div", { className: "pc-metric-sub" }, "\u0434\u043E\u0432\u0456\u0447\u043D\u0430 \u0446\u0456\u043D\u043D\u0456\u0441\u0442\u044C \u043A\u043B\u0456\u0454\u043D\u0442\u0430"),
+                  e("input", { className: "pc-ratio-pill", value: data.metrics.ltvCacRatio, onChange: (ev) => handleMetricsChange("ltvCacRatio", ev.target.value) })
                 )
               )
             ),
-            // 8. Персони користувачів
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "08"), e("h2", { className: "pc-card-title" }, "\u041F\u0435\u0440\u0441\u043E\u043D\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432")),
-              e(SimpleTable, {
-                columns: [
-                  { key: "name", label: "\u041F\u0435\u0440\u0441\u043E\u043D\u0430" },
-                  { key: "role", label: "\u0420\u043E\u043B\u044C" },
-                  { key: "goal", label: "\u0426\u0456\u043B\u044C (JTBD)", type: "textarea" },
-                  { key: "pain", label: "\u0411\u0456\u043B\u044C", type: "textarea" }
-                ],
-                rows: data.personas,
-                onCellChange: personasField.onCellChange,
-                onRemove: personasField.onRemove,
-                onAdd: personasField.onAdd,
-                addLabel: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0443",
-                addFactory: () => ({ id: newStrategyId(), name: "\u041D\u043E\u0432\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430", role: "", goal: "", pain: "" }),
-                emptyText: "\u0429\u0435 \u043D\u0435\u043C\u0430\u0454 \u0436\u043E\u0434\u043D\u043E\u0457 \u043F\u0435\u0440\u0441\u043E\u043D\u0438."
-              })
-            ),
-            // 9. Конкурентний аналіз
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "09"), e("h2", { className: "pc-card-title" }, "\u041A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043D\u0438\u0439 \u0430\u043D\u0430\u043B\u0456\u0437")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u043D\u0438\u0439 \u0430\u043D\u0430\u043B\u0456\u0437")),
               e(SimpleTable, {
                 columns: [
                   { key: "name", label: "\u041A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442" },
@@ -64696,11 +64710,36 @@ ${suffix}`;
                 emptyText: "\u0429\u0435 \u043D\u0435\u043C\u0430\u0454 \u0436\u043E\u0434\u043D\u043E\u0433\u043E \u043A\u043E\u043D\u043A\u0443\u0440\u0435\u043D\u0442\u0430."
               })
             ),
-            // 10. stakeholders
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "10"), e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041F\u0435\u0440\u0441\u043E\u043D\u0438 \u043A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0456\u0432")),
+              e(SimpleTable, {
+                columns: [
+                  { key: "name", label: "\u041F\u0435\u0440\u0441\u043E\u043D\u0430" },
+                  { key: "role", label: "\u0420\u043E\u043B\u044C" },
+                  { key: "goal", label: "\u0426\u0456\u043B\u044C (JTBD)", type: "textarea" },
+                  { key: "pain", label: "\u0411\u0456\u043B\u044C", type: "textarea" }
+                ],
+                rows: data.personas,
+                onCellChange: personasField.onCellChange,
+                onRemove: personasField.onRemove,
+                onAdd: personasField.onAdd,
+                addLabel: "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0435\u0440\u0441\u043E\u043D\u0443",
+                addFactory: () => ({ id: newStrategyId(), name: "\u041D\u043E\u0432\u0430 \u043F\u0435\u0440\u0441\u043E\u043D\u0430", role: "", goal: "", pain: "" }),
+                emptyText: "\u0429\u0435 \u043D\u0435\u043C\u0430\u0454 \u0436\u043E\u0434\u043D\u043E\u0457 \u043F\u0435\u0440\u0441\u043E\u043D\u0438."
+              })
+            )
+          ),
+          // ===== EXTRA SECTIONS (Product card tab only) =====
+          !isMarketTab && e(
+            "div",
+            { className: "pc-extra" },
+            // Матриця стейкхолдерів
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041C\u0430\u0442\u0440\u0438\u0446\u044F \u0441\u0442\u0435\u0439\u043A\u0445\u043E\u043B\u0434\u0435\u0440\u0456\u0432")),
               e(
                 "div",
                 { className: "pc-quad-grid" },
@@ -64710,11 +64749,11 @@ ${suffix}`;
                 e(ChipQuadrant, { title: "\u041C\u043E\u043D\u0456\u0442\u043E\u0440\u0438\u0442\u0438", sub: "\u041D\u0438\u0437\u044C\u043A\u0438\u0439 \u0432\u043F\u043B\u0438\u0432 \xB7 \u043D\u0438\u0437\u044C\u043A\u0438\u0439 \u0456\u043D\u0442\u0435\u0440\u0435\u0441", chips: data.stakeholders.monitor, onAdd: (t) => handleChipAdd("stakeholders", "monitor", t), onRemove: (i) => handleChipRemove("stakeholders", "monitor", i) })
               )
             ),
-            // 11. Communications plan
+            // План комунікацій
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "11"), e("h2", { className: "pc-card-title" }, "\u041F\u043B\u0430\u043D \u043A\u043E\u043C\u0443\u043D\u0456\u043A\u0430\u0446\u0456\u0439")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041F\u043B\u0430\u043D \u043A\u043E\u043C\u0443\u043D\u0456\u043A\u0430\u0446\u0456\u0439")),
               e(SimpleTable, {
                 columns: [
                   { key: "audience", label: "\u0410\u0443\u0434\u0438\u0442\u043E\u0440\u0456\u044F" },
@@ -64731,84 +64770,11 @@ ${suffix}`;
                 emptyText: "\u041F\u043B\u0430\u043D \u043A\u043E\u043C\u0443\u043D\u0456\u043A\u0430\u0446\u0456\u0439 \u043F\u043E\u043A\u0438 \u043F\u043E\u0440\u043E\u0436\u043D\u0456\u0439."
               })
             ),
-            // 12. Risk register
+            // RACI матриця
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "12"), e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432")),
-              e(
-                "div",
-                { className: "pc-raci-scroll" },
-                e(
-                  "table",
-                  { className: "pc-raci-table sg-risk-table" },
-                  e("thead", null, e("tr", null, e("th", null, "\u041E\u043F\u0438\u0441 \u0440\u0438\u0437\u0438\u043A\u0443"), e("th", null, "\u0419\u043C\u043E\u0432\u0456\u0440\u043D\u0456\u0441\u0442\u044C"), e("th", null, "\u0412\u043F\u043B\u0438\u0432"), e("th", null, "\u041C\u0456\u0442\u0438\u0433\u0430\u0446\u0456\u044F"), e("th", null, ""))),
-                  e(
-                    "tbody",
-                    null,
-                    data.risks.map(
-                      (item) => e(
-                        "tr",
-                        { key: item.id },
-                        e("td", null, e("input", { className: "pc-task-name", value: item.description, onChange: (ev) => handleRiskChange(item.id, "description", ev.target.value) })),
-                        e(
-                          "td",
-                          null,
-                          e(
-                            "select",
-                            { className: "pc-raci-select", value: item.probability, onChange: (ev) => handleRiskChange(item.id, "probability", ev.target.value) },
-                            PROBABILITY_LEVELS.map((v) => e("option", { key: v, value: v }, v))
-                          )
-                        ),
-                        e(
-                          "td",
-                          null,
-                          e(
-                            "select",
-                            { className: "pc-raci-select", value: item.impact, onChange: (ev) => handleRiskChange(item.id, "impact", ev.target.value) },
-                            IMPACT_LEVELS.map((v) => e("option", { key: v, value: v }, v))
-                          )
-                        ),
-                        e("td", null, e("input", { className: "pc-task-name", value: item.mitigation, onChange: (ev) => handleRiskChange(item.id, "mitigation", ev.target.value) })),
-                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRiskRemove(item.id) }, "\u2715"))
-                      )
-                    )
-                  )
-                )
-              ),
-              e("button", { className: "pc-add-btn", onClick: handleRiskAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0440\u0438\u0437\u0438\u043A")
-            ),
-            // 9. Insights
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "13"), e("h2", { className: "pc-card-title" }, "\u0406\u043D\u0441\u0430\u0439\u0442\u0438")),
-              e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: handleInsightAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0456\u043D\u0441\u0430\u0439\u0442"),
-              e(
-                "div",
-                { className: "sg-insight-list" },
-                data.insights.map(
-                  (item) => e(
-                    "div",
-                    { className: "sg-insight-item", key: item.id },
-                    e(
-                      "div",
-                      { className: "sg-insight-meta" },
-                      e("input", { className: "pc-mini-input sg-meta-date", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => handleInsightChange(item.id, "date", ev.target.value) }),
-                      e("input", { className: "pc-mini-input sg-meta-who", placeholder: "\u0425\u0442\u043E", value: item.who || "", onChange: (ev) => handleInsightChange(item.id, "who", ev.target.value) }),
-                      e("button", { className: "pc-row-remove-btn", style: { marginLeft: "auto" }, onClick: () => handleInsightRemove(item.id) }, "\u2715")
-                    ),
-                    e("input", { className: "pc-field-input sg-insight-title", placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A", value: item.title || "", onChange: (ev) => handleInsightChange(item.id, "title", ev.target.value) }),
-                    e("textarea", { className: "pc-field-input", rows: 2, placeholder: "\u041E\u043F\u0438\u0441", value: item.text, onChange: (ev) => handleInsightChange(item.id, "text", ev.target.value) })
-                  )
-                )
-              )
-            ),
-            // 10. RACI
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "14"), e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "RACI-\u043C\u0430\u0442\u0440\u0438\u0446\u044F \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0456")),
               e(
                 "div",
                 { className: "pc-raci-scroll" },
@@ -64877,34 +64843,84 @@ ${suffix}`;
                 e("div", { className: "pc-raci-legend-item" }, e("span", { className: "pc-raci-badge i" }, "I"), " Informed \u2014 \u0456\u043D\u0444\u043E\u0440\u043C\u0443\u044E\u0442\u044C")
               )
             ),
-            // 15. SWOT
+            // Реєстр ризиків
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "15"), e("h2", { className: "pc-card-title" }, "SWOT-\u0430\u043D\u0430\u043B\u0456\u0437")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0454\u0441\u0442\u0440 \u0440\u0438\u0437\u0438\u043A\u0456\u0432")),
               e(
                 "div",
-                { className: "pc-quad-grid" },
-                e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "\u0421\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (S)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.strengths, onChange: (ev) => handleSwotChange("strengths", ev.target.value) })),
-                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0421\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 (W)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.weaknesses, onChange: (ev) => handleSwotChange("weaknesses", ev.target.value) })),
-                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u041C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456 (O)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.opportunities, onChange: (ev) => handleSwotChange("opportunities", ev.target.value) })),
-                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "\u0417\u0430\u0433\u0440\u043E\u0437\u0438 (T)"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.swot.threats, onChange: (ev) => handleSwotChange("threats", ev.target.value) }))
+                { className: "pc-raci-scroll" },
+                e(
+                  "table",
+                  { className: "pc-raci-table sg-risk-table" },
+                  e("thead", null, e("tr", null, e("th", null, "\u041E\u043F\u0438\u0441 \u0440\u0438\u0437\u0438\u043A\u0443"), e("th", null, "\u0419\u043C\u043E\u0432\u0456\u0440\u043D\u0456\u0441\u0442\u044C"), e("th", null, "\u0412\u043F\u043B\u0438\u0432"), e("th", null, "\u041C\u0456\u0442\u0438\u0433\u0430\u0446\u0456\u044F"), e("th", null, ""))),
+                  e(
+                    "tbody",
+                    null,
+                    data.risks.map(
+                      (item) => e(
+                        "tr",
+                        { key: item.id },
+                        e("td", null, e("input", { className: "pc-task-name", value: item.description, onChange: (ev) => handleRiskChange(item.id, "description", ev.target.value) })),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: item.probability, onChange: (ev) => handleRiskChange(item.id, "probability", ev.target.value) },
+                            PROBABILITY_LEVELS.map((v) => e("option", { key: v, value: v }, v))
+                          )
+                        ),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select", value: item.impact, onChange: (ev) => handleRiskChange(item.id, "impact", ev.target.value) },
+                            IMPACT_LEVELS.map((v) => e("option", { key: v, value: v }, v))
+                          )
+                        ),
+                        e("td", null, e("input", { className: "pc-task-name", value: item.mitigation, onChange: (ev) => handleRiskChange(item.id, "mitigation", ev.target.value) })),
+                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRiskRemove(item.id) }, "\u2715"))
+                      )
+                    )
+                  )
+                )
               ),
-              e("p", { className: "pc-swot-subtitle", style: { marginTop: "20px" } }, "TOWS-\u043C\u0430\u0442\u0440\u0438\u0446\u044F (\u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0456\u0457 \u043D\u0430 \u043F\u0435\u0440\u0435\u0442\u0438\u043D\u0456 \u0444\u0430\u043A\u0442\u043E\u0440\u0456\u0432)"),
+              e("button", { className: "pc-add-btn", onClick: handleRiskAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0440\u0438\u0437\u0438\u043A")
+            ),
+            // Інсайти (не входить до явно заданого порядку — залишено після реєстру ризиків)
+            e(
+              "section",
+              { className: "pc-card" },
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0406\u043D\u0441\u0430\u0439\u0442\u0438")),
+              e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: handleInsightAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0456\u043D\u0441\u0430\u0439\u0442"),
               e(
                 "div",
-                { className: "pc-quad-grid" },
-                e("div", { className: "pc-quad pc-q-primary" }, e("div", { className: "pc-quad-title" }, "SO \u2014 \u0441\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u043C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.so, onChange: (ev) => handleTowsChange("so", ev.target.value) })),
-                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WO \u2014 \u0441\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u043C\u043E\u0436\u043B\u0438\u0432\u043E\u0441\u0442\u0456"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.wo, onChange: (ev) => handleTowsChange("wo", ev.target.value) })),
-                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "ST \u2014 \u0441\u0438\u043B\u044C\u043D\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u0437\u0430\u0433\u0440\u043E\u0437\u0438"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.st, onChange: (ev) => handleTowsChange("st", ev.target.value) })),
-                e("div", { className: "pc-quad" }, e("div", { className: "pc-quad-title" }, "WT \u2014 \u0441\u043B\u0430\u0431\u043A\u0456 \u0441\u0442\u043E\u0440\u043E\u043D\u0438 + \u0437\u0430\u0433\u0440\u043E\u0437\u0438"), e("textarea", { className: "pc-quad-text", rows: 3, value: data.tows.wt, onChange: (ev) => handleTowsChange("wt", ev.target.value) }))
+                { className: "sg-insight-list" },
+                data.insights.map(
+                  (item) => e(
+                    "div",
+                    { className: "sg-insight-item", key: item.id },
+                    e(
+                      "div",
+                      { className: "sg-insight-meta" },
+                      e("input", { className: "pc-mini-input sg-meta-date", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => handleInsightChange(item.id, "date", ev.target.value) }),
+                      e("input", { className: "pc-mini-input sg-meta-who", placeholder: "\u0425\u0442\u043E", value: item.who || "", onChange: (ev) => handleInsightChange(item.id, "who", ev.target.value) }),
+                      e("button", { className: "pc-row-remove-btn", style: { marginLeft: "auto" }, onClick: () => handleInsightRemove(item.id) }, "\u2715")
+                    ),
+                    e("input", { className: "pc-field-input sg-insight-title", placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A", value: item.title || "", onChange: (ev) => handleInsightChange(item.id, "title", ev.target.value) }),
+                    e("textarea", { className: "pc-field-input", rows: 2, placeholder: "\u041E\u043F\u0438\u0441", value: item.text, onChange: (ev) => handleInsightChange(item.id, "text", ev.target.value) })
+                  )
+                )
               )
             ),
-            // 16. Glossary
+            // Глосарій термінів
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "16"), e("h2", { className: "pc-card-title" }, "\u0413\u043B\u043E\u0441\u0430\u0440\u0456\u0439 \u0442\u0435\u0440\u043C\u0456\u043D\u0456\u0432")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0413\u043B\u043E\u0441\u0430\u0440\u0456\u0439 \u0442\u0435\u0440\u043C\u0456\u043D\u0456\u0432")),
               e(SimpleTable, {
                 columns: [
                   { key: "term", label: "\u0422\u0435\u0440\u043C\u0456\u043D" },
@@ -65127,7 +65143,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "01"), e("h2", { className: "pc-card-title" }, "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430")),
               e(
                 "div",
                 { className: "sg-roadmap-list" },
@@ -65152,7 +65168,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u041F\u0440\u0438\u043F\u0443\u0449\u0435\u043D\u043D\u044F \u0442\u0430 \u043E\u0431\u043C\u0435\u0436\u0435\u043D\u043D\u044F")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041F\u0440\u0438\u043F\u0443\u0449\u0435\u043D\u043D\u044F \u0442\u0430 \u043E\u0431\u043C\u0435\u0436\u0435\u043D\u043D\u044F")),
               e(SimpleTable, {
                 columns: [
                   { key: "type", label: "\u0422\u0438\u043F", type: "select", options: ["\u041F\u0440\u0438\u043F\u0443\u0449\u0435\u043D\u043D\u044F", "\u041E\u0431\u043C\u0435\u0436\u0435\u043D\u043D\u044F"] },
@@ -65172,7 +65188,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "03"), e("h2", { className: "pc-card-title" }, "\u0416\u0443\u0440\u043D\u0430\u043B \u0437\u043C\u0456\u043D")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0416\u0443\u0440\u043D\u0430\u043B \u0437\u043C\u0456\u043D")),
               e(SimpleTable, {
                 columns: [
                   { key: "date", label: "\u0414\u0430\u0442\u0430" },
@@ -65192,7 +65208,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "04"), e("h2", { className: "pc-card-title" }, "\u0406\u0441\u0442\u043E\u0440\u0456\u044F \u0440\u0435\u043B\u0456\u0437\u0456\u0432")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0406\u0441\u0442\u043E\u0440\u0456\u044F \u0440\u0435\u043B\u0456\u0437\u0456\u0432")),
               e(SimpleTable, {
                 columns: [
                   { key: "version", label: "\u0412\u0435\u0440\u0441\u0456\u044F" },
@@ -65356,7 +65372,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "01"), e("h2", { className: "pc-card-title" }, "\u0421\u043F\u0440\u0438\u043D\u0442")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0421\u043F\u0440\u0438\u043D\u0442")),
               e(
                 "div",
                 { className: "pc-field-grid" },
@@ -65369,7 +65385,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "02"), e("h2", { className: "pc-card-title" }, "\u0411\u044D\u043A\u043B\u043E\u0433")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0411\u044D\u043A\u043B\u043E\u0433")),
               e(SimpleTable, {
                 columns: [
                   { key: "title", label: "\u0417\u0430\u0434\u0430\u0447\u0430" },
@@ -65389,7 +65405,7 @@ ${suffix}`;
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "03"), e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0442\u0440\u043E\u0441\u043F\u0435\u043A\u0442\u0438\u0432\u0438")),
+              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0442\u0440\u043E\u0441\u043F\u0435\u043A\u0442\u0438\u0432\u0438")),
               e(SimpleTable, {
                 columns: [
                   { key: "date", label: "\u0414\u0430\u0442\u0430" },
@@ -65421,7 +65437,42 @@ ${suffix}`;
     const handleSubtitleChange = (0, import_react3.useCallback)((value) => {
       testing.update((prev) => __spreadProps(__spreadValues({}, prev), { subtitle: value }));
     }, [testing.update]);
-    const entriesField = useListField(testing.update, "entries");
+    const handleSectionLabelChange = (0, import_react3.useCallback)((sectionId, value) => {
+      testing.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        sections: prev.sections.map((s) => s.id === sectionId ? __spreadProps(__spreadValues({}, s), { testerLabel: value }) : s)
+      }));
+    }, [testing.update]);
+    const handleSectionAdd = (0, import_react3.useCallback)(() => {
+      testing.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        sections: [...prev.sections, { id: newStrategyId(), testerLabel: "", entries: [] }]
+      }));
+    }, [testing.update]);
+    const handleSectionRemove = (0, import_react3.useCallback)((sectionId) => {
+      testing.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        sections: prev.sections.filter((s) => s.id !== sectionId)
+      }));
+    }, [testing.update]);
+    const handleEntryAdd = (0, import_react3.useCallback)((sectionId) => {
+      testing.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        sections: prev.sections.map(
+          (s) => s.id === sectionId ? __spreadProps(__spreadValues({}, s), { entries: [...s.entries, { id: newStrategyId(), type: "\u0424\u0456\u0434\u0431\u0435\u043A", date: "", who: "", title: "", text: "" }] }) : s
+        )
+      }));
+    }, [testing.update]);
+    const handleEntryRemove = (0, import_react3.useCallback)((sectionId, entryId) => {
+      testing.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        sections: prev.sections.map(
+          (s) => s.id === sectionId ? __spreadProps(__spreadValues({}, s), { entries: s.entries.filter((en) => en.id !== entryId) }) : s
+        )
+      }));
+    }, [testing.update]);
+    const handleEntryChange = (0, import_react3.useCallback)((sectionId, entryId, field, value) => {
+      testing.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        sections: prev.sections.map(
+          (s) => s.id === sectionId ? __spreadProps(__spreadValues({}, s), { entries: s.entries.map((en) => en.id === entryId ? __spreadProps(__spreadValues({}, en), { [field]: value }) : en) }) : s
+        )
+      }));
+    }, [testing.update]);
     const handleReset = (0, import_react3.useCallback)(() => testing.update(defaultTesting()), [testing.update]);
     const handleExport = (0, import_react3.useCallback)(() => {
       const blob = new Blob([JSON.stringify(testing.state, null, 2)], { type: "application/json" });
@@ -65546,35 +65597,57 @@ ${suffix}`;
           e(
             "div",
             { className: "pc-extra", style: { marginTop: 0 } },
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("div", { className: "pc-card-icon" }, "01"), e("h2", { className: "pc-card-title" }, "\u0424\u0456\u0434\u0431\u0435\u043A, \u0437\u0430\u043F\u0438\u0442\u0438 \u0442\u0430 \u0437\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F")),
-              e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: () => entriesField.onAdd(() => ({ id: newStrategyId(), type: "\u0424\u0456\u0434\u0431\u0435\u043A", date: "", who: "", title: "", text: "" })) }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0437\u0430\u043F\u0438\u0441"),
-              e(
-                "div",
-                { className: "sg-insight-list" },
-                data.entries.map(
-                  (item) => e(
-                    "div",
-                    { className: "sg-insight-item", key: item.id },
-                    e(
+            data.sections.map(
+              (section) => e(
+                "section",
+                { className: "pc-card testing-section", key: section.id },
+                e(
+                  "div",
+                  { className: "pc-card-head", style: { flexWrap: "wrap", gap: "10px" } },
+                  e("h2", { className: "pc-card-title" }, "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u0438 \u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u044C"),
+                  e("input", {
+                    className: "pc-mini-input testing-tester-label",
+                    placeholder: "Early adopter \u2116",
+                    value: section.testerLabel,
+                    onChange: (ev) => handleSectionLabelChange(section.id, ev.target.value)
+                  }),
+                  data.sections.length > 1 && e(
+                    "button",
+                    { className: "pc-row-remove-btn", style: { marginLeft: "auto" }, onClick: () => handleSectionRemove(section.id), title: "\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438 \u0441\u0435\u043A\u0446\u0456\u044E" },
+                    "\u2715"
+                  )
+                ),
+                e("button", { className: "pc-add-btn", style: { marginTop: 0, marginBottom: "14px" }, onClick: () => handleEntryAdd(section.id) }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0437\u0430\u043F\u0438\u0441"),
+                e(
+                  "div",
+                  { className: "sg-insight-list" },
+                  section.entries.map(
+                    (item) => e(
                       "div",
-                      { className: "sg-insight-meta" },
+                      { className: "sg-insight-item", key: item.id },
                       e(
-                        "select",
-                        { className: "pc-raci-select sg-meta-type", value: item.type, onChange: (ev) => entriesField.onCellChange(item.id, "type", ev.target.value) },
-                        TESTING_TYPES.map((t) => e("option", { key: t, value: t }, t))
+                        "div",
+                        { className: "sg-insight-meta" },
+                        e(
+                          "select",
+                          { className: "pc-raci-select sg-meta-type", value: item.type, onChange: (ev) => handleEntryChange(section.id, item.id, "type", ev.target.value) },
+                          TESTING_TYPES.map((t) => e("option", { key: t, value: t }, t))
+                        ),
+                        e("input", { className: "pc-mini-input sg-meta-date", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => handleEntryChange(section.id, item.id, "date", ev.target.value) }),
+                        e("input", { className: "pc-mini-input sg-meta-who", placeholder: "\u0425\u0442\u043E", value: item.who, onChange: (ev) => handleEntryChange(section.id, item.id, "who", ev.target.value) }),
+                        e("button", { className: "pc-row-remove-btn", style: { marginLeft: "auto" }, onClick: () => handleEntryRemove(section.id, item.id) }, "\u2715")
                       ),
-                      e("input", { className: "pc-mini-input sg-meta-date", placeholder: "\u0414\u0430\u0442\u0430", value: item.date, onChange: (ev) => entriesField.onCellChange(item.id, "date", ev.target.value) }),
-                      e("input", { className: "pc-mini-input sg-meta-who", placeholder: "\u0425\u0442\u043E", value: item.who, onChange: (ev) => entriesField.onCellChange(item.id, "who", ev.target.value) }),
-                      e("button", { className: "pc-row-remove-btn", style: { marginLeft: "auto" }, onClick: () => entriesField.onRemove(item.id) }, "\u2715")
-                    ),
-                    e("input", { className: "pc-field-input sg-insight-title", placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A", value: item.title, onChange: (ev) => entriesField.onCellChange(item.id, "title", ev.target.value) }),
-                    e("textarea", { className: "pc-field-input", rows: 2, placeholder: "\u041E\u043F\u0438\u0441", value: item.text, onChange: (ev) => entriesField.onCellChange(item.id, "text", ev.target.value) })
+                      e("input", { className: "pc-field-input sg-insight-title", placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A", value: item.title, onChange: (ev) => handleEntryChange(section.id, item.id, "title", ev.target.value) }),
+                      e("textarea", { className: "pc-field-input", rows: 2, placeholder: "\u041E\u043F\u0438\u0441", value: item.text, onChange: (ev) => handleEntryChange(section.id, item.id, "text", ev.target.value) })
+                    )
                   )
                 )
               )
+            ),
+            e(
+              "button",
+              { className: "pc-add-btn", style: { marginTop: "4px" }, onClick: handleSectionAdd },
+              "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0441\u0435\u043A\u0446\u0456\u044E (\u043D\u043E\u0432\u0438\u0439 \u0442\u0435\u0441\u0442\u0435\u0440)"
             )
           )
         )
@@ -65679,8 +65752,8 @@ ${suffix}`;
       ),
       e(
         "div",
-        { style: { height: "100%", display: activeTab === "card" ? "flex" : "none", flexDirection: "column" } },
-        e(ProductCardView, { user, active: activeTab === "card", activeTab, onTabChange: setActiveTab, onLogout: handleLogout })
+        { style: { height: "100%", display: activeTab === "card" || activeTab === "market" ? "flex" : "none", flexDirection: "column" } },
+        e(ProductCardView, { user, active: activeTab === "card" || activeTab === "market", activeTab, onTabChange: setActiveTab, onLogout: handleLogout })
       ),
       e(
         "div",
