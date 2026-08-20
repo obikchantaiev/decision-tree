@@ -982,6 +982,59 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 .pc-pdlc-scroll .pc-pdlc { min-width: 760px; }
 
 /* ---- STRATEGY TAB (sg-*) ---- */
+/* ---- Roadmap timeline (Gantt-style) ---- */
+.sg-gantt-range { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.sg-gantt-range .pc-mini-input { width: 132px; flex: none; }
+.sg-gantt-range-dash { color: var(--ink-soft); font-size: 12px; }
+.sg-gantt-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+/* All three strata (phase band, axis, lanes) are percentage-positioned inside
+   this one box, so they stay aligned at any width; min-width keeps the months
+   legible and turns narrow screens into a horizontal scroll instead of a squash. */
+.sg-gantt { min-width: 1020px; position: relative; }
+
+.sg-gantt-phases { position: relative; height: 30px; margin-bottom: 6px; }
+.sg-gantt-phase {
+  position: absolute; top: 0; height: 30px; border: 1.5px solid; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.sg-gantt-phase-name {
+  width: 100%; border: none; background: transparent; text-align: center;
+  font-size: 11px; font-weight: 700; font-family: inherit; padding: 0 6px; min-width: 0;
+}
+.sg-gantt-phase-name:focus { outline: none; }
+
+.sg-gantt-axis { position: relative; height: 34px; }
+.sg-gantt-axis-line { position: absolute; top: 5px; left: 0; right: 0; height: 2px; background: var(--border); border-radius: 999px; }
+.sg-gantt-marker { position: absolute; top: 2px; width: 8px; height: 8px; border-radius: 50%; margin-left: -4px; border: 1.5px solid #fff; }
+.sg-gantt-tick { position: absolute; top: 14px; }
+.sg-gantt-month { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); white-space: nowrap; }
+
+.sg-gantt-lanes { position: relative; }
+.sg-gantt-grid { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--border); }
+.sg-gantt-lane { position: relative; min-height: 104px; border-bottom: 1px dashed var(--border); }
+.sg-gantt-lane:last-child { border-bottom: none; }
+.sg-gantt-lane-name {
+  position: absolute; top: 3px; left: 0; font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--border); pointer-events: none;
+}
+.sg-gantt-card {
+  position: absolute; top: 20px; width: 152px; background: var(--white);
+  border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 4px;
+  padding: 8px 10px; display: flex; flex-direction: column; gap: 4px;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.05);
+}
+.sg-gantt-card.sg-status-done { opacity: 0.72; }
+.sg-gantt-cat {
+  align-self: flex-start; font-size: 9px; font-weight: 700; letter-spacing: 0.03em;
+  padding: 2px 6px; border-radius: 4px; max-width: 100%; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.sg-gantt-card-title { font-size: 11px; font-weight: 600; color: var(--ink); line-height: 1.35; }
+.sg-gantt-card-date { font-size: 9px; color: var(--ink-soft); }
+.sg-gantt-editor-head { margin: 16px 0 6px; }
+.sg-gantt-table .pc-mini-input { width: 128px; }
+.sg-gantt-cat-select { min-width: 130px; }
+
 .sg-roadmap-list { display: flex; flex-direction: column; gap: 10px; }
 .sg-roadmap-item {
   display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--border);
@@ -64239,13 +64292,87 @@ ${suffix}`;
   var ROADMAP_STATUS_SLUG = { "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E": "planned", "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456": "progress", "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E": "done" };
   var PROBABILITY_LEVELS = ["\u041D\u0438\u0437\u044C\u043A\u0430", "\u0421\u0435\u0440\u0435\u0434\u043D\u044F", "\u0412\u0438\u0441\u043E\u043A\u0430"];
   var IMPACT_LEVELS = ["\u041D\u0438\u0437\u044C\u043A\u0438\u0439", "\u0421\u0435\u0440\u0435\u0434\u043D\u0456\u0439", "\u0412\u0438\u0441\u043E\u043A\u0438\u0439"];
+  var ROADMAP_CATEGORIES = [
+    { name: "Hardware & Software", bar: "#3b82f6", chipBg: "#e6efff", chipText: "#1d4ed8" },
+    { name: "Instruction", bar: "#f0b429", chipBg: "#fdf3dd", chipText: "#a16207" },
+    { name: "Manufacturing", bar: "#22c55e", chipBg: "#e3f9ea", chipText: "#15803d" },
+    { name: "Software", bar: "#38bdf8", chipBg: "#e2f5fe", chipText: "#0369a1" },
+    { name: "Sales", bar: "#ec4899", chipBg: "#fde9f3", chipText: "#be185d" },
+    { name: "Research", bar: "#a855f7", chipBg: "#f3e9fd", chipText: "#7e22ce" }
+  ];
+  var PHASE_COLORS = [
+    { bg: "#e6f7ef", border: "#8ee0b6", text: "#15803d" },
+    { bg: "#eeeafd", border: "#c4b5fd", text: "#5b21b6" },
+    { bg: "#e2f2fe", border: "#7dd3fc", text: "#0369a1" },
+    { bg: "#fdf3dd", border: "#f5cf7a", text: "#a16207" }
+  ];
+  var MONTHS_SHORT = ["\u0421\u0456\u0447", "\u041B\u044E\u0442", "\u0411\u0435\u0440", "\u041A\u0432\u0456", "\u0422\u0440\u0430", "\u0427\u0435\u0440", "\u041B\u0438\u043F", "\u0421\u0435\u0440", "\u0412\u0435\u0440", "\u0416\u043E\u0432", "\u041B\u0438\u0441", "\u0413\u0440\u0443"];
+  function categoryStyle(name) {
+    return ROADMAP_CATEGORIES.find((c) => c.name === name) || { bar: "#94a3b8", chipBg: "#eef1f5", chipText: "#475569" };
+  }
+  function parseDay(value) {
+    if (!value) return null;
+    const ms = Date.parse(value + "T00:00:00Z");
+    return Number.isNaN(ms) ? null : ms;
+  }
+  function dayPct(value, startMs, endMs) {
+    const ms = parseDay(value);
+    if (ms === null || !(endMs > startMs)) return null;
+    return Math.max(0, Math.min(100, (ms - startMs) / (endMs - startMs) * 100));
+  }
+  function monthTicks(startMs, endMs) {
+    if (!(endMs > startMs)) return [];
+    const first = new Date(startMs);
+    let year = first.getUTCFullYear();
+    let month = first.getUTCMonth();
+    const ticks = [];
+    for (let i = 0; i < 120; i++) {
+      const ms = Date.UTC(year, month, 1);
+      if (ms > endMs) break;
+      const pct = (ms - startMs) / (endMs - startMs) * 100;
+      if (pct >= -0.5) {
+        ticks.push({
+          ms,
+          pct: Math.max(0, pct),
+          label: MONTHS_SHORT[month] + (month === 0 || ticks.length === 0 ? " " + String(year).slice(2) : "")
+        });
+      }
+      month += 1;
+      if (month > 11) {
+        month = 0;
+        year += 1;
+      }
+    }
+    return ticks;
+  }
+  function periodToDate(period) {
+    const m = /Q\s*(\d)\D+(\d{4})/i.exec(period || "");
+    if (!m) return "";
+    const month = String((Number(m[1]) - 1) * 3 + 1).padStart(2, "0");
+    return m[2] + "-" + month + "-01";
+  }
   function defaultStrategy() {
     return {
-      subtitle: "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 \u043F\u043E \u043A\u0432\u0430\u0440\u0442\u0430\u043B\u0430\u0445 \u2014 \u0443\u0441\u0435 \u0440\u0435\u0434\u0430\u0433\u0443\u0454\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u0454\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+      subtitle: "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 \u043D\u0430 \u0442\u0430\u0439\u043C\u043B\u0430\u0439\u043D\u0456 \u2014 \u0435\u0442\u0430\u043F\u0438, \u0434\u043E\u0440\u0456\u0436\u043A\u0438 \u0442\u0430 \u043F\u043E\u0434\u0456\u0457 \u0440\u0435\u0434\u0430\u0433\u0443\u044E\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u044E\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
+      roadmapRange: { start: "2026-05-01", end: "2026-12-31" },
+      roadmapPhases: [
+        { id: newStrategyId(), name: "In house testing", start: "2026-05-01", end: "2026-09-10" },
+        { id: newStrategyId(), name: "Early adopter testing", start: "2026-09-10", end: "2026-11-01" },
+        { id: newStrategyId(), name: "Feedback collection", start: "2026-11-01", end: "2026-12-20" }
+      ],
       roadmap: [
-        { id: newStrategyId(), period: "Q3 2026", title: "\u0421\u0442\u0430\u0431\u0456\u043B\u0456\u0437\u0430\u0446\u0456\u044F \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0457 \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
-        { id: newStrategyId(), period: "Q4 2026", title: "\u041F\u0456\u043B\u043E\u0442 \u043D\u0430 10 \u043D\u043E\u0432\u0438\u0445 \u0435\u043A\u0456\u043F\u0430\u0436\u0430\u0445", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), period: "Q1 2027", title: "\u041F\u043E\u0432\u043D\u0435 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u043A\u043E\u043C\u0430\u043D\u0434 \u0441\u0435\u0440\u0435\u0434\u043D\u044C\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }
+        { id: newStrategyId(), date: "2026-05-10", category: "Hardware & Software", lane: "Hardware & Software", title: "\u0413\u043E\u0442\u043E\u0432\u0438\u0439 \u043F\u0430\u0441\u0430\u0436\u0438\u0440 \u043D\u0430 Mavic 3", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-07-28", category: "Hardware & Software", lane: "Hardware & Software", title: "\u041F\u0435\u0440\u0448\u0438\u0439 \u043F\u0440\u043E\u0442\u043E\u0442\u0438\u043F \u043C\u0456\u043D\u0456 \u043D\u0430\u0437\u0435\u043C\u043D\u043E\u0457 \u0441\u0442\u0430\u043D\u0446\u0456\u0457", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
+        { id: newStrategyId(), date: "2026-09-05", category: "Hardware & Software", lane: "Hardware & Software", title: "\u041F\u0440\u043E\u0442\u0435\u0441\u0442\u043E\u0432\u0430\u043D\u0430 \u043C\u0456\u043D\u0456 \u043D\u0430\u0437\u0435\u043C\u043D\u0430 \u0441\u0442\u0430\u043D\u0446\u0456\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-11-05", category: "Hardware & Software", lane: "Hardware & Software", title: "\u0413\u043E\u0442\u043E\u0432\u0430 \u043C\u0456\u043D\u0456 \u043D\u0430\u0437\u0435\u043C\u043D\u0430 \u0441\u0442\u0430\u043D\u0446\u0456\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-05-25", category: "Instruction", lane: "Instruction", title: "\u0406\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0456\u044F \u0437\u0456 \u0437\u0431\u0456\u0440\u043A\u0438 \u0442\u0430 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-09-05", category: "Instruction", lane: "Instruction", title: "\u0427\u043E\u0440\u043D\u043E\u0432\u0430 \u0456\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0456\u044F \u0437\u0456 \u0437\u0431\u0456\u0440\u043A\u0438 \u0442\u0430 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-11-05", category: "Instruction", lane: "Instruction", title: "\u0424\u0456\u043D\u0430\u043B\u044C\u043D\u0430 \u0456\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0456\u044F \u0437\u0456 \u0437\u0431\u0456\u0440\u043A\u0438 \u0442\u0430 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-06-05", category: "Manufacturing", lane: "Manufacturing", title: "\u041F\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u043D\u0430 \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-08-10", category: "Manufacturing", lane: "Manufacturing", title: "\u0422\u043E\u0447\u043A\u043E\u0432\u0438\u0439 \u0430\u043F\u0434\u0435\u0439\u0442 \u0434\u043B\u044F \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u0430", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
+        { id: newStrategyId(), date: "2026-11-10", category: "Manufacturing", lane: "Manufacturing", title: "\u041F\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u043D\u0430 \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-08-25", category: "Software", lane: "Go-to-market", title: "Pin.mode x Pasika", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-11-20", category: "Sales", lane: "Go-to-market", title: "\u041E\u043A\u0440\u0435\u043C\u0438\u0439 \u043F\u0440\u043E\u0434\u0430\u0436 \u043A\u043E\u043C\u043F\u043B\u0435\u043A\u0442\u0443\u044E\u0447\u0438\u0445 + STL-\u0444\u0430\u0439\u043B\u0438", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }
       ],
       assumptions: [
         { id: newStrategyId(), type: "\u041F\u0440\u0438\u043F\u0443\u0449\u0435\u043D\u043D\u044F", text: "\u0415\u043A\u0456\u043F\u0430\u0436\u0456 \u043C\u0430\u044E\u0442\u044C \u0441\u0442\u0430\u0431\u0456\u043B\u044C\u043D\u0435 \u0436\u0438\u0432\u043B\u0435\u043D\u043D\u044F \u0434\u043B\u044F \u0440\u043E\u0431\u043E\u0442\u0438 \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0439\u043D\u043E\u0433\u043E \u043C\u043E\u0434\u0443\u043B\u044F", owner: "PM" },
@@ -64265,7 +64392,19 @@ ${suffix}`;
     const safe = loaded && typeof loaded === "object" ? loaded : {};
     return __spreadProps(__spreadValues(__spreadValues({}, base), safe), {
       subtitle: typeof safe.subtitle === "string" ? safe.subtitle : base.subtitle,
-      roadmap: Array.isArray(safe.roadmap) ? safe.roadmap : base.roadmap,
+      roadmapRange: __spreadValues(__spreadValues({}, base.roadmapRange), safe.roadmapRange || {}),
+      roadmapPhases: Array.isArray(safe.roadmapPhases) ? safe.roadmapPhases : base.roadmapPhases,
+      // Migrates pre-timeline roadmap rows ({period, title, status}) onto the
+      // date/category/lane shape the Gantt view needs, so an older saved row
+      // keeps its titles and statuses instead of vanishing from the chart.
+      roadmap: (Array.isArray(safe.roadmap) ? safe.roadmap : base.roadmap).map((item) => ({
+        id: item.id || newStrategyId(),
+        date: item.date || periodToDate(item.period) || "",
+        category: item.category || ROADMAP_CATEGORIES[0].name,
+        lane: item.lane || item.category || ROADMAP_CATEGORIES[0].name,
+        title: item.title || "",
+        status: item.status || ROADMAP_STATUS[0]
+      })),
       assumptions: Array.isArray(safe.assumptions) ? safe.assumptions : base.assumptions,
       changeLog: Array.isArray(safe.changeLog) ? safe.changeLog : base.changeLog,
       releases: Array.isArray(safe.releases) ? safe.releases : base.releases
@@ -64670,8 +64809,8 @@ ${suffix}`;
         e(
           "div",
           { className: "pc-page" },
-          // ===== HEADER =====
-          e(
+          // ===== HEADER (Product card tab only - Market would just repeat it) =====
+          !isMarketTab && e(
             "header",
             { className: "pc-header" },
             e(
@@ -65252,11 +65391,36 @@ ${suffix}`;
     }, [strategy.update]);
     const handleRoadmapAdd = (0, import_react3.useCallback)(() => {
       strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
-        roadmap: [...prev.roadmap, { id: newStrategyId(), period: "Q1 2027", title: "\u041D\u043E\u0432\u0438\u0439 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }]
+        roadmap: [...prev.roadmap, {
+          id: newStrategyId(),
+          // New events land at the middle of the visible range, so they are
+          // always on-screen rather than clamped against an edge.
+          date: prev.roadmapRange.start || "",
+          category: ROADMAP_CATEGORIES[0].name,
+          lane: prev.roadmap.length ? prev.roadmap[prev.roadmap.length - 1].lane : ROADMAP_CATEGORIES[0].name,
+          title: "\u041D\u043E\u0432\u0430 \u043F\u043E\u0434\u0456\u044F \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438",
+          status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E"
+        }]
       }));
     }, [strategy.update]);
     const handleRoadmapRemove = (0, import_react3.useCallback)((id2) => {
       strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmap: prev.roadmap.filter((item) => item.id !== id2) }));
+    }, [strategy.update]);
+    const handleRangeChange = (0, import_react3.useCallback)((field, value) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmapRange: __spreadProps(__spreadValues({}, prev.roadmapRange), { [field]: value }) }));
+    }, [strategy.update]);
+    const handlePhaseChange = (0, import_react3.useCallback)((id2, field, value) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        roadmapPhases: prev.roadmapPhases.map((ph) => ph.id === id2 ? __spreadProps(__spreadValues({}, ph), { [field]: value }) : ph)
+      }));
+    }, [strategy.update]);
+    const handlePhaseAdd = (0, import_react3.useCallback)(() => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), {
+        roadmapPhases: [...prev.roadmapPhases, { id: newStrategyId(), name: "\u041D\u043E\u0432\u0438\u0439 \u0435\u0442\u0430\u043F", start: prev.roadmapRange.start, end: prev.roadmapRange.end }]
+      }));
+    }, [strategy.update]);
+    const handlePhaseRemove = (0, import_react3.useCallback)((id2) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmapPhases: prev.roadmapPhases.filter((ph) => ph.id !== id2) }));
     }, [strategy.update]);
     const assumptionsField = useListField(strategy.update, "assumptions");
     const changeLogField = useListField(strategy.update, "changeLog");
@@ -65351,23 +65515,32 @@ ${suffix}`;
       };
     }, [strategy.state, user]);
     const data = strategy.state;
-    const timelinePeriods = (0, import_react3.useMemo)(() => {
-      const parsePeriod = (p) => {
-        const m = /Q\s*(\d)\D+(\d{4})/i.exec(p || "");
-        return m ? Number(m[2]) * 10 + Number(m[1]) : Infinity;
-      };
-      const groups = [];
-      const index2 = /* @__PURE__ */ new Map();
+    const rangeStartMs = parseDay(data.roadmapRange.start);
+    const rangeEndMs = parseDay(data.roadmapRange.end);
+    const rangeValid = rangeStartMs !== null && rangeEndMs !== null && rangeEndMs > rangeStartMs;
+    const ticks = (0, import_react3.useMemo)(
+      () => rangeValid ? monthTicks(rangeStartMs, rangeEndMs) : [],
+      [rangeValid, rangeStartMs, rangeEndMs]
+    );
+    const lanes = (0, import_react3.useMemo)(() => {
+      const seen = [];
       data.roadmap.forEach((item) => {
-        const key = item.period && item.period.trim() ? item.period : "\u0411\u0435\u0437 \u043F\u0435\u0440\u0456\u043E\u0434\u0443";
-        if (!index2.has(key)) {
-          index2.set(key, groups.length);
-          groups.push({ period: key, items: [] });
-        }
-        groups[index2.get(key)].items.push(item);
+        const lane = (item.lane || "").trim() || "\u0411\u0435\u0437 \u0434\u043E\u0440\u0456\u0436\u043A\u0438";
+        if (seen.indexOf(lane) === -1) seen.push(lane);
       });
-      return groups.map((g) => __spreadProps(__spreadValues({}, g), { sortKey: parsePeriod(g.period) })).sort((a, b) => a.sortKey - b.sortKey);
+      return seen;
     }, [data.roadmap]);
+    const itemsByLane = (0, import_react3.useMemo)(() => {
+      const map = {};
+      lanes.forEach((lane) => {
+        map[lane] = [];
+      });
+      data.roadmap.forEach((item) => {
+        const lane = (item.lane || "").trim() || "\u0411\u0435\u0437 \u0434\u043E\u0440\u0456\u0436\u043A\u0438";
+        if (map[lane]) map[lane].push(item);
+      });
+      return map;
+    }, [data.roadmap, lanes]);
     const toolbarExtra = [
       e("button", { key: "undo", onClick: strategy.undo, disabled: !strategy.canUndo, title: "\u0421\u043A\u0430\u0441\u0443\u0432\u0430\u0442\u0438 (Ctrl+Z)" }, "\u21B6 \u041D\u0430\u0437\u0430\u0434"),
       e("button", { key: "redo", onClick: strategy.redo, disabled: !strategy.canRedo, title: "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0438 (Ctrl+Shift+Z)" }, "\u21B7 \u0412\u043F\u0435\u0440\u0435\u0434"),
@@ -65402,62 +65575,180 @@ ${suffix}`;
           e(
             "div",
             { className: "pc-extra", style: { marginTop: 0 } },
-            // Overview: calendar-style strip grouping roadmap items by period
+            // Roadmap timeline: phase band + month axis + swimlanes of dated cards
             e(
               "section",
               { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u041E\u0433\u043B\u044F\u0434 \u043F\u043E \u043A\u0432\u0430\u0440\u0442\u0430\u043B\u0430\u0445")),
-              timelinePeriods.length === 0 ? e("p", { style: { color: "var(--ink-soft)", fontSize: "14px", margin: 0 } }, "\u0414\u043E\u0434\u0430\u0439\u0442\u0435 \u043F\u0443\u043D\u043A\u0442\u0438 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438 \u043D\u0438\u0436\u0447\u0435, \u0449\u043E\u0431 \u043F\u043E\u0431\u0430\u0447\u0438\u0442\u0438 \u043E\u0433\u043B\u044F\u0434.") : e(
+              e(
                 "div",
-                { className: "sg-timeline-scroll" },
+                { className: "pc-card-head", style: { flexWrap: "wrap" } },
+                e("h2", { className: "pc-card-title" }, "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430"),
                 e(
                   "div",
-                  { className: "sg-timeline" },
-                  timelinePeriods.map(
-                    ({ period, items }) => e(
-                      "div",
-                      { className: "sg-timeline-col", key: period },
-                      e("div", { className: "sg-timeline-period" }, period),
-                      items.map(
-                        (item) => e(
-                          "div",
-                          {
-                            className: "sg-timeline-chip sg-status-" + (ROADMAP_STATUS_SLUG[item.status] || "planned"),
-                            key: item.id,
-                            title: item.title
-                          },
-                          item.title
-                        )
+                  { className: "sg-gantt-range" },
+                  e("span", { className: "pc-field-label" }, "\u041F\u0435\u0440\u0456\u043E\u0434"),
+                  e("input", { className: "pc-mini-input", type: "date", value: data.roadmapRange.start, onChange: (ev) => handleRangeChange("start", ev.target.value) }),
+                  e("span", { className: "sg-gantt-range-dash" }, "\u2014"),
+                  e("input", { className: "pc-mini-input", type: "date", value: data.roadmapRange.end, onChange: (ev) => handleRangeChange("end", ev.target.value) })
+                )
+              ),
+              !rangeValid ? e("p", { style: { color: "var(--ink-soft)", fontSize: "14px", margin: 0 } }, "\u0412\u043A\u0430\u0436\u0456\u0442\u044C \u043A\u043E\u0440\u0435\u043A\u0442\u043D\u0438\u0439 \u043F\u0435\u0440\u0456\u043E\u0434 (\u0434\u0430\u0442\u0430 \u043A\u0456\u043D\u0446\u044F \u043C\u0430\u0454 \u0431\u0443\u0442\u0438 \u043F\u0456\u0437\u043D\u0456\u0448\u0435 \u0437\u0430 \u0434\u0430\u0442\u0443 \u043F\u043E\u0447\u0430\u0442\u043A\u0443).") : e(
+                "div",
+                { className: "sg-gantt-scroll" },
+                e(
+                  "div",
+                  { className: "sg-gantt" },
+                  // Phase band
+                  e(
+                    "div",
+                    { className: "sg-gantt-phases" },
+                    data.roadmapPhases.map((phase, idx) => {
+                      const left = dayPct(phase.start, rangeStartMs, rangeEndMs);
+                      const right = dayPct(phase.end, rangeStartMs, rangeEndMs);
+                      if (left === null || right === null || right <= left) return null;
+                      const color2 = PHASE_COLORS[idx % PHASE_COLORS.length];
+                      return e(
+                        "div",
+                        {
+                          key: phase.id,
+                          className: "sg-gantt-phase",
+                          style: { left: left + "%", width: right - left + "%", background: color2.bg, borderColor: color2.border }
+                        },
+                        e("input", {
+                          className: "sg-gantt-phase-name",
+                          style: { color: color2.text },
+                          value: phase.name,
+                          onChange: (ev) => handlePhaseChange(phase.id, "name", ev.target.value)
+                        })
+                      );
+                    })
+                  ),
+                  // Month axis with a dot per event
+                  e(
+                    "div",
+                    { className: "sg-gantt-axis" },
+                    e("div", { className: "sg-gantt-axis-line" }),
+                    data.roadmap.map((item) => {
+                      const pct = dayPct(item.date, rangeStartMs, rangeEndMs);
+                      if (pct === null) return null;
+                      return e("span", {
+                        key: item.id,
+                        className: "sg-gantt-marker",
+                        style: { left: pct + "%", background: categoryStyle(item.category).bar },
+                        title: item.title + " \xB7 " + item.date
+                      });
+                    }),
+                    ticks.map(
+                      (tick) => e(
+                        "div",
+                        { key: tick.ms, className: "sg-gantt-tick", style: { left: tick.pct + "%" } },
+                        e("span", { className: "sg-gantt-month" }, tick.label)
+                      )
+                    )
+                  ),
+                  // Swimlanes
+                  e(
+                    "div",
+                    { className: "sg-gantt-lanes" },
+                    ticks.map((tick) => e("div", { key: "grid" + tick.ms, className: "sg-gantt-grid", style: { left: tick.pct + "%" } })),
+                    lanes.map(
+                      (lane) => e(
+                        "div",
+                        { className: "sg-gantt-lane", key: lane },
+                        e("span", { className: "sg-gantt-lane-name" }, lane),
+                        (itemsByLane[lane] || []).map((item) => {
+                          const pct = dayPct(item.date, rangeStartMs, rangeEndMs);
+                          if (pct === null) return null;
+                          const color2 = categoryStyle(item.category);
+                          return e(
+                            "div",
+                            {
+                              key: item.id,
+                              className: "sg-gantt-card sg-status-" + (ROADMAP_STATUS_SLUG[item.status] || "planned"),
+                              // Clamped so a card near the end of the range
+                              // stays fully inside the chart instead of
+                              // spilling past its right edge.
+                              style: { left: "min(" + pct + "%, calc(100% - 158px))", borderLeftColor: color2.bar }
+                            },
+                            e("span", { className: "sg-gantt-cat", style: { background: color2.chipBg, color: color2.chipText } }, item.category),
+                            e("span", { className: "sg-gantt-card-title" }, item.title),
+                            e("span", { className: "sg-gantt-card-date" }, item.date)
+                          );
+                        })
                       )
                     )
                   )
                 )
-              )
-            ),
-            // Roadmap
-            e(
-              "section",
-              { className: "pc-card" },
-              e("div", { className: "pc-card-head" }, e("h2", { className: "pc-card-title" }, "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430")),
+              ),
+              // ---- editors ----
+              e("p", { className: "pc-field-label sg-gantt-editor-head" }, "\u0415\u0442\u0430\u043F\u0438"),
               e(
                 "div",
-                { className: "sg-roadmap-list" },
-                data.roadmap.map(
-                  (item) => e(
-                    "div",
-                    { className: "sg-roadmap-item", key: item.id },
-                    e("input", { className: "sg-roadmap-period", value: item.period, onChange: (ev) => handleRoadmapChange(item.id, "period", ev.target.value) }),
-                    e("input", { className: "pc-field-input sg-roadmap-title", value: item.title, onChange: (ev) => handleRoadmapChange(item.id, "title", ev.target.value) }),
-                    e(
-                      "select",
-                      { className: "pc-field-input sg-roadmap-status sg-status-" + (ROADMAP_STATUS_SLUG[item.status] || "planned"), value: item.status, onChange: (ev) => handleRoadmapChange(item.id, "status", ev.target.value) },
-                      ROADMAP_STATUS.map((s) => e("option", { key: s, value: s }, s))
-                    ),
-                    e("button", { className: "pc-row-remove-btn", onClick: () => handleRoadmapRemove(item.id) }, "\u2715")
+                { className: "pc-raci-scroll" },
+                e(
+                  "table",
+                  { className: "pc-raci-table sg-gantt-table" },
+                  e("thead", null, e("tr", null, e("th", null, "\u041D\u0430\u0437\u0432\u0430 \u0435\u0442\u0430\u043F\u0443"), e("th", null, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A"), e("th", null, "\u041A\u0456\u043D\u0435\u0446\u044C"), e("th", null, ""))),
+                  e(
+                    "tbody",
+                    null,
+                    data.roadmapPhases.map(
+                      (phase) => e(
+                        "tr",
+                        { key: phase.id },
+                        e("td", null, e("input", { className: "pc-task-name", value: phase.name, onChange: (ev) => handlePhaseChange(phase.id, "name", ev.target.value) })),
+                        e("td", null, e("input", { className: "pc-mini-input", type: "date", value: phase.start, onChange: (ev) => handlePhaseChange(phase.id, "start", ev.target.value) })),
+                        e("td", null, e("input", { className: "pc-mini-input", type: "date", value: phase.end, onChange: (ev) => handlePhaseChange(phase.id, "end", ev.target.value) })),
+                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handlePhaseRemove(phase.id) }, "\u2715"))
+                      )
+                    )
                   )
                 )
               ),
-              e("button", { className: "pc-add-btn", onClick: handleRoadmapAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438")
+              e("button", { className: "pc-add-btn", onClick: handlePhaseAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u0435\u0442\u0430\u043F"),
+              e("p", { className: "pc-field-label sg-gantt-editor-head" }, "\u041F\u043E\u0434\u0456\u0457"),
+              e(
+                "div",
+                { className: "pc-raci-scroll" },
+                e(
+                  "table",
+                  { className: "pc-raci-table sg-gantt-table" },
+                  e("thead", null, e("tr", null, e("th", null, "\u0414\u0430\u0442\u0430"), e("th", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0456\u044F"), e("th", null, "\u0414\u043E\u0440\u0456\u0436\u043A\u0430"), e("th", null, "\u041F\u043E\u0434\u0456\u044F"), e("th", null, "\u0421\u0442\u0430\u0442\u0443\u0441"), e("th", null, ""))),
+                  e(
+                    "tbody",
+                    null,
+                    data.roadmap.map(
+                      (item) => e(
+                        "tr",
+                        { key: item.id },
+                        e("td", null, e("input", { className: "pc-mini-input", type: "date", value: item.date, onChange: (ev) => handleRoadmapChange(item.id, "date", ev.target.value) })),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select sg-gantt-cat-select", value: item.category, onChange: (ev) => handleRoadmapChange(item.id, "category", ev.target.value) },
+                            ROADMAP_CATEGORIES.map((c) => e("option", { key: c.name, value: c.name }, c.name))
+                          )
+                        ),
+                        e("td", null, e("input", { className: "pc-mini-input", value: item.lane, placeholder: "\u0414\u043E\u0440\u0456\u0436\u043A\u0430", onChange: (ev) => handleRoadmapChange(item.id, "lane", ev.target.value) })),
+                        e("td", null, e("input", { className: "pc-task-name", value: item.title, onChange: (ev) => handleRoadmapChange(item.id, "title", ev.target.value) })),
+                        e(
+                          "td",
+                          null,
+                          e(
+                            "select",
+                            { className: "pc-raci-select sg-roadmap-status sg-status-" + (ROADMAP_STATUS_SLUG[item.status] || "planned"), value: item.status, onChange: (ev) => handleRoadmapChange(item.id, "status", ev.target.value) },
+                            ROADMAP_STATUS.map((s) => e("option", { key: s, value: s }, s))
+                          )
+                        ),
+                        e("td", null, e("button", { className: "pc-row-remove-btn", onClick: () => handleRoadmapRemove(item.id) }, "\u2715"))
+                      )
+                    )
+                  )
+                )
+              ),
+              e("button", { className: "pc-add-btn", onClick: handleRoadmapAdd }, "+ \u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u043E\u0434\u0456\u044E")
             ),
             // Assumptions & constraints (PMBOK-style register)
             e(
