@@ -1031,6 +1031,18 @@ textarea.pc-field-input { resize: vertical; line-height: 1.5; }
 }
 .sg-gantt-card-title { font-size: 11px; font-weight: 600; color: var(--ink); line-height: 1.35; }
 .sg-gantt-card-date { font-size: 9px; color: var(--ink-soft); }
+/* Drag-to-reorder rows */
+.sg-dnd-col { width: 34px; }
+.sg-dnd-handle {
+  width: 34px; cursor: grab; text-align: center; color: var(--border);
+  font-size: 14px; line-height: 1; user-select: none;
+}
+.sg-dnd-handle:active { cursor: grabbing; }
+.sg-dnd-row:hover .sg-dnd-handle { color: var(--ink-soft); }
+.sg-dnd-dragging { opacity: 0.4; }
+/* box-shadow (not border) draws the drop indicator without shifting the row */
+.sg-dnd-over-above td { box-shadow: inset 0 2px 0 0 var(--grad-end); }
+.sg-dnd-over-below td { box-shadow: inset 0 -2px 0 0 var(--grad-end); }
 .sg-gantt-editor-head { margin: 16px 0 6px; }
 .sg-gantt-table .pc-mini-input { width: 128px; }
 .sg-gantt-cat-select { min-width: 130px; }
@@ -63509,6 +63521,63 @@ ${suffix}`;
     }, [fit]);
     return e("textarea", __spreadProps(__spreadValues({}, props), { ref, className: (props.className || "") + " pc-autogrow", onInput: fit }));
   }
+  function moveItem(list, from, to) {
+    const next = list.slice();
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    return next;
+  }
+  function useRowDnd(onReorder) {
+    const dragIndexRef = (0, import_react3.useRef)(null);
+    const [dragIndex, setDragIndex] = (0, import_react3.useState)(null);
+    const [overIndex, setOverIndex] = (0, import_react3.useState)(null);
+    const handleProps = (0, import_react3.useCallback)((index2) => ({
+      draggable: true,
+      className: "sg-dnd-handle",
+      title: "\u041F\u0435\u0440\u0435\u0442\u044F\u0433\u043D\u0456\u0442\u044C, \u0449\u043E\u0431 \u0437\u043C\u0456\u043D\u0438\u0442\u0438 \u043F\u043E\u0440\u044F\u0434\u043E\u043A",
+      onDragStart: (ev) => {
+        dragIndexRef.current = index2;
+        setDragIndex(index2);
+        if (ev.dataTransfer) {
+          ev.dataTransfer.effectAllowed = "move";
+          ev.dataTransfer.setData("text/plain", String(index2));
+          const row = ev.currentTarget.closest("tr");
+          if (row && ev.dataTransfer.setDragImage) ev.dataTransfer.setDragImage(row, 16, 16);
+        }
+      },
+      onDragEnd: () => {
+        dragIndexRef.current = null;
+        setDragIndex(null);
+        setOverIndex(null);
+      }
+    }), []);
+    const rowProps = (0, import_react3.useCallback)((index2) => ({
+      onDragOver: (ev) => {
+        if (dragIndexRef.current === null) return;
+        ev.preventDefault();
+        if (ev.dataTransfer) ev.dataTransfer.dropEffect = "move";
+        setOverIndex(index2);
+      },
+      onDrop: (ev) => {
+        if (dragIndexRef.current === null) return;
+        ev.preventDefault();
+        const from = dragIndexRef.current;
+        dragIndexRef.current = null;
+        setDragIndex(null);
+        setOverIndex(null);
+        if (from !== index2) onReorder(from, index2);
+      }
+    }), [onReorder]);
+    const rowClass = (0, import_react3.useCallback)((index2) => {
+      let cls = "sg-dnd-row";
+      if (dragIndex === index2) cls += " sg-dnd-dragging";
+      if (overIndex === index2 && dragIndex !== index2) {
+        cls += dragIndex !== null && dragIndex < index2 ? " sg-dnd-over-below" : " sg-dnd-over-above";
+      }
+      return cls;
+    }, [dragIndex, overIndex]);
+    return { handleProps, rowProps, rowClass };
+  }
   function SimpleTable({ columns, rows, onCellChange, onRemove: onRemove2, onAdd: onAdd2, addLabel, addFactory, emptyText }) {
     if (rows.length === 0 && emptyText) {
       return e(
@@ -64354,25 +64423,20 @@ ${suffix}`;
   function defaultStrategy() {
     return {
       subtitle: "\u0414\u043E\u0440\u043E\u0436\u043D\u044F \u043A\u0430\u0440\u0442\u0430 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0443 \u043D\u0430 \u0442\u0430\u0439\u043C\u043B\u0430\u0439\u043D\u0456 \u2014 \u0435\u0442\u0430\u043F\u0438, \u0434\u043E\u0440\u0456\u0436\u043A\u0438 \u0442\u0430 \u043F\u043E\u0434\u0456\u0457 \u0440\u0435\u0434\u0430\u0433\u0443\u044E\u0442\u044C\u0441\u044F \u0456 \u0437\u0431\u0435\u0440\u0456\u0433\u0430\u044E\u0442\u044C\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E",
-      roadmapRange: { start: "2026-05-01", end: "2026-12-31" },
+      roadmapRange: { start: "2026-05-07", end: "2026-12-31" },
       roadmapPhases: [
-        { id: newStrategyId(), name: "In house testing", start: "2026-05-01", end: "2026-09-10" },
-        { id: newStrategyId(), name: "Early adopter testing", start: "2026-09-10", end: "2026-11-01" },
-        { id: newStrategyId(), name: "Feedback collection", start: "2026-11-01", end: "2026-12-20" }
+        { id: newStrategyId(), name: "Production", start: "2026-05-01", end: "2026-07-30" },
+        { id: newStrategyId(), name: "In-house testing", start: "2026-08-01", end: "2026-08-31" },
+        { id: newStrategyId(), name: "Early adopters testing", start: "2026-09-01", end: "2026-10-30" },
+        { id: newStrategyId(), name: "Manufacturing", start: "2026-11-01", end: "2026-12-31" }
       ],
       roadmap: [
-        { id: newStrategyId(), date: "2026-05-10", category: "Hardware & Software", lane: "Hardware & Software", title: "\u0413\u043E\u0442\u043E\u0432\u0438\u0439 \u043F\u0430\u0441\u0430\u0436\u0438\u0440 \u043D\u0430 Mavic 3", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-07-28", category: "Hardware & Software", lane: "Hardware & Software", title: "\u041F\u0435\u0440\u0448\u0438\u0439 \u043F\u0440\u043E\u0442\u043E\u0442\u0438\u043F \u043C\u0456\u043D\u0456 \u043D\u0430\u0437\u0435\u043C\u043D\u043E\u0457 \u0441\u0442\u0430\u043D\u0446\u0456\u0457", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
-        { id: newStrategyId(), date: "2026-09-05", category: "Hardware & Software", lane: "Hardware & Software", title: "\u041F\u0440\u043E\u0442\u0435\u0441\u0442\u043E\u0432\u0430\u043D\u0430 \u043C\u0456\u043D\u0456 \u043D\u0430\u0437\u0435\u043C\u043D\u0430 \u0441\u0442\u0430\u043D\u0446\u0456\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-11-05", category: "Hardware & Software", lane: "Hardware & Software", title: "\u0413\u043E\u0442\u043E\u0432\u0430 \u043C\u0456\u043D\u0456 \u043D\u0430\u0437\u0435\u043C\u043D\u0430 \u0441\u0442\u0430\u043D\u0446\u0456\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-05-25", category: "Instruction", lane: "Instruction", title: "\u0406\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0456\u044F \u0437\u0456 \u0437\u0431\u0456\u0440\u043A\u0438 \u0442\u0430 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-09-05", category: "Instruction", lane: "Instruction", title: "\u0427\u043E\u0440\u043D\u043E\u0432\u0430 \u0456\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0456\u044F \u0437\u0456 \u0437\u0431\u0456\u0440\u043A\u0438 \u0442\u0430 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-11-05", category: "Instruction", lane: "Instruction", title: "\u0424\u0456\u043D\u0430\u043B\u044C\u043D\u0430 \u0456\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0456\u044F \u0437\u0456 \u0437\u0431\u0456\u0440\u043A\u0438 \u0442\u0430 \u043D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-06-05", category: "Manufacturing", lane: "Manufacturing", title: "\u041F\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u043D\u0430 \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-08-10", category: "Manufacturing", lane: "Manufacturing", title: "\u0422\u043E\u0447\u043A\u043E\u0432\u0438\u0439 \u0430\u043F\u0434\u0435\u0439\u0442 \u0434\u043B\u044F \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u0430", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
-        { id: newStrategyId(), date: "2026-11-10", category: "Manufacturing", lane: "Manufacturing", title: "\u041F\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u043D\u0430 \u0432\u0438\u0440\u043E\u0431\u043D\u0438\u0446\u0442\u0432\u043E", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-08-25", category: "Software", lane: "Go-to-market", title: "Pin.mode x Pasika", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
-        { id: newStrategyId(), date: "2026-11-20", category: "Sales", lane: "Go-to-market", title: "\u041E\u043A\u0440\u0435\u043C\u0438\u0439 \u043F\u0440\u043E\u0434\u0430\u0436 \u043A\u043E\u043C\u043F\u043B\u0435\u043A\u0442\u0443\u044E\u0447\u0438\u0445 + STL-\u0444\u0430\u0439\u043B\u0438", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }
+        { id: newStrategyId(), date: "2026-07-05", category: "Hardware & Software", lane: "Hardware & Software", title: "\u0421\u0442\u0430\u0431\u0456\u043B\u0456\u0437\u0430\u0446\u0456\u044F \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0457 \u043F\u043E SNS-\u043C\u0430\u044F\u043A\u0430\u0445", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-07-15", category: "Hardware & Software", lane: "Instruction", title: "\u041F\u0456\u043B\u043E\u0442 \u043D\u0430 10 \u043D\u043E\u0432\u0438\u0445 \u0435\u043A\u0456\u043F\u0430\u0436\u0430\u0445", status: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-07-25", category: "Hardware & Software", lane: "Manufacturing", title: "\u041F\u043E\u0432\u043D\u0435 \u043F\u043E\u043A\u0440\u0438\u0442\u0442\u044F \u043A\u043E\u043C\u0430\u043D\u0434 \u0441\u0435\u0440\u0435\u0434\u043D\u044C\u043E\u0433\u043E \u0440\u043E\u0437\u043C\u0456\u0440\u0443", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
+        { id: newStrategyId(), date: "2026-08-05", category: "Hardware & Software", lane: "Hardware & Software", title: "\u041D\u043E\u0432\u0438\u0439 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438", status: "\u0412 \u043F\u0440\u043E\u0446\u0435\u0441\u0456" },
+        { id: newStrategyId(), date: "2026-08-15", category: "Hardware & Software", lane: "Instruction", title: "\u041D\u043E\u0432\u0438\u0439 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" },
+        { id: newStrategyId(), date: "2026-08-25", category: "Hardware & Software", lane: "Manufacturing", title: "\u041D\u043E\u0432\u0438\u0439 \u043F\u0443\u043D\u043A\u0442 \u0434\u043E\u0440\u043E\u0436\u043D\u044C\u043E\u0457 \u043A\u0430\u0440\u0442\u0438", status: "\u0417\u0430\u043F\u043B\u0430\u043D\u043E\u0432\u0430\u043D\u043E" }
       ],
       assumptions: [
         { id: newStrategyId(), type: "\u041F\u0440\u0438\u043F\u0443\u0449\u0435\u043D\u043D\u044F", text: "\u0415\u043A\u0456\u043F\u0430\u0436\u0456 \u043C\u0430\u044E\u0442\u044C \u0441\u0442\u0430\u0431\u0456\u043B\u044C\u043D\u0435 \u0436\u0438\u0432\u043B\u0435\u043D\u043D\u044F \u0434\u043B\u044F \u0440\u043E\u0431\u043E\u0442\u0438 \u043D\u0430\u0432\u0456\u0433\u0430\u0446\u0456\u0439\u043D\u043E\u0433\u043E \u043C\u043E\u0434\u0443\u043B\u044F", owner: "PM" },
@@ -65422,6 +65486,14 @@ ${suffix}`;
     const handlePhaseRemove = (0, import_react3.useCallback)((id2) => {
       strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmapPhases: prev.roadmapPhases.filter((ph) => ph.id !== id2) }));
     }, [strategy.update]);
+    const handlePhaseReorder = (0, import_react3.useCallback)((from, to) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmapPhases: moveItem(prev.roadmapPhases, from, to) }));
+    }, [strategy.update]);
+    const handleRoadmapReorder = (0, import_react3.useCallback)((from, to) => {
+      strategy.update((prev) => __spreadProps(__spreadValues({}, prev), { roadmap: moveItem(prev.roadmap, from, to) }));
+    }, [strategy.update]);
+    const phaseDnd = useRowDnd(handlePhaseReorder);
+    const eventDnd = useRowDnd(handleRoadmapReorder);
     const assumptionsField = useListField(strategy.update, "assumptions");
     const changeLogField = useListField(strategy.update, "changeLog");
     const releasesField = useListField(strategy.update, "releases");
@@ -65688,14 +65760,15 @@ ${suffix}`;
                 e(
                   "table",
                   { className: "pc-raci-table sg-gantt-table" },
-                  e("thead", null, e("tr", null, e("th", null, "\u041D\u0430\u0437\u0432\u0430 \u0435\u0442\u0430\u043F\u0443"), e("th", null, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A"), e("th", null, "\u041A\u0456\u043D\u0435\u0446\u044C"), e("th", null, ""))),
+                  e("thead", null, e("tr", null, e("th", { className: "sg-dnd-col" }, ""), e("th", null, "\u041D\u0430\u0437\u0432\u0430 \u0435\u0442\u0430\u043F\u0443"), e("th", null, "\u041F\u043E\u0447\u0430\u0442\u043E\u043A"), e("th", null, "\u041A\u0456\u043D\u0435\u0446\u044C"), e("th", null, ""))),
                   e(
                     "tbody",
                     null,
                     data.roadmapPhases.map(
-                      (phase) => e(
+                      (phase, idx) => e(
                         "tr",
-                        { key: phase.id },
+                        Object.assign({ key: phase.id, className: phaseDnd.rowClass(idx) }, phaseDnd.rowProps(idx)),
+                        e("td", phaseDnd.handleProps(idx), "\u283F"),
                         e("td", null, e("input", { className: "pc-task-name", value: phase.name, onChange: (ev) => handlePhaseChange(phase.id, "name", ev.target.value) })),
                         e("td", null, e("input", { className: "pc-mini-input", type: "date", value: phase.start, onChange: (ev) => handlePhaseChange(phase.id, "start", ev.target.value) })),
                         e("td", null, e("input", { className: "pc-mini-input", type: "date", value: phase.end, onChange: (ev) => handlePhaseChange(phase.id, "end", ev.target.value) })),
@@ -65713,14 +65786,15 @@ ${suffix}`;
                 e(
                   "table",
                   { className: "pc-raci-table sg-gantt-table" },
-                  e("thead", null, e("tr", null, e("th", null, "\u0414\u0430\u0442\u0430"), e("th", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0456\u044F"), e("th", null, "\u0414\u043E\u0440\u0456\u0436\u043A\u0430"), e("th", null, "\u041F\u043E\u0434\u0456\u044F"), e("th", null, "\u0421\u0442\u0430\u0442\u0443\u0441"), e("th", null, ""))),
+                  e("thead", null, e("tr", null, e("th", { className: "sg-dnd-col" }, ""), e("th", null, "\u0414\u0430\u0442\u0430"), e("th", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0456\u044F"), e("th", null, "\u0414\u043E\u0440\u0456\u0436\u043A\u0430"), e("th", null, "\u041F\u043E\u0434\u0456\u044F"), e("th", null, "\u0421\u0442\u0430\u0442\u0443\u0441"), e("th", null, ""))),
                   e(
                     "tbody",
                     null,
                     data.roadmap.map(
-                      (item) => e(
+                      (item, idx) => e(
                         "tr",
-                        { key: item.id },
+                        Object.assign({ key: item.id, className: eventDnd.rowClass(idx) }, eventDnd.rowProps(idx)),
+                        e("td", eventDnd.handleProps(idx), "\u283F"),
                         e("td", null, e("input", { className: "pc-mini-input", type: "date", value: item.date, onChange: (ev) => handleRoadmapChange(item.id, "date", ev.target.value) })),
                         e(
                           "td",
